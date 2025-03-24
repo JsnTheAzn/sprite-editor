@@ -21,9 +21,9 @@ private:
     Ui::MainWindow *ui;
 
     //Width of the canvas, will always be X by X size.
-    int canvasWidth;
+    int width;
     //Initializes a vector for storing the r,g,b,a pixel data.
-    QVector<int> pixelData;
+    QVector<int> frames;
 
 public slots:
     void saveButtonClicked();
