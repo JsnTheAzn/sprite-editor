@@ -20,7 +20,7 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    int canvasHeight;
+    //Width of the canvas, will always be X by X size.
     int canvasWidth;
     //Initializes a vector for storing the r,g,b,a pixel data.
     QVector<int> pixelData;
