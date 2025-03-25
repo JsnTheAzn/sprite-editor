@@ -1,13 +1,16 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+#include <QObject>
 #include "sprite.h"
 #include "colorpalette.h"
 #include "filemanager.h"
 #include "versionhistory.h"
 
-class Model
+class Model : public QObject
 {
+    Q_OBJECT
+
 private:
 
     /**
@@ -32,7 +35,7 @@ private:
     VersionHistory versionHistory;
 
     /**
-     * @brief currFrame - Stores the currently selected frame to draw on by the user.
+     * @brief currFrame - Stores the currently showcased frame on the animation preview.
      */
     int currFrame;
 
