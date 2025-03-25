@@ -97,9 +97,9 @@
     <property name="geometry">
      <rect>
       <x>320</x>
-      <y>20</y>
-      <width>101</width>
-      <height>21</height>
+      <y>10</y>
+      <width>131</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -228,12 +228,22 @@
     <property name="mouseTracking">
      <bool>true</bool>
     </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
     <property name="styleSheet">
      <string notr="true">border-color: rgb(0, 0, 0);
-border: 1px solid</string>
+border: 1px solid;
+background-image: url(:/background/transparency-background.png);</string>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
     </property>
     <property name="text">
-     <string>canvas</string>
+     <string/>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QGroupBox" name="righPanel">
@@ -425,7 +435,7 @@ border: 1px solid</string>
       <rect>
        <x>20</x>
        <y>20</y>
-       <width>71</width>
+       <width>141</width>
        <height>22</height>
       </rect>
      </property>
@@ -495,7 +505,7 @@ border: 1px solid</string>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>32</height>
     </rect>
    </property>
   </widget>
