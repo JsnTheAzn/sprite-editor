@@ -4,8 +4,7 @@
 #include <QObject>
 #include "sprite.h"
 
-class FileManager : public QObject
-{
+class FileManager : public QObject {
     Q_OBJECT
 public:
     FileManager();
@@ -13,7 +12,7 @@ public:
     void saveFile(const Sprite& sprite);
 
     Sprite& loadFile();
-
+  
 private:
     //Width of the canvas, will always be X by X size.
     int width;
@@ -26,7 +25,5 @@ public slots:
 
     void loadButtonClicked();
 };
-
-
 
 #endif // FILEMANAGER_H

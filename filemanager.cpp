@@ -97,4 +97,4 @@ void FileManager::saveButtonClicked() {
 //     }
 // }
 
-
+FileManager::FileManager() {}
