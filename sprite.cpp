@@ -41,8 +41,9 @@ void Sprite::resizeCropping(const int oldImage[], int newImage[], int oldWidth, 
     // int buffers = newWidth - oldWidth;
     int newEditIndex;
     int oldAccessIndex;
-    for (unsigned char row = 0; row < oldWidth; row++) {
-        for (unsigned char col = 0; col < oldWidth; col++) {
+    int minWidth = qMin(oldWidth, newWidth);
+    for (unsigned char row = 0; row < minWidth; row++) {
+        for (unsigned char col = 0; col < minWidth; col++) {
             newEditIndex = (col * 4) + (row * newWidth * 4);
             oldAccessIndex = (col * 4) + (row * oldWidth * 4);
 
