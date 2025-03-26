@@ -28,15 +28,42 @@ private:
 
     /**
      * @brief resizeCropping - Helper method to transform the image upon canvas size change.
+     * @param oldImage[] - The pointer to the old image to incoporate into the cropping.
+     * @param newImage[] - The pointer to the new image. Will be altered after the method returns.
+     * @param oldWidth - The previous width of the image before resizing.
+     * @param newWidth - The width of the resized image.
      */
-    void resizeCropping();
+    void resizeCropping(const int oldImage[], int newImage[], int oldWidth, int newWidth);
 
 public:
-    Sprite();
+
+    /**
+     * @brief Sprite - Default constructor. Initializes a transparent image of one frame.
+     */
+    Sprite(QObject* parent);
+
+    /**
+     * @brief ~Sprite - Desconstructor that removes the image data from the heap.
+     */
+    ~Sprite();
+
+    /**
+     * @brief resize -
+     * @param newWidth -
+     */
     void resize(int newWidth);
     void setCurrentFrame(int frame);
-    void updatePixel(int x, int y, int red, int green, int blue, int alpha);
-    vector<int[]> getFrames();
+
+    /**
+     * @brief updatePixel - Sets the image pixel data at canvas grid position (x, y) to the array
+     * given.
+     * @param x -
+     * @param y -
+     * @param rgba -
+     */
+    void updatePixel(int x, int y, const int (&rgba)[4]);
+    vector<int*>& getFrames();
+    int getWidth();
 };
 
 #endif // SPRITE_H
