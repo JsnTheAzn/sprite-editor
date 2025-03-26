@@ -1,4 +1,10 @@
 #include "filemanager.h"
+#include <QFileDialog>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QString>
+#include <QVector>
 
 /*
  * Sources used:
@@ -16,15 +22,12 @@
 
 FileManager::FileManager(QObject *parent) : QObject{parent} {
     frames = QVector<int>();
-
-    connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveButtonClicked);
-    connect(ui->loadButton, &QPushButton::clicked, this, &MainWindow::loadButtonClicked);
 }
 
 
 
 void FileManager::saveButtonClicked() {
-    QString savedFile = QFileDialog::getSaveFileName(this, QObject::tr("Save .SSP File"), "C:/", "SSP (*.ssp)");
+    QString savedFile = QFileDialog::getSaveFileName(nullptr, QObject::tr("Save .SSP File"), "C:/", "SSP (*.ssp)");
 
     //Add .ssp extension if file isn't saved with it manually.
     if(!savedFile.endsWith((".ssp"), Qt::CaseSensitive)) {
@@ -59,8 +62,8 @@ void FileManager::saveButtonClicked() {
     }
 }
 
-// void FileManager::loadButtonClicked() {
-
+void FileManager::loadButtonClicked() {
+}
 //     QString loadedFile = QFileDialog::getOpenFileName(this, QObject::tr("Load .SSP File"), "C:/", "SSP (*.ssp)");
 
 //     //Read the json data.
@@ -96,5 +99,3 @@ void FileManager::saveButtonClicked() {
 //         }
 //     }
 // }
-
-FileManager::FileManager() {}

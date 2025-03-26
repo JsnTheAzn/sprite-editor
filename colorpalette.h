@@ -10,7 +10,7 @@ class ColorPalette : public QObject
     Q_OBJECT
 
 private:
-    vector<int[]> colors;
+    vector<int> colors;
 
 public:
     ColorPalette();
