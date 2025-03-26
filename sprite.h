@@ -48,22 +48,48 @@ public:
     ~Sprite();
 
     /**
-     * @brief resize -
-     * @param newWidth -
+     * @brief resize - Updates the canvas size and crops the image accordingly. Anchors the crop
+     * to the top left of the image.
+     * @param newWidth - The new side length to set the canvas to (in pixels).
      */
     void resize(int newWidth);
+
+    /**
+     * @brief setCurrentFrame
+     * @param frame
+     */
     void setCurrentFrame(int frame);
 
     /**
      * @brief updatePixel - Sets the image pixel data at canvas grid position (x, y) to the array
      * given.
-     * @param x -
-     * @param y -
-     * @param rgba -
+     * @param x - The canvas X coordinate (ascending left to right).
+     * @param y - The canvas Y coordinate (ascending top to bottom).
+     * @param rgba - The color array to set the selected pixel to. Must have a size of 4.
      */
     void updatePixel(int x, int y, const int (&rgba)[4]);
+
+    /**
+     * @brief getFrames - Returns a reference to the image data stored within the sprite.
+     * WARNING: NOTE THAT THIS IS A REFERENCE, NOT A COPY.
+     * @return The frames vector holding the image data.
+     */
     vector<int*>& getFrames();
+
+    /**
+     * @brief getWidth - Returns the side length of the canvas in pixels.
+     * @return The number of pixels stored on each side of the canvas.
+     */
     int getWidth();
+
+    /**
+     * @brief getPixel - Sets the inputted array to the color of the pixel at the given x and y
+     * canvas coordinates.
+     * @param x - The canvas X coordinate (ascending left to right).
+     * @param y - The canvas Y coordinate (ascending top to bottom).
+     * @param returnArray - The array to store the color data into. Must have a size of 4.
+     */
+    void getPixel(int x, int y, int (&returnArray)[4]);
 };
 
 #endif // SPRITE_H
