@@ -7,7 +7,9 @@ Sprite::Sprite(QObject* parent) :
     currFrame(0) {}
 
 Sprite::~Sprite() {
-
+    for (int* image : frames) {
+        delete[] image;
+    }
 }
 
 void Sprite::resize(int newWidth) {
