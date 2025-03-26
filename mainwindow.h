@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include "filemanager.h"
+#include <QPushButton>
+#include <QListWidget>
+#include "colorpalette.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,6 +24,15 @@ public:
 private:
     Ui::MainWindow *ui;
     FileManager *fileManager;
+
+    // ColorPalette *colorPalette;
+    // QListWidget *colorList;
+    // QPushButton *addColorButton;
+    // QPushButton *removeColorButton;
+    // QPushButton *savePaletteButton;
+    // QPushButton *loadPaletteButton;
+
+    // void updateColorList();
 
 #endif // MAINWINDOW_H
 };
