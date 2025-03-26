@@ -2,6 +2,7 @@
 #define COLORPALETTE_H
 
 #include <QObject>
+#include <QColorDialog>
 
 using std::vector;
 
@@ -13,7 +14,7 @@ private:
     vector<int> colors;
 
 public:
-    ColorPalette();
+    ColorPalette(QWidget *parent = nullptr);
 
     void addColor();
 
@@ -22,6 +23,8 @@ public:
     void savePalette();
 
     void loadPalette();
+
+    void selectColor();
 };
 
 #endif // COLORPALETTE_H
