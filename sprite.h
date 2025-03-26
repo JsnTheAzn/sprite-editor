@@ -53,8 +53,17 @@ public:
      */
     void resize(int newWidth);
     void setCurrentFrame(int frame);
-    void updatePixel(int x, int y, int red, int green, int blue, int alpha);
+
+    /**
+     * @brief updatePixel - Sets the image pixel data at canvas grid position (x, y) to the array
+     * given.
+     * @param x -
+     * @param y -
+     * @param rgba -
+     */
+    void updatePixel(int x, int y, const int (&rgba)[4]);
     vector<int*>& getFrames();
+    int getWidth();
 };
 
 #endif // SPRITE_H

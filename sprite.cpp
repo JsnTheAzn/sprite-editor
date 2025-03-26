@@ -25,18 +25,32 @@ void Sprite::setCurrentFrame(int frame) {
     currFrame = frame;
 }
 
-void Sprite::updatePixel(int x, int y, int red, int green, int blue, int alpha) {
+// void Sprite::updatePixel(int x, int y, int red, int green, int blue, int alpha) {
+//     int offset = (y * width + x) * 4;
+//     int* currImage = frames[currFrame];
+
+//     currImage[offset + 0] = red;
+//     currImage[offset + 1] = green;
+//     currImage[offset + 2] = blue;
+//     currImage[offset + 3] = alpha;
+// }
+
+void Sprite::updatePixel(int x, int y, const int (&rgba)[4]) {
     int offset = (y * width + x) * 4;
     int* currImage = frames[currFrame];
 
-    currImage[offset + 0] = red;
-    currImage[offset + 1] = green;
-    currImage[offset + 2] = blue;
-    currImage[offset + 3] = alpha;
+    currImage[offset + 0] = rgba[0];
+    currImage[offset + 1] = rgba[1];
+    currImage[offset + 2] = rgba[2];
+    currImage[offset + 3] = rgba[3];
 }
 
 vector<int*>& Sprite::getFrames() {
     return frames;
+}
+
+int Sprite::getWidth() {
+    return width;
 }
 
 void Sprite::resizeCropping(const int oldImage[], int newImage[], int oldWidth, int newWidth) {
