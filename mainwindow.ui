@@ -228,6 +228,22 @@
        <height>141</height>
       </rect>
      </property>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:none</string>
+      </property>
+      <property name="text">
+       <string>Color Palette</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QLabel" name="canvas">
@@ -254,7 +270,8 @@
     <property name="styleSheet">
      <string notr="true">border-color: rgb(0, 0, 0);
 border: 1px solid;
-background-image: url(:/background/transparency-background.png);</string>
+background-image: url(:/background/transparency-background.png);
+</string>
     </property>
     <property name="lineWidth">
      <number>1</number>
