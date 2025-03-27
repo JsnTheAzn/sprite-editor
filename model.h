@@ -62,7 +62,7 @@ private:
     void nextFrame();
 
 public:
-    Model();
+    Model(QObject* parent = nullptr);
 };
 
 #endif // MODEL_H

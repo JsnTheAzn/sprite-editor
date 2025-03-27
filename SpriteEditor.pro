@@ -15,6 +15,7 @@ SOURCES += \
     mainwindow.cpp \
     model.cpp \
     sprite.cpp \
+    tool.cpp \
     versionhistory.cpp
 
 HEADERS += \
@@ -23,6 +24,7 @@ HEADERS += \
     mainwindow.h \
     model.h \
     sprite.h \
+    tool.h \
     versionhistory.h
 
 FORMS += \

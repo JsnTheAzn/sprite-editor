@@ -40,7 +40,7 @@ public:
     /**
      * @brief Sprite - Default constructor. Initializes a transparent image of one frame.
      */
-    Sprite(QObject* parent);
+    Sprite(QObject* parent = nullptr);
 
     /**
      * @brief ~Sprite - Desconstructor that removes the image data from the heap.
