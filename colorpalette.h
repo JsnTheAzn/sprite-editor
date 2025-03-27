@@ -12,6 +12,9 @@ class ColorPalette : public QObject
 private:
     QVector<QColor> colors; // Store colors as QColor objects
 
+signals:
+    void addNewColorButtonSignal(QColor color);
+
 public:
     ColorPalette(QObject *parent = nullptr);
 

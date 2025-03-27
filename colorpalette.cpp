@@ -2,13 +2,18 @@
 #include <QColorDialog>
 #include <QFile>
 #include <QTextStream>
+#include <QVBoxLayout>
+#include <QWidget>
+#include <QPushButton>
 
-ColorPalette::ColorPalette(QObject *parent) : QObject{parent} {}
+ColorPalette::ColorPalette(QObject *parent) : QObject{parent} {
+}
 
 void ColorPalette::addColor() {
     QColor selectedColor = QColorDialog::getColor(Qt::white, nullptr, "Select Color");
     if (selectedColor.isValid()) {
         colors.append(selectedColor);
+        emit addNewColorButtonSignal(selectedColor);
     }
 }
 
@@ -27,6 +32,7 @@ void ColorPalette::loadPalette() {
 }
 
 void ColorPalette::selectColor() {
+
 }
 
 QVector<QColor> ColorPalette::getColors() const {

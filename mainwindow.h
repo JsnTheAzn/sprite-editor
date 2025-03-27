@@ -6,6 +6,8 @@
 #include <QPushButton>
 #include <QListWidget>
 #include "colorpalette.h"
+#include <QColor>
+#include <QGridLayout>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,11 +23,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void addNewColorButton(QColor color);
+
 private:
     Ui::MainWindow *ui;
     FileManager *fileManager;
-
-    // ColorPalette *colorPalette;
+    ColorPalette *colorPalette;
     // QListWidget *colorList;
     // QPushButton *addColorButton;
     // QPushButton *removeColorButton;
