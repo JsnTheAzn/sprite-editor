@@ -21,6 +21,7 @@ class MainWindow : public QMainWindow
 
 protected:
     void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -33,6 +34,10 @@ private:
     Model *model;
     Sprite *sprite;
     Tool *tool;
+
+    int canvasX;
+    int canvasY;
+    bool newPosition;
 
     /**
      * @brief checkMouseBounds - Boolean statement to declare whether or not the current position

@@ -19,7 +19,7 @@ public:
     enum class Tools {
         Pen,
         Eraser,
-        PaintBucket,
+        PaintBucket
     };
 
     //Gets the current tool that is selected.
@@ -28,13 +28,17 @@ public:
     //Sets the tool to the one currently being used.
     void setCurrentTool(Tools tool);
 
+    void setCurrentColor(const int (&rgba)[4]);
+
     //Uses the tool at the specific area on the canvas.
-    void useTool(Sprite *sprite, int x, int y, const int *rgba);
+    void useTool(Sprite *sprite, int x, int y);
 
 private:
     Tools currentTool;
 
-    void fillToolCall (Sprite *sprite, int x, int y, const int *rgba);
+    int rgba[4];
+
+    void fillToolCall (Sprite *sprite, int x, int y);
 
     void recursiveFill (Sprite *sprite, int x, int y, const int (*newColor), const int (*oldColor));
 };
