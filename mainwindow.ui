@@ -41,7 +41,7 @@
      </font>
     </property>
     <property name="toolTip">
-     <string extracomment="Saves current drawing as a .ssp file."/>
+     <string extracomment="Saves current drawing as a .ssp file.">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Download .ssp file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="toolTipDuration">
      <number>1000</number>
@@ -74,6 +74,9 @@
       <stylestrategy>NoAntialias</stylestrategy>
      </font>
     </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Upload .ssp file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
     <property name="styleSheet">
      <string notr="true">border-image: url(:/upload-icon.png);</string>
     </property>
@@ -89,6 +92,9 @@
       <width>30</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter canvas width here.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
      <string>16</string>
@@ -122,6 +128,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Resizes the canvas, anchored on the top left corner, cropping accordingly.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
     <property name="text">
      <string>CONFIRM RESIZE</string>
     </property>
@@ -150,6 +159,9 @@
        <height>41</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pen tool&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>pen</string>
      </property>
@@ -162,6 +174,9 @@
        <width>41</width>
        <height>41</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Undo&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
       <string>undo</string>
@@ -176,6 +191,9 @@
        <height>41</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Redo&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>redo</string>
      </property>
@@ -188,6 +206,9 @@
        <width>41</width>
        <height>41</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eraser tool&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
       <string>eraser</string>
@@ -202,6 +223,9 @@
        <height>41</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Fill tool&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>fill</string>
      </property>
@@ -215,6 +239,9 @@
        <height>41</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Current color&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>color?</string>
      </property>
@@ -227,6 +254,9 @@
        <width>131</width>
        <height>141</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Color palette&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <widget class="QLabel" name="label">
       <property name="geometry">
@@ -330,6 +360,9 @@ background-image: url(:/background/transparency-background.png);
        <height>20</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When toggled, shows the animation in true-to-pixel size.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="styleSheet">
       <string notr="true">border: none</string>
      </property>
@@ -337,7 +370,7 @@ background-image: url(:/background/transparency-background.png);
       <string>True to Size?</string>
      </property>
     </widget>
-    <widget class="QSlider" name="horizontalSlider">
+    <widget class="QSlider" name="fpsSlider">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -346,11 +379,14 @@ background-image: url(:/background/transparency-background.png);
        <height>22</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Slide to change frame rate of animation playback.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="styleSheet">
       <string notr="true">border: none</string>
      </property>
      <property name="minimum">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="maximum">
       <number>60</number>
@@ -370,6 +406,9 @@ background-image: url(:/background/transparency-background.png);
        <width>31</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Change frame rate of animation playback. Supports integer values from 0 to 60.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
       <string>12</string>
@@ -431,6 +470,9 @@ background-image: url(:/background/transparency-background.png);
         <height>21</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select a version to revert to.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <item>
        <property name="text">
         <string>Latest Version</string>
@@ -463,6 +505,9 @@ background-image: url(:/background/transparency-background.png);
        <height>31</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add frame before selected.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>&lt;+</string>
      </property>
@@ -475,6 +520,9 @@ background-image: url(:/background/transparency-background.png);
        <width>141</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select a frame.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <item>
       <property name="text">
@@ -491,6 +539,9 @@ background-image: url(:/background/transparency-background.png);
        <height>31</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add frame after selected.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>+&gt;</string>
      </property>
@@ -503,6 +554,9 @@ background-image: url(:/background/transparency-background.png);
        <width>31</width>
        <height>31</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Delete selected frame.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
       <string>-</string>
@@ -517,6 +571,9 @@ background-image: url(:/background/transparency-background.png);
        <height>31</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Go to previous frame.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>&lt;</string>
      </property>
@@ -529,6 +586,9 @@ background-image: url(:/background/transparency-background.png);
        <width>31</width>
        <height>31</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Go to next frame.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
       <string>&gt;</string>

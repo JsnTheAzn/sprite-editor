@@ -68,6 +68,7 @@ public:
      */
     Model(QObject* parent = nullptr);
 
+
 public slots:
 
 };
