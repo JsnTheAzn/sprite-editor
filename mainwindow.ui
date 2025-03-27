@@ -10,6 +10,17 @@
     <height>600</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="font">
+   <font>
+    <stylestrategy>NoAntialias</stylestrategy>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
@@ -17,15 +28,16 @@
    <widget class="QPushButton" name="saveButton">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>10</y>
-      <width>80</width>
-      <height>31</height>
+      <x>40</x>
+      <y>0</y>
+      <width>30</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <pointsize>12</pointsize>
+      <stylestrategy>PreferDefault</stylestrategy>
      </font>
     </property>
     <property name="toolTip">
@@ -37,8 +49,11 @@
     <property name="whatsThis">
      <string/>
     </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/download-icon.png);</string>
+    </property>
     <property name="text">
-     <string>Save</string>
+     <string/>
     </property>
     <property name="checkable">
      <bool>false</bool>
@@ -47,26 +62,30 @@
    <widget class="QPushButton" name="loadButton">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>10</y>
-      <width>80</width>
-      <height>31</height>
+      <x>90</x>
+      <y>0</y>
+      <width>30</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <pointsize>12</pointsize>
+      <stylestrategy>NoAntialias</stylestrategy>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/upload-icon.png);</string>
+    </property>
     <property name="text">
-     <string>Import</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLineEdit" name="widthInput">
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>20</y>
+      <y>15</y>
       <width>30</width>
       <height>21</height>
      </rect>
@@ -79,14 +98,15 @@
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>20</y>
+      <y>10</y>
       <width>51</width>
-      <height>21</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <pointsize>12</pointsize>
+      <stylestrategy>NoAntialias</stylestrategy>
      </font>
     </property>
     <property name="text">
@@ -258,6 +278,22 @@
      <property name="text">
       <string>Save Palette</string>
      </property>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:none</string>
+      </property>
+      <property name="text">
+       <string>Color Palette</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QLabel" name="canvas">
@@ -284,7 +320,8 @@
     <property name="styleSheet">
      <string notr="true">border-color: rgb(0, 0, 0);
 border: 1px solid;
-background-image: url(:/background/transparency-background.png);</string>
+background-image: url(:/background/transparency-background.png);
+</string>
     </property>
     <property name="lineWidth">
      <number>1</number>
@@ -547,6 +584,44 @@ background-image: url(:/background/transparency-background.png);</string>
       <string>&gt;</string>
      </property>
     </widget>
+   </widget>
+   <widget class="QLabel" name="downloadLabel">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>30</y>
+      <width>51</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <stylestrategy>NoAntialias</stylestrategy>
+     </font>
+    </property>
+    <property name="text">
+     <string>Download</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="uploadLabel">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>30</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <stylestrategy>NoAntialias</stylestrategy>
+     </font>
+    </property>
+    <property name="text">
+     <string>Upload</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

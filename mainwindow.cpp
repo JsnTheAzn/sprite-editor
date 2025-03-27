@@ -61,6 +61,7 @@ void MainWindow::addNewColorButton(QColor color)
     colorPaletteButtonGroup->addButton(newButton, -1);
     layout->addWidget(newButton);
     qDebug() << colorPaletteButtonGroup->buttons().count();
+    delete fileManager;
 }
 
 
