@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     canvasX = 0;
     canvasY = 0;
     newPosition = false;
+    tool = new Tool();
 
     connect(ui->saveButton, &QPushButton::clicked, fileManager, &FileManager::saveButtonClicked);
     connect(ui->loadButton, &QPushButton::clicked, fileManager, &FileManager::loadButtonClicked);
@@ -24,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete fileManager;
+    delete tool;
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
@@ -52,7 +55,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
 void MainWindow::mousePressEvent(QMouseEvent *event) {
     if (newPosition) {
         tool->useTool(sprite, canvasX, canvasY);
-        newPositing = false;
+        newPosition = false;
     }
 
 }
