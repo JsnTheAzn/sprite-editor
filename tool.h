@@ -29,14 +29,14 @@ public:
     void setCurrentTool(Tools tool);
 
     //Uses the tool at the specific area on the canvas.
-    void useTool(Sprite *sprite, int x, int y, const int (&rgba)[4]);
+    void useTool(Sprite *sprite, int x, int y, const int *rgba);
 
 private:
     Tools currentTool;
 
-    void fillToolCall (Sprite *sprite, int x, int y, const int (&rgba)[4]);
+    void fillToolCall (Sprite *sprite, int x, int y, const int *rgba);
 
-    void recursiveFill (Sprite *sprite, int x, int y, const int (&newColor), const int (&oldColor));
+    void recursiveFill (Sprite *sprite, int x, int y, const int (*newColor), const int (*oldColor));
 };
 
 #endif // TOOL_H

@@ -2,7 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "colorpalette.h"
 #include "filemanager.h"
+#include "model.h"
+#include "sprite.h"
+#include "tool.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -20,7 +24,11 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    ColorPalette *colorPalette;
     FileManager *fileManager;
+    Model *model;
+    Sprite *sprite;
+    Tool *tool;
 
 #endif // MAINWINDOW_H
 };
