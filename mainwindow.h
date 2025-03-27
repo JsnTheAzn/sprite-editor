@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "filemanager.h"
+#include "model.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -15,7 +16,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(Model* model, QWidget *parent = nullptr);
     ~MainWindow();
 
 private:
