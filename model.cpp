@@ -1,7 +1,11 @@
 #include "model.h"
+#include "filemanager.h"
 
 Model::Model(QObject* parent) :
-    QObject(parent) {}
+    QObject(parent) {
+
+}
+
 
     // void fillToolCall (x, y, color[4]) {
     //     Find the current color at x, y;

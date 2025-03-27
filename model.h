@@ -62,7 +62,15 @@ private:
     void nextFrame();
 
 public:
+    /**
+     * @brief Model - the constructor for the model object.
+     * @param parent - the parent object, set to nullptr by default.
+     */
     Model(QObject* parent = nullptr);
+
+
+public slots:
+
 };
 
 #endif // MODEL_H
