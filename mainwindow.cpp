@@ -8,6 +8,7 @@
 #include <QColor>
 #include <QPushButton>
 #include <QGridLayout>
+#include <QButtonGroup>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -17,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     fileManager = new FileManager();
     colorPalette = new ColorPalette();
+    colorPaletteButtonGroup = new QButtonGroup(this);
 
     //view to model
     connect(ui->saveButton, &QPushButton::clicked, fileManager, &FileManager::saveButtonClicked);
@@ -48,13 +50,14 @@ void MainWindow::addNewColorButton(QColor color)
         return;
     }
     QPushButton *newButton = new QPushButton("", this);
-    newButton->setFixedSize(20, 20);
     QString styleSheet = QString("background-color: rgb(%1, %2, %3);")
         .arg(color.red())
         .arg(color.green())
         .arg(color.blue());
     newButton->setStyleSheet(styleSheet);
+    colorPaletteButtonGroup->addButton(newButton, -1);
     layout->addWidget(newButton);
+    qDebug() << colorPaletteButtonGroup->buttons().count();
 }
 
 

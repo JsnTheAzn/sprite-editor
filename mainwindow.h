@@ -8,6 +8,7 @@
 #include "colorpalette.h"
 #include <QColor>
 #include <QGridLayout>
+#include <QButtonGroup>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -27,6 +28,7 @@ public slots:
     void addNewColorButton(QColor color);
 
 private:
+    QButtonGroup *colorPaletteButtonGroup;
     Ui::MainWindow *ui;
     FileManager *fileManager;
     ColorPalette *colorPalette;
