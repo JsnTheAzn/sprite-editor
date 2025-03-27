@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMouseEvent>
 #include "filemanager.h"
 
 QT_BEGIN_NAMESPACE
@@ -14,6 +15,9 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+protected:
+    void mouseMoveEvent(QMouseEvent *event);
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -21,6 +25,13 @@ public:
 private:
     Ui::MainWindow *ui;
     FileManager *fileManager;
+
+    /**
+     * @brief checkMouseBounds - Boolean statement to declare whether or not the current position
+     * of the mouse is within the bounds of the canvas.
+     * @return True if the mouse is inside of the canvas widget.
+     */
+    bool checkMouseBounds();
 
 #endif // MAINWINDOW_H
 };
