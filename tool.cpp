@@ -45,19 +45,50 @@ void Tool::recursiveFill (Sprite *sprite, int x, int y, const int (*newColor), c
     int currentColor[4];
     sprite->getPixel(x, y, currentColor);
 
-    //Check if all rgba colors match the old color.
-    if(currentColor[0] != oldColor[0] || currentColor[1] != oldColor[1] ||
-        currentColor[2] != oldColor[2] || currentColor[3] != oldColor[3]) {
-        return;
-    }
-
     int newColors[4] = {newColor[0], newColor[1], newColor[2], newColor[3]};
     sprite->updatePixel(x, y, newColors);
 
+    //Check if all rgba colors match the old color.
     //Recursive fills.
-    recursiveFill(sprite, x, y - 1, newColor, oldColor);
-    recursiveFill(sprite, x + 1, y, newColor, oldColor);
-    recursiveFill(sprite, x, y + 1, newColor, oldColor);
-    recursiveFill(sprite, x - 1, y, newColor, oldColor);
+    //Check top pixel.
+    if(y > 0) {
+        int color[4];
+        sprite->getPixel(x, y - 1, color);
+
+        if (currentColor[0] == oldColor[0] && currentColor[1] == oldColor[1] &&
+            currentColor[2] == oldColor[2] && currentColor[3] == oldColor[3]) {
+            recursiveFill(sprite, x, y - 1, newColor, oldColor);
+        }
+    }
+    //Check right pixel.
+    if(x < width - 1) {
+        int color[4];
+        sprite->getPixel(x + 1, y, color);
+
+        if (currentColor[0] == oldColor[0] && currentColor[1] == oldColor[1] &&
+            currentColor[2] == oldColor[2] && currentColor[3] == oldColor[3]) {
+            recursiveFill(sprite, x + 1, y, newColor, oldColor);
+        }
+    }
+    //Check bottom pixel.
+    if(y < width - 1) {
+        int color[4];
+        sprite->getPixel(x, y + 1, color);
+
+        if (currentColor[0] == oldColor[0] && currentColor[1] == oldColor[1] &&
+            currentColor[2] == oldColor[2] && currentColor[3] == oldColor[3]) {
+            recursiveFill(sprite, x, y + 1, newColor, oldColor);
+        }
+    }
+    //Check left pixel.
+    if(x > 0) {
+        int color[4];
+        sprite->getPixel(x - 1, y, color);
+
+        if (currentColor[0] == oldColor[0] && currentColor[1] == oldColor[1] &&
+            currentColor[2] == oldColor[2] && currentColor[3] == oldColor[3]) {
+            recursiveFill(sprite, x - 1, y, newColor, oldColor);
+        }
+    }
 }
 
