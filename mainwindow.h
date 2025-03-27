@@ -2,8 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "colorpalette.h"
 #include <QMouseEvent>
 #include "filemanager.h"
+#include "model.h"
+#include "sprite.h"
+#include "tool.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,7 +28,11 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    ColorPalette *colorPalette;
     FileManager *fileManager;
+    Model *model;
+    Sprite *sprite;
+    Tool *tool;
 
     /**
      * @brief checkMouseBounds - Boolean statement to declare whether or not the current position

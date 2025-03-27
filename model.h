@@ -6,6 +6,7 @@
 #include "colorpalette.h"
 #include "filemanager.h"
 #include "versionhistory.h"
+#include "tool.h"
 
 class Model : public QObject
 {
@@ -33,6 +34,11 @@ private:
      * @brief versionHistory - Manages and stores the recent history for the current session.
      */
     VersionHistory versionHistory;
+
+    /**
+     * @brief tool - Manages the tools and their properties.
+     */
+    Tool tool;
 
     /**
      * @brief currFrame - Stores the currently showcased frame on the animation preview.

@@ -25,16 +25,6 @@ void Sprite::setCurrentFrame(int frame) {
     currFrame = frame;
 }
 
-// void Sprite::updatePixel(int x, int y, int red, int green, int blue, int alpha) {
-//     int offset = (y * width + x) * 4;
-//     int* currImage = frames[currFrame];
-
-//     currImage[offset + 0] = red;
-//     currImage[offset + 1] = green;
-//     currImage[offset + 2] = blue;
-//     currImage[offset + 3] = alpha;
-// }
-
 void Sprite::updatePixel(int x, int y, const int (&rgba)[4]) {
     int offset = (y * width + x) * 4;
     int* currImage = frames[currFrame];
