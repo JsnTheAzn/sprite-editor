@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "colorpalette.h"
+#include <QMouseEvent>
 #include "filemanager.h"
 #include "model.h"
 #include "sprite.h"
@@ -18,6 +19,9 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+protected:
+    void mouseMoveEvent(QMouseEvent *event);
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -29,6 +33,13 @@ private:
     Model *model;
     Sprite *sprite;
     Tool *tool;
+
+    /**
+     * @brief checkMouseBounds - Boolean statement to declare whether or not the current position
+     * of the mouse is within the bounds of the canvas.
+     * @return True if the mouse is inside of the canvas widget.
+     */
+    bool checkMouseBounds();
 
 #endif // MAINWINDOW_H
 };

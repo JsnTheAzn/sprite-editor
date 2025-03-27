@@ -6,11 +6,12 @@
 #include <QJsonObject>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    : QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
+    setMouseTracking(true);
     fileManager = new FileManager();
 
     connect(ui->saveButton, &QPushButton::clicked, fileManager, &FileManager::saveButtonClicked);
@@ -20,4 +21,9 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *event) {
+    double x = event->position().x();
+    double y = event->position().y();
 }
