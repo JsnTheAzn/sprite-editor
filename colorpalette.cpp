@@ -32,7 +32,7 @@ void ColorPalette::loadPalette() {
 }
 
 void ColorPalette::selectColor() {
-
+    qDebug() << "test";
 }
 
 QVector<QColor> ColorPalette::getColors() const {

@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->loadButton, &QPushButton::clicked, fileManager, &FileManager::loadButtonClicked);
     connect(ui->savePaletteButton, &QPushButton::clicked, colorPalette, &ColorPalette::savePalette);
     connect(ui->addColor, &QPushButton::clicked, colorPalette, &ColorPalette::addColor);
+    connect(colorPaletteButtonGroup, &QButtonGroup::buttonClicked, colorPalette, &ColorPalette::selectColor);
 
     //model to view
     connect(colorPalette, &ColorPalette::addNewColorButtonSignal, this, &MainWindow::addNewColorButton);
@@ -33,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete colorPalette;
+    delete colorPaletteButtonGroup;
 }
 
 void MainWindow::addNewColorButton(QColor color)
