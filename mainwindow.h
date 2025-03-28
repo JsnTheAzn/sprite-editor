@@ -27,6 +27,7 @@ public:
 
 public slots:
     void addNewColorButton(QColor color);
+    void removeColorButton(QColor color);
 
 private:
     QButtonGroup *colorPaletteButtonGroup;

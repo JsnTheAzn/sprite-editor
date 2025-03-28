@@ -23,19 +23,20 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     //view to model
     connect(ui->saveButton, &QPushButton::clicked, fileManager, &FileManager::saveButtonClicked);
     connect(ui->loadButton, &QPushButton::clicked, fileManager, &FileManager::loadButtonClicked);
-    connect(ui->savePaletteButton, &QPushButton::clicked, colorPalette, &ColorPalette::savePalette);
+
+
     connect(ui->addColor, &QPushButton::clicked, colorPalette, &ColorPalette::addColor);
-    connect(colorPaletteButtonGroup, &QButtonGroup::buttonClicked, colorPalette, &ColorPalette::selectColor);
+    connect(ui->removeColor, &QPushButton::clicked, colorPalette, &ColorPalette::removeColor);
 
     //model to view
     connect(colorPalette, &ColorPalette::addNewColorButtonSignal, this, &MainWindow::addNewColorButton);
+    connect(ui->savePaletteButton, &QPushButton::clicked, colorPalette, &ColorPalette::savePalette);
+    connect(ui->loadPaletteButton, &QPushButton::clicked, colorPalette, &ColorPalette::loadPalette);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete colorPalette;
-    delete colorPaletteButtonGroup;
 }
 
 void MainWindow::addNewColorButton(QColor color)
@@ -61,7 +62,30 @@ void MainWindow::addNewColorButton(QColor color)
     colorPaletteButtonGroup->addButton(newButton, -1);
     layout->addWidget(newButton);
     qDebug() << colorPaletteButtonGroup->buttons().count();
-    delete fileManager;
+}
+
+void MainWindow::removeColorButton(QColor color) {
+    QGroupBox *groupBox = findChild<QGroupBox*>("leftPanel");
+    if (!groupBox) {
+        return;
+    }
+    QWidget *innerWidget = groupBox->findChild<QWidget*>("paletteWidget");
+    if (!innerWidget) {
+        return;
+    }
+    QGridLayout *layout = innerWidget->findChild<QGridLayout*>("gridLayout");
+    if (!layout) {
+        return;
+    }
+    QPushButton *newButton = new QPushButton("", this);
+    QString styleSheet = QString("background-color: rgb(%1, %2, %3);")
+     .arg(color.red())
+     .arg(color.green())
+     .arg(color.blue());
+    newButton->setStyleSheet(styleSheet);
+    colorPaletteButtonGroup->removeButton(newButton);
+    layout->addWidget(newButton);
+    qDebug() << colorPaletteButtonGroup->buttons().count();
 }
 
 
