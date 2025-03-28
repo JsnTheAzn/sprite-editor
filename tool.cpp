@@ -14,9 +14,19 @@ void Tool::setCurrentTool(Tools tool) {
     currentTool = tool;
 }
 
-void Tool::useTool(Sprite *sprite, int x, int y, const int *rgba) {
-    //TODO: Fill in with multiple cases, based on which tool is being used,
-    //and then its functionality.
+void Tool::useTool(Sprite *sprite, int x, int y, const int (&rgba)[4]) {
+    int erase[4] = {0, 0, 0, 0};
+    switch(currentTool) {
+    case Tools::Pen:
+        sprite->updatePixel(x, y, rgba);
+        break;
+    case Tools::Eraser:
+        sprite->updatePixel(x, y, erase);
+        break;
+    case Tools::PaintBucket:
+        fillToolCall(sprite, x, y, rgba);
+        break;
+    }
 }
 
 void Tool::fillToolCall (Sprite *sprite, int x, int y, const int *rgba) {
