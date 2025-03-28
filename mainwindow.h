@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "filemanager.h"
+#include "model.h"
 #include <QPushButton>
 #include <QListWidget>
 #include "colorpalette.h"
@@ -21,7 +22,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(Model* model, QWidget *parent = nullptr);
     ~MainWindow();
 
 public slots:
