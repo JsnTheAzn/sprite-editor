@@ -3,7 +3,9 @@
 
 Tool::Tool(QObject* parent) :
     QObject(parent) {
-
+    currentTool = Tools::Pen;
+    for (int i = 0; i < 4; i++)
+        rgba[i] = 0;
 }
 
 Tool::Tools Tool::getCurrentTool() {
@@ -27,9 +29,15 @@ void Tool::useTool(Sprite *sprite, int x, int y, const int (&rgba)[4]) {
         fillToolCall(sprite, x, y, rgba);
         break;
     }
+    
+void Tool::setCurrentColor(const int (&newColor)[4]) {
+    rgba[0] = newColor[0];
+    rgba[1] = newColor[1];
+    rgba[2] = newColor[2];
+    rgba[3] = newColor[3];
 }
 
-void Tool::fillToolCall (Sprite *sprite, int x, int y, const int *rgba) {
+void Tool::fillToolCall (Sprite *sprite, int x, int y) {
     int width = sprite->getWidth();
     //Check for out-of-bounds.
     if(x < 0 || x >= width || y < 0 || y >= width) {

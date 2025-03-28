@@ -23,7 +23,7 @@ public:
     enum class Tools {
         Pen,
         Eraser,
-        PaintBucket,
+        PaintBucket
     };
 
     /**
@@ -47,6 +47,8 @@ public:
      */
     void useTool(Sprite *sprite, int x, int y, const int (&rgba)[4]);
 
+    void setCurrentColor(const int (&rgba)[4]);
+
 private:
     /**
      * @brief currentTool - The current tool used by the user.
@@ -61,6 +63,8 @@ private:
      * @param rgba - The RGBA values.
      */
     void fillToolCall (Sprite *sprite, int x, int y, const int *rgba);
+
+    int rgba[4];
 
     /**
      * @brief recursiveFill - Fills an area at the specified x & y, replacing old colors with the new RGBA values.
