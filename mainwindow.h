@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include "filemanager.h"
-#include "model.h"
 #include <QPushButton>
 #include <QListWidget>
 #include "colorpalette.h"
@@ -22,18 +21,21 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(Model* model, QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 public slots:
     void addNewColorButton(QColor color);
     void removeColorButton(QColor color);
+    void selectedColor(QAbstractButton *button);
+    void removeColorButton();
 
 private:
     QButtonGroup *colorPaletteButtonGroup;
     Ui::MainWindow *ui;
     FileManager *fileManager;
     ColorPalette *colorPalette;
+    QAbstractButton *currentColorButton;
     // QListWidget *colorList;
     // QPushButton *addColorButton;
     // QPushButton *removeColorButton;
