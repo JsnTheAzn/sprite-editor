@@ -11,7 +11,7 @@
 #include <QButtonGroup>
 #include <QRegularExpression>
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(Model* model, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
@@ -35,8 +35,6 @@ MainWindow::MainWindow(QWidget *parent)
   
     //view to... erm... view?
     connect(colorPaletteButtonGroup, &QButtonGroup::buttonClicked, this, &MainWindow::selectedColor);
-    connect(ui->removeColor, &QPushButton::clicked, this, &MainWindow::
-           );
 }
 
 MainWindow::~MainWindow()
