@@ -14,17 +14,19 @@ ColorPalette::ColorPalette(QObject *parent) : QObject{parent} {
 }
 
 void ColorPalette::addColor() {
-    QColor selectedColor = QColorDialog::getColor(Qt::white, nullptr, "Select Color");
-    if (selectedColor.isValid()) {
-        colors.append(selectedColor);
-        emit addNewColorButtonSignal(selectedColor);
+    if (colors.size() <= 8) {
+        QColor selectedColor = QColorDialog::getColor(Qt::white, nullptr, "Select Color");
+        if (selectedColor.isValid()) {
+            colors.append(selectedColor);
+            emit addNewColorButtonSignal(selectedColor);
+        }
     }
 }
 
 void ColorPalette::removeColor(int colorIndex) {
-    if (colorIndex >= 0 && colorIndex < colors.size()) {
-        colors.removeAt(colorIndex);
-    }
+    // if (colorIndex >= 0 && colorIndex < colors.size()) {
+    //     colors.removeAt(colorIndex);
+    // }
 }
 
 void ColorPalette::savePalette() {
