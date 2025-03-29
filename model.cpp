@@ -19,3 +19,12 @@ void Model::setTool(Tool::Tools clickedTool) {
 void Model::useTool(Sprite *sprite, int x, int y, const int (&rgba)[4]) {
     tool->useTool(sprite, x, y);
 }
+
+void Model::saveSprite(){
+    fileManager.saveButtonClicked();
+    //fileManager.saveFile(sprite);
+}
+
+void Model::loadSprite(){
+    fileManager.loadButtonClicked();
+}
