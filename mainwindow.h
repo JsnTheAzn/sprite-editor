@@ -25,15 +25,20 @@ public:
     MainWindow(Model* model, QWidget *parent = nullptr);
     ~MainWindow();
 
+signals:
+    void colorDeleted(int colorIndex);
+
 public slots:
     void addNewColorButton(QColor color);
-    void removeColorButton(QColor color);
+    void selectedColor(QAbstractButton *button);
+    void removeColorButton();
 
 private:
     QButtonGroup *colorPaletteButtonGroup;
     Ui::MainWindow *ui;
     FileManager *fileManager;
     ColorPalette *colorPalette;
+    QAbstractButton *currentColorButton;
     // QListWidget *colorList;
     // QPushButton *addColorButton;
     // QPushButton *removeColorButton;
