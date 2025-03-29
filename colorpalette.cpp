@@ -24,9 +24,9 @@ void ColorPalette::addColor() {
 }
 
 void ColorPalette::removeColor(int colorIndex) {
-    if (colorIndex >= 0 && colorIndex < colors.size()) {
-        colors.removeAt(colorIndex);
-    }
+    // if (colorIndex >= 0 && colorIndex < colors.size()) {
+    //     colors.removeAt(colorIndex);
+    // }
 }
 
 void ColorPalette::savePalette() {
