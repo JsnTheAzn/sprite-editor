@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     // IMAGE SETUP:
     image = QImage(sprite->getWidth(), sprite->getWidth(), QImage::Format_RGBA32FPx4);
     graphic = new QGraphicsScene(this);
-    graphic->addPixmap(QPixmap::fromImage(image));
+    graphic->addPixmap(QPixmap::fromImage(image));    
 
     // CONNECTIONS:
     connect(ui->saveButton, &QPushButton::clicked, fileManager, &FileManager::saveButtonClicked);
@@ -110,6 +110,9 @@ void MainWindow::drawSpriteFrame(int frame) {
         }
     }
     graphic->addPixmap(QPixmap::fromImage(image));
-    ui->canvas->setPixmap(QPixmap::fromImage(image));
+    ui->canvas->setPixmap(QPixmap::fromImage(image).scaled(
+        ui->canvas->size(),
+        Qt::KeepAspectRatio,
+        Qt::FastTransformation));
     sprite->setCurrentFrame(oldFrame);
 }
