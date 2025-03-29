@@ -26,6 +26,7 @@ public:
 
 public slots:
     void addNewColorButton(QColor color);
+    void removeColorButton(QColor color);
     void selectedColor(QAbstractButton *button);
     void removeColorButton();
 
