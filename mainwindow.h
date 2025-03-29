@@ -66,7 +66,6 @@ private:
      */
     bool checkMouseBounds();
 
-    ColorPalette *colorPalette;
     QAbstractButton *currentColorButton;
 #endif // MAINWINDOW_H
 };
