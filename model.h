@@ -90,6 +90,9 @@ public:
      * @param rgba - The RGBA values.
      */
     void useTool(Sprite *sprite, int x, int y, const int (&rgba)[4]);
+
+public slots:
+
 };
 
 #endif // MODEL_H

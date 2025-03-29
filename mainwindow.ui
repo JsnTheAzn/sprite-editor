@@ -10,17 +10,6 @@
     <height>600</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="font">
-   <font>
-    <stylestrategy>NoAntialias</stylestrategy>
-   </font>
-  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
@@ -28,20 +17,19 @@
    <widget class="QPushButton" name="saveButton">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>0</y>
-      <width>30</width>
-      <height>30</height>
+      <x>30</x>
+      <y>10</y>
+      <width>80</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <pointsize>12</pointsize>
-      <stylestrategy>PreferDefault</stylestrategy>
      </font>
     </property>
     <property name="toolTip">
-     <string extracomment="Saves current drawing as a .ssp file."/>
+     <string extracomment="Saves current drawing as a .ssp file.">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Saves the project as a .ssp file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="toolTipDuration">
      <number>1000</number>
@@ -49,11 +37,8 @@
     <property name="whatsThis">
      <string/>
     </property>
-    <property name="styleSheet">
-     <string notr="true">border-image: url(:/download-icon.png);</string>
-    </property>
     <property name="text">
-     <string/>
+     <string>Save</string>
     </property>
     <property name="checkable">
      <bool>false</bool>
@@ -62,33 +47,35 @@
    <widget class="QPushButton" name="loadButton">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>0</y>
-      <width>30</width>
-      <height>30</height>
+      <x>120</x>
+      <y>10</y>
+      <width>80</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <pointsize>12</pointsize>
-      <stylestrategy>NoAntialias</stylestrategy>
      </font>
     </property>
-    <property name="styleSheet">
-     <string notr="true">border-image: url(:/upload-icon.png);</string>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Loads a selected .ssp file into the current project. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
-     <string/>
+     <string>Import</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="widthInput">
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>15</y>
+      <y>20</y>
       <width>30</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sets the cavas width.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
      <string>16</string>
@@ -98,15 +85,14 @@
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>10</y>
+      <y>20</y>
       <width>51</width>
-      <height>31</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <pointsize>12</pointsize>
-      <stylestrategy>NoAntialias</stylestrategy>
      </font>
     </property>
     <property name="text">
@@ -121,6 +107,9 @@
       <width>131</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Resizes the canvas. The sprite is anchored to the top left corner and remains the same size in pixels.&lt;/p&gt;&lt;p&gt;If the new width is smaller than the previous width, the sprite &lt;span style=&quot; font-style:italic;&quot;&gt;will&lt;/span&gt; be cropped.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
      <string>CONFIRM RESIZE</string>
@@ -150,6 +139,9 @@
        <height>41</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pen tool&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>pen</string>
      </property>
@@ -162,6 +154,9 @@
        <width>41</width>
        <height>41</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Undo&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
       <string>undo</string>
@@ -176,6 +171,9 @@
        <height>41</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Redo&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>redo</string>
      </property>
@@ -188,6 +186,9 @@
        <width>41</width>
        <height>41</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eraser tool&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
       <string>eraser</string>
@@ -202,6 +203,9 @@
        <height>41</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Fill tool&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>fill</string>
      </property>
@@ -214,6 +218,9 @@
        <width>41</width>
        <height>41</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Current color&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
       <string>color?</string>
@@ -228,22 +235,81 @@
        <height>141</height>
       </rect>
      </property>
-     <widget class="QLabel" name="label">
+     <widget class="QWidget" name="gridLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>91</width>
-        <height>16</height>
+        <x>10</x>
+        <y>10</y>
+        <width>111</width>
+        <height>121</height>
        </rect>
       </property>
-      <property name="styleSheet">
-       <string notr="true">border:none</string>
-      </property>
-      <property name="text">
-       <string>Color Palette</string>
-      </property>
+      <layout class="QGridLayout" name="gridLayout"/>
      </widget>
+    </widget>
+    <widget class="QPushButton" name="addColor">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>210</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adds a color to the color palette. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>+</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="removeColor">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>210</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Removes the selected color from the color palette.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>-</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="savePaletteButton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>210</y>
+       <width>31</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save color palette.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>S</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="loadPaletteButton">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>210</y>
+       <width>31</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load color palette.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>L</string>
+     </property>
     </widget>
    </widget>
    <widget class="QLabel" name="canvas">
@@ -270,8 +336,7 @@
     <property name="styleSheet">
      <string notr="true">border-color: rgb(0, 0, 0);
 border: 1px solid;
-background-image: url(:/background/transparency-background.png);
-</string>
+background-image: url(:/background/transparency-background.png);</string>
     </property>
     <property name="lineWidth">
      <number>1</number>
@@ -330,6 +395,9 @@ background-image: url(:/background/transparency-background.png);
        <height>20</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When this box is ticked, the animation preview is displayed true-to-size to the provided width in pixels. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="styleSheet">
       <string notr="true">border: none</string>
      </property>
@@ -345,6 +413,9 @@ background-image: url(:/background/transparency-background.png);
        <width>151</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Changes the FPS of the animation preview, from 0 (stationary image) to 60.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">border: none</string>
@@ -370,6 +441,9 @@ background-image: url(:/background/transparency-background.png);
        <width>31</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Changes the FPS of the animation preview, from 0 (stationary image) to 60.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
       <string>12</string>
@@ -431,6 +505,9 @@ background-image: url(:/background/transparency-background.png);
         <height>21</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select a version to revert to. After editing on that version, you will not be able to jump back into a later version. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <item>
        <property name="text">
         <string>Latest Version</string>
@@ -463,6 +540,9 @@ background-image: url(:/background/transparency-background.png);
        <height>31</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add a blank frame before the selected frame. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>&lt;+</string>
      </property>
@@ -475,6 +555,9 @@ background-image: url(:/background/transparency-background.png);
        <width>141</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select a frame to switch to.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <item>
       <property name="text">
@@ -491,6 +574,9 @@ background-image: url(:/background/transparency-background.png);
        <height>31</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add a blank frame after the selected frame. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>+&gt;</string>
      </property>
@@ -503,6 +589,9 @@ background-image: url(:/background/transparency-background.png);
        <width>31</width>
        <height>31</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove selected frame.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
       <string>-</string>
@@ -517,6 +606,9 @@ background-image: url(:/background/transparency-background.png);
        <height>31</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Go to previous frame. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>&lt;</string>
      </property>
@@ -530,48 +622,13 @@ background-image: url(:/background/transparency-background.png);
        <height>31</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Go to next frame. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>&gt;</string>
      </property>
     </widget>
-   </widget>
-   <widget class="QLabel" name="downloadLabel">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>30</y>
-      <width>51</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-      <stylestrategy>NoAntialias</stylestrategy>
-     </font>
-    </property>
-    <property name="text">
-     <string>Download</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="uploadLabel">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>30</y>
-      <width>41</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-      <stylestrategy>NoAntialias</stylestrategy>
-     </font>
-    </property>
-    <property name="text">
-     <string>Upload</string>
-    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

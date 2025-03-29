@@ -9,6 +9,12 @@
 #include "model.h"
 #include "sprite.h"
 #include "tool.h"
+#include <QPushButton>
+#include <QListWidget>
+#include "colorpalette.h"
+#include <QColor>
+#include <QGridLayout>
+#include <QButtonGroup>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -25,13 +31,20 @@ protected:
     void mousePressEvent(QMouseEvent *event);
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(Model* model, QWidget *parent = nullptr);
     ~MainWindow();
 
+signals:
+    void colorDeleted(int colorIndex);
+
 public slots:
+    void addNewColorButton(QColor color);
+    void selectedColor(QAbstractButton *button);
+    void removeColorButton();
     void drawSpriteFrame(int frame);
 
 private:
+    QButtonGroup *colorPaletteButtonGroup;
     Ui::MainWindow *ui;
     ColorPalette *colorPalette;
     FileManager *fileManager;
@@ -53,5 +66,7 @@ private:
      */
     bool checkMouseBounds();
 
+    ColorPalette *colorPalette;
+    QAbstractButton *currentColorButton;
 #endif // MAINWINDOW_H
 };
