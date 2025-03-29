@@ -1,4 +1,10 @@
 #include "filemanager.h"
+#include <QFileDialog>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QString>
+#include <QVector>
 
 /*
  * Sources used:
@@ -16,15 +22,10 @@
 
 FileManager::FileManager(QObject *parent) : QObject{parent} {
     frames = QVector<int>();
-
-    connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveButtonClicked);
-    connect(ui->loadButton, &QPushButton::clicked, this, &MainWindow::loadButtonClicked);
 }
 
-
-
 void FileManager::saveButtonClicked() {
-    QString savedFile = QFileDialog::getSaveFileName(this, QObject::tr("Save .SSP File"), "C:/", "SSP (*.ssp)");
+    QString savedFile = QFileDialog::getSaveFileName(nullptr, QObject::tr("Save .SSP File"), "C:/", "SSP (*.ssp)");
 
     //Add .ssp extension if file isn't saved with it manually.
     if(!savedFile.endsWith((".ssp"), Qt::CaseSensitive)) {
@@ -59,42 +60,41 @@ void FileManager::saveButtonClicked() {
     }
 }
 
-// void FileManager::loadButtonClicked() {
+void FileManager::loadButtonClicked() {
+    QString loadedFile = QFileDialog::getOpenFileName(nullptr, QObject::tr("Load .SSP File"), "C:/", "SSP (*.ssp)");
 
-//     QString loadedFile = QFileDialog::getOpenFileName(this, QObject::tr("Load .SSP File"), "C:/", "SSP (*.ssp)");
+    //Read the json data.
+    QFile file(loadedFile);
+    if(file.open(QFile::ReadOnly)) {
+        QTextStream stream(&file);
+        QString jsonString = file.readAll();
+        file.close();
 
-//     //Read the json data.
-//     QFile file(loadedFile);
-//     if(file.open(QFile::ReadOnly)) {
-//         QTextStream stream(&file);
-//         QString jsonString = file.readAll();
-//         file.close();
+        QJsonDocument jsonDocument = QJsonDocument::fromJson(jsonString.toUtf8());
+        QJsonArray jsonArray = jsonDocument.array();
 
-//         QJsonDocument jsonDocument = QJsonDocument::fromJson(jsonString.toUtf8());
-//         QJsonArray jsonArray = jsonDocument.array();
+        //     //The sent json data to be deserialized.
+        //     //QJsonArray jsonData;
+        //     //jsonData >> jsonString;
 
-//     //The sent json data to be deserialized.
-//     //QJsonArray jsonData;
-//     //jsonData >> jsonString;
+        //Canvas width is the first data sent, so read it first.
+        width = jsonArray.first().toInt();
 
-//     //Canvas width is the first data sent, so read it first.
-//     width = jsonArray.first().toInt();
+        //     //TODO: read the json data as an increment in order to place pixels on canvas.
 
-//     //TODO: read the json data as an increment in order to place pixels on canvas.
-
-//         //Borrowed from assignment 3, utilize to set RGBA values & assist in determining pixel location.
-//         for(int x = 0; x < width; x++) {
-//             for(int y = 0; x < width; y++) {
-//                 if (x < 0 || x >= width || y < 0 || y >= width) {
-//                     int offset = (y * width + x) * 4;
-//                     frames[offset + 0] = r; // red
-//                     frames[offset + 1] = g; // green
-//                     frames[offset + 2] = b; // blue
-//                     frames[offset + 3] = a; // alpha (keep at 255 for no transparency)
-//                 }
-//             }
-//         }
-//     }
-// }
-
-FileManager::FileManager() {}
+        //         //Borrowed from assignment 3, utilize to set RGBA values & assist in determining pixel location.
+        //         for(int x = 0; x < width; x++) {
+        //             for(int y = 0; x < width; y++) {
+        //                 if (x < 0 || x >= width || y < 0 || y >= width) {
+        //                     int offset = (y * width + x) * 4;
+        //                     frames[offset + 0] = r; // red
+        //                     frames[offset + 1] = g; // green
+        //                     frames[offset + 2] = b; // blue
+        //                     frames[offset + 3] = a; // alpha (keep at 255 for no transparency)
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+    }
+}

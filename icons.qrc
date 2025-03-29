@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/background">
+        <file>transparency-background.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>download-icon.png</file>
+        <file>upload-icon.png</file>
+    </qresource>
+</RCC>

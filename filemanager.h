@@ -7,7 +7,7 @@
 class FileManager : public QObject {
     Q_OBJECT
 public:
-    FileManager();
+    FileManager(QObject *parent = nullptr);
 
     void saveFile(const Sprite& sprite);
 
