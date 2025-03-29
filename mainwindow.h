@@ -2,8 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "colorpalette.h"
 #include <QMouseEvent>
+#include <QGraphicsScene>
+#include "colorpalette.h"
 #include "filemanager.h"
 #include "model.h"
 #include "sprite.h"
@@ -27,6 +28,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void drawSpriteFrame(int frame);
+
 private:
     Ui::MainWindow *ui;
     ColorPalette *colorPalette;
@@ -34,6 +38,9 @@ private:
     Model *model;
     Sprite *sprite;
     Tool *tool;
+    QImage image;
+    QGraphicsScene *graphic;
+
 
     int canvasX;
     int canvasY;
