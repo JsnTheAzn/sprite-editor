@@ -33,10 +33,16 @@ void Sprite::updatePixel(int x, int y, const int (&rgba)[4]) {
     currImage[offset + 1] = rgba[1];
     currImage[offset + 2] = rgba[2];
     currImage[offset + 3] = rgba[3];
+
+    emit drawFrame(currFrame);
 }
 
 vector<int*>& Sprite::getFrames() {
     return frames;
+}
+
+int Sprite::getFrame() {
+    return currFrame;
 }
 
 int Sprite::getWidth() {
