@@ -74,10 +74,10 @@ void MainWindow::selectedColor(QAbstractButton *button) {
     QRegularExpression regexSolidWhite("solid white");
     QRegularExpression regexSolidBlack("solid black");
     if (currentColorButton != nullptr) {
+        qDebug() << "if you see this before it crashed, this is it";
         QString previousStyle = currentColorButton->styleSheet();
         previousStyle.replace(regexSolidWhite, "solid black");
         currentColorButton->setStyleSheet(previousStyle);
-        qDebug() << "test: " << previousStyle;
     }
     currentColorButton = button;
     QString currentStyle = button->styleSheet();
