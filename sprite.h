@@ -76,6 +76,8 @@ public:
      */
     vector<int*>& getFrames();
 
+    int getFrame();
+
     /**
      * @brief getWidth - Returns the side length of the canvas in pixels.
      * @return The number of pixels stored on each side of the canvas.
@@ -90,6 +92,10 @@ public:
      * @param returnArray - The array to store the color data into. Must have a size of 4.
      */
     void getPixel(int x, int y, int (&returnArray)[4]);
+
+signals:
+
+    void drawFrame(int frame);
 };
 
 #endif // SPRITE_H
