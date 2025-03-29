@@ -26,7 +26,7 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     connect(ui->saveButton, &QPushButton::clicked, fileManager, &FileManager::saveButtonClicked);
     connect(ui->loadButton, &QPushButton::clicked, fileManager, &FileManager::loadButtonClicked);
     connect(ui->addColor, &QPushButton::clicked, colorPalette, &ColorPalette::addColor);
-    connect(ui->removeColor, &QPushButton::clicked, colorPalette, &ColorPalette::removeColor);
+    connect(this, &MainWindow::colorDeleted, colorPalette, &ColorPalette::removeColor);
 
     //model to view
     connect(colorPalette, &ColorPalette::addNewColorButtonSignal, this, &MainWindow::addNewColorButton);
@@ -35,6 +35,7 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
   
     //view to... erm... view?
     connect(colorPaletteButtonGroup, &QButtonGroup::buttonClicked, this, &MainWindow::selectedColor);
+    connect(ui->removeColor, &QPushButton::clicked, this, &MainWindow::removeColorButton);
 }
 
 MainWindow::~MainWindow()
@@ -68,30 +69,6 @@ void MainWindow::addNewColorButton(QColor color)
     qDebug() << colorPaletteButtonGroup->buttons().count();
 }
 
-void MainWindow::removeColorButton(QColor color) {
-    QGroupBox *groupBox = findChild<QGroupBox*>("leftPanel");
-    if (!groupBox) {
-        return;
-    }
-    QWidget *innerWidget = groupBox->findChild<QWidget*>("paletteWidget");
-    if (!innerWidget) {
-        return;
-    }
-    QGridLayout *layout = innerWidget->findChild<QGridLayout*>("gridLayout");
-    if (!layout) {
-        return;
-    }
-    QPushButton *newButton = new QPushButton("", this);
-    QString styleSheet = QString("background-color: rgb(%1, %2, %3);")
-     .arg(color.red())
-     .arg(color.green())
-     .arg(color.blue());
-    newButton->setStyleSheet(styleSheet);
-    colorPaletteButtonGroup->removeButton(newButton);
-    layout->addWidget(newButton);
-    qDebug() << colorPaletteButtonGroup->buttons().count();
-}
-
 void MainWindow::selectedColor(QAbstractButton *button) {
     //TODO: I still have to make the REGEX to actually gnab the color (stored as the background image)
     QRegularExpression regexSolidWhite("solid white");
@@ -112,5 +89,7 @@ void MainWindow::removeColorButton() {
     //TODO: go back into the model and remove the specific color from the vector.
     colorPaletteButtonGroup->removeButton(currentColorButton);
     delete currentColorButton;
+    //TODO: THIS IS WRONGGGGGGGGGGGG!
+    emit colorDeleted(0);
 }
 
