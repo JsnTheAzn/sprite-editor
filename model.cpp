@@ -2,22 +2,20 @@
 #include "filemanager.h"
 
 Model::Model(QObject* parent) :
-    QObject(parent) {
+    QObject(parent),
+    sprite(parent) {
 
+    tool = new Tool();
 }
 
+Tool::Tools Model::getTool() {
+    return tool->getCurrentTool();
+}
 
-    // void fillToolCall (x, y, color[4]) {
-    //     Find the current color at x, y;
+void Model::setTool(Tool::Tools clickedTool) {
+    tool->setCurrentTool(clickedTool);
+}
 
-    //     Call a recursive method and pass through (x, y, color, and old color);
-    // }
-
-    // void recursive (x, y, const ref newColor, const ref oldColor) {
-    //     Use the sprite setPixel method with (x, y, color);
-    //     Check the pixel above. If all the rgb values match with oldColor, call recursive(x, y-1, newColor, oldColor);
-    //     Check the pixel right. If all the rgb values match with oldColor, call recursive(x+1, y, newColor, oldColor);
-    //     Check the pixel below. If all the rgb values match with oldColor, call recursive(x, y+1, newColor, oldColor);
-    //     Check the pixel left. If all the rgb values match with oldColor, call recursive(x-1, y, newColor, oldColor);
-    // }
-// }
+void Model::useTool(Sprite *sprite, int x, int y, const int (&rgba)[4]) {
+    tool->useTool(sprite, x, y);
+}

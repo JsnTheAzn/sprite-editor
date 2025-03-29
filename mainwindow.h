@@ -2,8 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMouseEvent>
+#include <QGraphicsScene>
+#include "colorpalette.h"
 #include "filemanager.h"
 #include "model.h"
+#include "sprite.h"
+#include "tool.h"
 #include <QPushButton>
 #include <QListWidget>
 #include "colorpalette.h"
@@ -21,6 +26,10 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+protected:
+    void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+
 public:
     MainWindow(Model* model, QWidget *parent = nullptr);
     ~MainWindow();
@@ -32,20 +41,31 @@ public slots:
     void addNewColorButton(QColor color);
     void selectedColor(QAbstractButton *button);
     void removeColorButton();
+    void drawSpriteFrame(int frame);
 
 private:
     QButtonGroup *colorPaletteButtonGroup;
     Ui::MainWindow *ui;
-    FileManager *fileManager;
     ColorPalette *colorPalette;
+    FileManager *fileManager;
+    Model *model;
+    Sprite *sprite;
+    Tool *tool;
+    QImage image;
+    QGraphicsScene *graphic;
+
+
+    int canvasX;
+    int canvasY;
+    bool newPosition;
+
+    /**
+     * @brief checkMouseBounds - Boolean statement to declare whether or not the current position
+     * of the mouse is within the bounds of the canvas.
+     * @return True if the mouse is inside of the canvas widget.
+     */
+    bool checkMouseBounds();
+
     QAbstractButton *currentColorButton;
-    // QListWidget *colorList;
-    // QPushButton *addColorButton;
-    // QPushButton *removeColorButton;
-    // QPushButton *savePaletteButton;
-    // QPushButton *loadPaletteButton;
-
-    // void updateColorList();
-
 #endif // MAINWINDOW_H
 };
