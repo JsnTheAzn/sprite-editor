@@ -5,7 +5,7 @@ Tool::Tool(QObject* parent) :
     QObject(parent) {
     currentTool = Tools::Pen;
     for (int i = 0; i < 4; i++)
-        rgba[i] = 0;
+        currentColor[i] = 0;
 }
 
 Tool::Tools Tool::getCurrentTool() {
@@ -16,25 +16,26 @@ void Tool::setCurrentTool(Tools tool) {
     currentTool = tool;
 }
 
-void Tool::useTool(Sprite *sprite, int x, int y, const int (&rgba)[4]) {
+void Tool::useTool(Sprite *sprite, int x, int y) {
     int erase[4] = {0, 0, 0, 0};
     switch(currentTool) {
     case Tools::Pen:
-        sprite->updatePixel(x, y, rgba);
+        sprite->updatePixel(x, y, currentColor);
         break;
     case Tools::Eraser:
         sprite->updatePixel(x, y, erase);
         break;
     case Tools::PaintBucket:
-        fillToolCall(sprite, x, y, rgba);
+        fillToolCall(sprite, x, y);
         break;
     }
+}
     
 void Tool::setCurrentColor(const int (&newColor)[4]) {
-    rgba[0] = newColor[0];
-    rgba[1] = newColor[1];
-    rgba[2] = newColor[2];
-    rgba[3] = newColor[3];
+    currentColor[0] = newColor[0];
+    currentColor[1] = newColor[1];
+    currentColor[2] = newColor[2];
+    currentColor[3] = newColor[3];
 }
 
 void Tool::fillToolCall (Sprite *sprite, int x, int y) {
@@ -50,7 +51,7 @@ void Tool::fillToolCall (Sprite *sprite, int x, int y) {
     sprite->getPixel(x, y, oldColor);
 
     //Call recursive method.
-    recursiveFill(sprite, x, y, rgba, oldColor);
+    recursiveFill(sprite, x, y, currentColor, oldColor);
 }
 
 void Tool::recursiveFill (Sprite *sprite, int x, int y, const int (*newColor), const int (*oldColor)) {
@@ -60,11 +61,11 @@ void Tool::recursiveFill (Sprite *sprite, int x, int y, const int (*newColor), c
         return;
     }
 
-    int currentColor[4];
-    sprite->getPixel(x, y, currentColor);
+    int returnColor[4];
+    sprite->getPixel(x, y, returnColor);
     //Base case
-    if (currentColor[0] == newColor[0] && currentColor[1] == newColor[1] &&
-        currentColor[2] == newColor[2] && currentColor[3] == newColor[3]) {
+    if (returnColor[0] == newColor[0] && returnColor[1] == newColor[1] &&
+        returnColor[2] == newColor[2] && returnColor[3] == newColor[3]) {
         return;
     }
 
@@ -114,4 +115,3 @@ void Tool::recursiveFill (Sprite *sprite, int x, int y, const int (*newColor), c
         }
     }
 }
-

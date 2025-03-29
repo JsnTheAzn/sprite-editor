@@ -45,7 +45,7 @@ public:
      * @param y - The y coordinate.
      * @param rgba - The RGBA values.
      */
-    void useTool(Sprite *sprite, int x, int y, const int (&rgba)[4]);
+    void useTool(Sprite *sprite, int x, int y);
 
     void setCurrentColor(const int (&rgba)[4]);
 
@@ -62,9 +62,9 @@ private:
      * @param y - The y coordinate.
      * @param rgba - The RGBA values.
      */
-    void fillToolCall (Sprite *sprite, int x, int y, const int *rgba);
+    void fillToolCall (Sprite *sprite, int x, int y);
 
-    int rgba[4];
+    int currentColor[4];
 
     /**
      * @brief recursiveFill - Fills an area at the specified x & y, replacing old colors with the new RGBA values.

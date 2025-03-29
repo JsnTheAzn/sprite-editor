@@ -16,5 +16,5 @@ void Model::setTool(Tool::Tools clickedTool) {
 }
 
 void Model::useTool(Sprite *sprite, int x, int y, const int (&rgba)[4]) {
-    tool->useTool(sprite, x, y, rgba);
+    tool->useTool(sprite, x, y);
 }
