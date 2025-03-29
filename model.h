@@ -6,6 +6,7 @@
 #include "colorpalette.h"
 #include "filemanager.h"
 #include "versionhistory.h"
+#include "tool.h"
 
 class Model : public QObject
 {
@@ -35,6 +36,11 @@ private:
     VersionHistory versionHistory;
 
     /**
+     * @brief tool - Manages the tools and their properties.
+     */
+    Tool *tool;
+
+    /**
      * @brief currFrame - Stores the currently showcased frame on the animation preview.
      */
     int currFrame;
@@ -62,12 +68,28 @@ private:
     void nextFrame();
 
 public:
-    /**
-     * @brief Model - the constructor for the model object.
-     * @param parent - the parent object, set to nullptr by default.
-     */
-    Model(QObject* parent = nullptr);
+    explicit Model(QObject *parent = nullptr);
 
+    /**
+     * @brief getTool - Gets the current used by the user.
+     * @return The current tool used.
+     */
+    Tool::Tools getTool();
+
+    /**
+     * @brief setTool - Sets to the tool clicked by the user.
+     * @param clickedTool - The tool clicked by the user.
+     */
+    void setTool(Tool::Tools clickedTool);
+
+    /**
+     * @brief useTool - Uses the specified tool at the given x & y coordinates, alongside utilizing the RGBA values given.
+     * @param sprite - The sprite instance utilized.
+     * @param x - The x coordinate.
+     * @param y - The y coordinate.
+     * @param rgba - The RGBA values.
+     */
+    void useTool(Sprite *sprite, int x, int y, const int (&rgba)[4]);
 
 public slots:
 
