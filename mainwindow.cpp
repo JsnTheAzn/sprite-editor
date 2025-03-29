@@ -20,6 +20,8 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     fileManager = new FileManager();
     colorPalette = new ColorPalette();
     colorPaletteButtonGroup = new QButtonGroup(this);
+    versionHistory = new VersionHistory();
+
     currentColorButton = nullptr;
 
     //view to model
@@ -36,6 +38,16 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     //view to... erm... view?
     connect(colorPaletteButtonGroup, &QButtonGroup::buttonClicked, this, &MainWindow::selectedColor);
     connect(ui->removeColor, &QPushButton::clicked, this, &MainWindow::removeColorButton);
+
+    connect(colorPalette, &ColorPalette::removeColorSignal, this, &MainWindow::removeColorButton);
+
+    connect(colorPalette, &ColorPalette::clearColorPalette, this, &MainWindow::clearColorPalette);
+
+    connect(ui->versionHistoryComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::onVersionSelected);
+
+    connect(versionHistory, &VersionHistory::versionChanged, this, &MainWindow::updateSprite);
+
+
 }
 
 MainWindow::~MainWindow()
@@ -70,6 +82,8 @@ void MainWindow::addNewColorButton(QColor color)
 }
 
 void MainWindow::selectedColor(QAbstractButton *button) {
+    if (!button) return;
+
     //TODO: I still have to make the REGEX to actually gnab the color (stored as the background image)
     QRegularExpression regexSolidWhite("solid white");
     QRegularExpression regexSolidBlack("solid black");
@@ -87,9 +101,36 @@ void MainWindow::selectedColor(QAbstractButton *button) {
 
 void MainWindow::removeColorButton() {
     //TODO: go back into the model and remove the specific color from the vector.
-    colorPaletteButtonGroup->removeButton(currentColorButton);
-    delete currentColorButton;
+    if (currentColorButton) {
+        colorPaletteButtonGroup->removeButton(currentColorButton);
+        delete currentColorButton;
+        currentColorButton = nullptr;
+    }
     //TODO: THIS IS WRONGGGGGGGGGGGG!
     emit colorDeleted(0);
 }
+
+void MainWindow::clearColorPalette() {
+    // Remove all buttons from the palette UI
+    for (QAbstractButton* button : colorPaletteButtonGroup->buttons()) {
+        colorPaletteButtonGroup->removeButton(button);
+        delete button;
+    }
+}
+
+void MainWindow::onVersionSelected(int index) {
+    versionHistory->versionClicked(index);
+}
+
+void MainWindow::onSpriteModified(const Sprite& newSprite) {
+    versionHistory->addHistory(newSprite);
+    ui->versionHistoryComboBox->addItem("Version " + QString::number(ui->versionHistoryComboBox->count() + 1));
+}
+
+void MainWindow::updateSprite(const Sprite& sprite) {
+    // Update the sprite display with the selected version
+}
+
+
+
 

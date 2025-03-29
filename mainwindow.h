@@ -10,6 +10,7 @@
 #include <QColor>
 #include <QGridLayout>
 #include <QButtonGroup>
+#include "versionhistory.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -32,6 +33,10 @@ public slots:
     void addNewColorButton(QColor color);
     void selectedColor(QAbstractButton *button);
     void removeColorButton();
+    void clearColorPalette();
+    void onVersionSelected(int index);
+    void onSpriteModified(const Sprite& newSprite);
+    void updateSprite(const Sprite& sprite);
 
 private:
     QButtonGroup *colorPaletteButtonGroup;
@@ -39,13 +44,7 @@ private:
     FileManager *fileManager;
     ColorPalette *colorPalette;
     QAbstractButton *currentColorButton;
-    // QListWidget *colorList;
-    // QPushButton *addColorButton;
-    // QPushButton *removeColorButton;
-    // QPushButton *savePaletteButton;
-    // QPushButton *loadPaletteButton;
-
-    // void updateColorList();
+    VersionHistory* versionHistory;
 
 #endif // MAINWINDOW_H
 };

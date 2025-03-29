@@ -14,16 +14,20 @@ private:
 
     vector<Sprite> historyVector;
 
-    void deleteFutureHistory(int position);
+    void deleteFutureHistory(size_t position);
 
 public:
     VersionHistory();
 
-    void versionClicked();
+    void versionClicked(size_t index);
 
-    void addHistory();
+    void addHistory(const Sprite& sprite);
 
-    void deleteHistory(int position);
+    void deleteHistory(size_t position);
+
+signals:
+    void versionChanged(const Sprite& sprite);
+
 };
 
 #endif // VERSIONHISTORY_H
