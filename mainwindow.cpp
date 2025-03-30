@@ -18,7 +18,6 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     ui->setupUi(this);
 
     setMouseTracking(true);
-    fileManager = new FileManager();
     canvasX = 0;
     canvasY = 0;
     newPosition = true;
@@ -41,8 +40,8 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
       
     // CONNECTIONS:
     //view to model
-    connect(ui->saveButton, &QPushButton::clicked, fileManager, &FileManager::saveButtonClicked);
-    connect(ui->loadButton, &QPushButton::clicked, fileManager, &FileManager::loadButtonClicked);
+    connect(ui->saveButton, &QPushButton::clicked, model, &Model::saveSprite);
+    connect(ui->loadButton, &QPushButton::clicked, model, &Model::loadSprite);
     connect(ui->addColor, &QPushButton::clicked, colorPalette, &ColorPalette::addColor);
     connect(this, &MainWindow::colorDeleted, colorPalette, &ColorPalette::removeColor);
 
@@ -62,7 +61,6 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete fileManager;
     delete tool;
     delete graphic;
     delete sprite;

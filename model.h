@@ -93,6 +93,18 @@ public:
 
 public slots:
 
+    /**
+     * @brief saveSprite - executes the necessary code to save the sprite as
+     * a .ssp file.
+     */
+    void saveSprite();
+
+    /**
+     * @brief loadSprite - executes the necessary code to load the sprite from
+     * a .ssp file.
+     */
+    void loadSprite();
+
 };
 
 #endif // MODEL_H
