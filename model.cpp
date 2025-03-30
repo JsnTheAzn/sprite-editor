@@ -3,17 +3,48 @@
 Model::Model(QObject* parent) :
     QObject(parent) {
 
+    sprite = new Sprite();
     tool = new Tool();
     sprite = new Sprite();
+}
+
+Model::~Model(){
+    delete tool;
+    delete sprite;
+}
+
+Sprite* Model::getSpritePtr() {
+    return sprite;
+}
+
+Tool* Model::getToolPtr(){
+    return tool;
+}
+
+//TOOL METHODS
+void Model::setTool(Tool::Tools clickedTool) {
+    tool->setCurrentTool(clickedTool);
+}
+void Model::setToolColor(const int (&rgba)[4]) {
+    tool->setCurrentColor(rgba);
+}
+
+//FILEMANAGER METHODS
+void Model::saveSprite(){
+    fileManager.saveButtonClicked();
+    //fileManager.saveFile(sprite);
+}
+
+void Model::loadSprite(){
+    fileManager.loadButtonClicked();
 }
 
 Tool::Tools Model::getTool() {
     return tool->getCurrentTool();
 }
 
-void Model::setTool(Tool::Tools clickedTool) {
-    tool->setCurrentTool(clickedTool);
-}
+//COLORPALETTE
+void Model::addColorToPalette(){
 
 void Model::useTool(Sprite *sprite, int x, int y) {
     tool->useTool(sprite, x, y);

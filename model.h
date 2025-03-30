@@ -15,9 +15,14 @@ class Model : public QObject
 private:
 
     /**
-     * @brief sprite - Stores the image and frame data for the current sprite.
+     * @brief sprite - Stores a refrence to the image and frame data for the current sprite.
      */
-    Sprite *sprite;
+    Sprite* sprite;
+
+    /**
+     * @brief tool - Manages the tools and their properties.
+     */
+    Tool *tool;
 
     /**
      * @brief colorPalette - Stores all colors in the loaded palette.
@@ -34,11 +39,6 @@ private:
      * @brief versionHistory - Manages and stores the recent history for the current session.
      */
     VersionHistory *versionHistory;
-
-    /**
-     * @brief tool - Manages the tools and their properties.
-     */
-    Tool *tool;
 
     /**
      * @brief currFrame - Stores the currently showcased frame on the animation preview.
@@ -68,7 +68,17 @@ private:
     void nextFrame();
 
 public:
+
+    /**
+     * @brief Model - constructs a model object.
+     * @param parent
+     */
     explicit Model(QObject *parent = nullptr);
+
+    /**
+     * @brief destructor for the Model class.
+     */
+    ~Model();
 
     /**
      * @brief getTool - Gets the current used by the user.
@@ -83,11 +93,16 @@ public:
     void setTool(Tool::Tools clickedTool);
 
     /**
-     * @brief useTool - Uses the specified tool at the given x & y coordinates, alongside utilizing the RGBA values given.
-     * @param sprite - The sprite instance utilized.
-     * @param x - The x coordinate.
-     * @param y - The y coordinate.
-     * @param rgba - The RGBA values.
+     * @brief setToolColor
+     * @param rgba - sets the color of the current tool, where rgba[0]
+     * is red, rgba[1] is green, rgba[2] is blue, and rgba[3] is alpha.
+     */
+    void setToolColor(const int (&rgba)[4]);
+
+    /**
+     * @brief getSpritePtr - returns a pointer to the sprite object stored
+     * in the Model.
+     * @return the pointer to the Model's sprite.
      */
     void useTool(Sprite *sprite, int x, int y);
 
@@ -96,6 +111,15 @@ public:
      * @return
      */
     Sprite* getSprite();
+    
+    Sprite* getSpritePtr();
+
+    /**
+     * @brief getSpritePtr - returns a pointer to the tool object stored
+     * in the Model.
+     * @return the pointer to the Model's tool.
+     */
+    Tool* getToolPtr();
 
 public slots:
     /**
@@ -104,6 +128,23 @@ public slots:
      * @param frames - The image data frames.
      */
     void loadCanvas(int width, std::vector<int> &frames);
+    
+    /**
+     * @brief saveSprite - executes the necessary code to save the sprite as
+     * a .ssp file.
+     */
+    void saveSprite();
+
+    /**
+     * @brief loadSprite - executes the necessary code to load the sprite from
+     * a .ssp file.
+     */
+    void loadSprite();
+
+    /**
+     * @brief addColorToPalette - adds a color to colorPalette
+     */
+    void addColorToPalette();
 
 signals:
     void updateSprite();

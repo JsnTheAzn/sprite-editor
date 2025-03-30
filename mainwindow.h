@@ -43,13 +43,12 @@ public slots:
     void removeColorButton();
     void drawSpriteFrame(int frame);
     void updateSprite();
+    void clearColorPalette();
 
 private:
     QButtonGroup *colorPaletteButtonGroup;
     Ui::MainWindow *ui;
     ColorPalette *colorPalette;
-    FileManager *fileManager;
-    Model *model;
     Sprite *sprite;
     Tool *tool;
     QImage image;
