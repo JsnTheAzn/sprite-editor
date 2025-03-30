@@ -18,12 +18,11 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     ui->setupUi(this);
 
     setMouseTracking(true);
-    fileManager = new FileManager();
     canvasX = 0;
     canvasY = 0;
     newPosition = true;
-    tool = new Tool();
-    sprite = new Sprite();
+    tool = model->getToolPtr();
+    sprite = model->getSpritePtr();
 
     // DELETE:::::: \/
     tool->setCurrentColor({100, 100, 100, 255});
@@ -41,8 +40,8 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
       
     // CONNECTIONS:
     //view to model
-    connect(ui->saveButton, &QPushButton::clicked, fileManager, &FileManager::saveButtonClicked);
-    connect(ui->loadButton, &QPushButton::clicked, fileManager, &FileManager::loadButtonClicked);
+    connect(ui->saveButton, &QPushButton::clicked, model, &Model::saveSprite);
+    connect(ui->loadButton, &QPushButton::clicked, model, &Model::loadSprite);
     connect(ui->addColor, &QPushButton::clicked, colorPalette, &ColorPalette::addColor);
     connect(this, &MainWindow::colorDeleted, colorPalette, &ColorPalette::removeColor);
 
@@ -61,11 +60,10 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    tool = nullptr;
+    sprite = nullptr;
     delete ui;
-    delete fileManager;
-    delete tool;
     delete graphic;
-    delete sprite;
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
@@ -82,8 +80,6 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
         // Normalize
         mouseX = mouseX - canvas->pos().x();
         mouseY = mouseY - canvas->pos().y();
-
-        // qDebug() << "mouse at " << mouseX << ", " << mouseY;
 
         // Project into Canvas Coords
         canvasX = (int)(mouseX / (canvas->width() / sprite->getWidth()));
@@ -126,10 +122,13 @@ void MainWindow::drawSpriteFrame(int frame) {
     int width = sprite->getWidth();
     int oldFrame = sprite->getFrame();
     sprite->setCurrentFrame(frame);
+
     int pixelColors[4];
+
     for (int row = 0; row < width; row++) {
         for (int col = 0; col < width; col++) {
-            sprite->getPixel(row, col, pixelColors);
+
+            sprite->getPixel(row, col, pixelColors); //get pixel location & colors
             image.setPixel(row, col,
                            qRgba(pixelColors[0], pixelColors[1], pixelColors[2], pixelColors[3]));
         }
@@ -184,6 +183,10 @@ void MainWindow::selectedColor(QAbstractButton *button) {
     QString currentStyle = button->styleSheet();
     currentStyle.replace(regexSolidBlack, "solid white");
     currentColorButton->setStyleSheet(currentStyle);
+
+    //set color:
+    QColor newColor = currentColorButton->palette().color(QPalette::Button);
+    tool->setCurrentColor({newColor.red(), newColor.green(), newColor.blue(), 255});
 }
 
 void MainWindow::removeColorButton() {

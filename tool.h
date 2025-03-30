@@ -47,6 +47,11 @@ public:
      */
     void useTool(Sprite *sprite, int x, int y);
 
+    /**
+     * @brief setCurrentColor - sets the tool's current color.
+     * @param rgba - a size-4 int array holding the values for
+     * red, green, blue, and alpha respectively.
+     */
     void setCurrentColor(const int (&rgba)[4]);
 
 private:
