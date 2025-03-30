@@ -46,6 +46,9 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     connect(ui->saveButton, &QPushButton::clicked, model, &Model::saveSprite);
     connect(ui->loadButton, &QPushButton::clicked, model, &Model::loadSprite);
     connect(ui->addColor, &QPushButton::clicked, colorPalette, &ColorPalette::addColor);
+    connect(ui->eraseButton, &QPushButton::clicked, model, [model]{model->setTool(Tool::Tools::Eraser);});
+    connect(ui->paintButton, &QPushButton::clicked, model, [model]{model->setTool(Tool::Tools::Pen);});
+    connect(ui->fillButton, &QPushButton::clicked, model, [model]{model->setTool(Tool::Tools::PaintBucket);});
     connect(this, &MainWindow::colorDeleted, colorPalette, &ColorPalette::removeColor);
 
     //model to view

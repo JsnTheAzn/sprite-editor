@@ -194,7 +194,7 @@
       <string>eraser</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="filllButton">
+    <widget class="QPushButton" name="fillButton">
      <property name="geometry">
       <rect>
        <x>30</x>
