@@ -92,7 +92,6 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
     if (newPosition) {
         tool->useTool(sprite, canvasX, canvasY);
         newPosition = false;
-        qDebug() << "mouse at cpos " << canvasX << ", " << canvasY;
     }
 }
 
@@ -112,12 +111,10 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
 
         tool->useTool(sprite, canvasX, canvasY);
         newPosition = true;
-        qDebug() << "MOUSE PRESSED: mouse at cpos " << canvasX << ", " << canvasY;
     }
 }
 
 void MainWindow::drawSpriteFrame(int frame) {
-    qDebug() << "DRAW SPRITE";
 
     int width = sprite->getWidth();
     int oldFrame = sprite->getFrame();
@@ -164,7 +161,6 @@ void MainWindow::addNewColorButton(QColor color)
     newButton->setStyleSheet(styleSheet);
     colorPaletteButtonGroup->addButton(newButton, -1);
     layout->addWidget(newButton);
-    qDebug() << colorPaletteButtonGroup->buttons().count();
 }
 
 void MainWindow::selectedColor(QAbstractButton *button) {
@@ -174,7 +170,6 @@ void MainWindow::selectedColor(QAbstractButton *button) {
     QRegularExpression regexSolidWhite("solid white");
     QRegularExpression regexSolidBlack("solid black");
     if (currentColorButton != nullptr) {
-        qDebug() << "if you see this before it crashed, this is it";
         QString previousStyle = currentColorButton->styleSheet();
         previousStyle.replace(regexSolidWhite, "solid black");
         currentColorButton->setStyleSheet(previousStyle);
