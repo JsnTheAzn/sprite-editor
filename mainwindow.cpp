@@ -81,8 +81,6 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
         mouseX = mouseX - canvas->pos().x();
         mouseY = mouseY - canvas->pos().y();
 
-        // qDebug() << "mouse at " << mouseX << ", " << mouseY;
-
         // Project into Canvas Coords
         canvasX = (int)(mouseX / (canvas->width() / sprite->getWidth()));
         canvasY = (int)(mouseY / (canvas->width() / sprite->getWidth()));
@@ -124,10 +122,13 @@ void MainWindow::drawSpriteFrame(int frame) {
     int width = sprite->getWidth();
     int oldFrame = sprite->getFrame();
     sprite->setCurrentFrame(frame);
+
     int pixelColors[4];
+
     for (int row = 0; row < width; row++) {
         for (int col = 0; col < width; col++) {
-            sprite->getPixel(row, col, pixelColors);
+
+            sprite->getPixel(row, col, pixelColors); //get pixel location & colors
             image.setPixel(row, col,
                            qRgba(pixelColors[0], pixelColors[1], pixelColors[2], pixelColors[3]));
         }
@@ -182,6 +183,10 @@ void MainWindow::selectedColor(QAbstractButton *button) {
     QString currentStyle = button->styleSheet();
     currentStyle.replace(regexSolidBlack, "solid white");
     currentColorButton->setStyleSheet(currentStyle);
+
+    //set color:
+    QColor newColor = currentColorButton->palette().color(QPalette::Button);
+    tool->setCurrentColor({newColor.red(), newColor.green(), newColor.blue(), 255});
 }
 
 void MainWindow::removeColorButton() {

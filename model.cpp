@@ -42,3 +42,8 @@ void Model::loadSprite(){
 Tool::Tools Model::getTool() {
     return tool->getCurrentTool();
 }
+
+//COLORPALETTE
+void Model::addColorToPalette(){
+
+}

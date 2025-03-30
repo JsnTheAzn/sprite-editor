@@ -126,6 +126,11 @@ public slots:
      */
     void loadSprite();
 
+    /**
+     * @brief addColorToPalette - adds a color to colorPalette
+     */
+    void addColorToPalette();
+
 };
 
 #endif // MODEL_H
