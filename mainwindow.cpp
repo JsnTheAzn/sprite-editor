@@ -67,6 +67,8 @@ MainWindow::~MainWindow()
 {
     tool = nullptr;
     sprite = nullptr;
+    model = nullptr;
+    delete fileManager;
     delete ui;
     delete graphic;
 }
@@ -174,7 +176,6 @@ void MainWindow::addNewColorButton(QColor color) {
 void MainWindow::selectedColor(QAbstractButton *button) {
     if (!button) return;
 
-    //TODO: I still have to make the REGEX to actually gnab the color (stored as the background image)
     QRegularExpression regexSolidWhite("solid white");
     QRegularExpression regexSolidBlack("solid black");
     if (currentColorButton != nullptr) {
