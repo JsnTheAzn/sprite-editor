@@ -25,6 +25,8 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     newPosition = true;
     tool = model->getToolPtr();
     sprite = model->getSpritePtr();
+    //undoButton = model->something; // Need to connect from model
+    //redoButton = model->something; // Need to connect from model
 
     fileManager->setSprite(sprite);
     // DELETE:::::: \/
@@ -66,6 +68,11 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     // model to model
     connect(sprite, &Sprite::drawFrame, this, &MainWindow::drawSpriteFrame);
     connect(fileManager, &FileManager::loadCanvas, model, &Model::loadCanvas);
+
+    // Version History
+    connect(undoButton, &QPushButton::clicked, &versionHistory, &VersionHistory::undo);
+    connect(redoButton, &QPushButton::clicked, &versionHistory, &VersionHistory::redo);
+    connect(&versionHistory, &VersionHistory::historyChanged, this, &MainWindow::updateSprite);
 }
 
 MainWindow::~MainWindow()

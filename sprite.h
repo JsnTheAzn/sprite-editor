@@ -48,6 +48,19 @@ public:
     ~Sprite();
 
     /**
+     * @brief Sprite - Copy Constructor for the Sprite Object
+     * @param other - other Sprite Object to copy
+     */
+    Sprite(const Sprite& other);
+
+    /**
+     * @brief operator = - Copy assignment operator using swap
+     * @param other - other Sprite object to copy
+     * @return values swapped between the two
+     */
+    Sprite& operator=(Sprite other);
+
+    /**
      * @brief resize - Updates the canvas size and crops the image accordingly. Anchors the crop
      * to the top left of the image.
      * @param newWidth - The new side length to set the canvas to (in pixels).

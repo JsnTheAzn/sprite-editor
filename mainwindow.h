@@ -15,6 +15,7 @@
 #include <QColor>
 #include <QGridLayout>
 #include <QButtonGroup>
+#include "versionhistory.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -55,6 +56,9 @@ private:
     Tool *tool;
     QImage image;
     QGraphicsScene *graphic;
+    QPushButton* undoButton;
+    QPushButton* redoButton;
+    VersionHistory versionHistory;
 
 
     int canvasX;
