@@ -15,7 +15,7 @@ ColorPalette::ColorPalette(QObject *parent) : QObject{parent} {
 
 void ColorPalette::addColor() {
     if (colors.size() <= 8) {
-        QColor selectedColor = QColorDialog::getColor(Qt::white, nullptr, "Select Color");
+        QColor selectedColor = QColorDialog::getColor(Qt::white, nullptr, "Select Color", QColorDialog::ShowAlphaChannel);
         if (selectedColor.isValid()) {
             colors.append(selectedColor);
             emit addNewColorButtonSignal(selectedColor);
@@ -23,10 +23,12 @@ void ColorPalette::addColor() {
     }
 }
 
-void ColorPalette::removeColor(int colorIndex) {
-    // if (colorIndex >= 0 && colorIndex < colors.size()) {
-    //     colors.removeAt(colorIndex);
-    // }
+void ColorPalette::removeColor(QColor color) {
+    int index = colors.indexOf(color); // Find the index of the color
+    if (index != -1) {
+        colors.removeAt(index);
+        emit removeColorSignal(color); // Notify UI to remove the button
+    }
 }
 
 void ColorPalette::savePalette() {
@@ -84,6 +86,7 @@ void ColorPalette::loadPalette() {
     QJsonObject rootObj = doc.object();
     QJsonArray colorsArray = rootObj["colors"].toArray();
 
+    emit clearColorPalette();
     colors.clear();
 
     for (const QJsonValue &value : colorsArray) {
@@ -101,9 +104,6 @@ void ColorPalette::loadPalette() {
     qDebug() << "Loaded" << colors.size() << "colors from" << fileName;
 }
 
-void ColorPalette::selectColor() {
-
-}
 
 QVector<QColor> ColorPalette::getColors() const {
     return colors;

@@ -17,46 +17,151 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
 {
     ui->setupUi(this);
 
+    setMouseTracking(true);
     fileManager = new FileManager();
+    this->model = model;
+    canvasX = 0;
+    canvasY = 0;
+    newPosition = true;
+    tool = model->getToolPtr();
+    sprite = model->getSpritePtr();
+    undoButton = model->something; // Need to connect from model
+    redoButton = model->something; // Need to connect from model
+
+    fileManager->setSprite(sprite);
+    // DELETE:::::: \/
+    tool->setCurrentColor({100, 100, 100, 255});
+    // /\
+
+    // IMAGE SETUP:
+    image = QImage(sprite->getWidth(), sprite->getWidth(), QImage::Format_RGBA32FPx4);
+    graphic = new QGraphicsScene(this);
+    graphic->addPixmap(QPixmap::fromImage(image));    
+    
+    //COLOR PALETTE SETUP
     colorPalette = new ColorPalette();
     colorPaletteButtonGroup = new QButtonGroup(this);
-    versionHistory = new VersionHistory();
-
     currentColorButton = nullptr;
-
+      
+    // CONNECTIONS:
     //view to model
     connect(ui->saveButton, &QPushButton::clicked, fileManager, &FileManager::saveButtonClicked);
     connect(ui->loadButton, &QPushButton::clicked, fileManager, &FileManager::loadButtonClicked);
     connect(ui->addColor, &QPushButton::clicked, colorPalette, &ColorPalette::addColor);
+    connect(ui->eraseButton, &QPushButton::clicked, model, [model]{model->setTool(Tool::Tools::Eraser);});
+    connect(ui->paintButton, &QPushButton::clicked, model, [model]{model->setTool(Tool::Tools::Pen);});
+    connect(ui->fillButton, &QPushButton::clicked, model, [model]{model->setTool(Tool::Tools::PaintBucket);});
     connect(this, &MainWindow::colorDeleted, colorPalette, &ColorPalette::removeColor);
 
     //model to view
     connect(colorPalette, &ColorPalette::addNewColorButtonSignal, this, &MainWindow::addNewColorButton);
     connect(ui->savePaletteButton, &QPushButton::clicked, colorPalette, &ColorPalette::savePalette);
     connect(ui->loadPaletteButton, &QPushButton::clicked, colorPalette, &ColorPalette::loadPalette);
-  
+    connect(model, &Model::updateSprite, this, &MainWindow::updateSprite);
+    connect(colorPalette, &ColorPalette::removeColorSignal, this, &MainWindow::removeColorButton);
+    connect(colorPalette, &ColorPalette::clearColorPalette, this, &MainWindow::clearColorPalette);
+    
     //view to... erm... view?
     connect(colorPaletteButtonGroup, &QButtonGroup::buttonClicked, this, &MainWindow::selectedColor);
     connect(ui->removeColor, &QPushButton::clicked, this, &MainWindow::removeColorButton);
 
-    connect(colorPalette, &ColorPalette::removeColorSignal, this, &MainWindow::removeColorButton);
+    // model to model
+    connect(sprite, &Sprite::drawFrame, this, &MainWindow::drawSpriteFrame);
+    connect(fileManager, &FileManager::loadCanvas, model, &Model::loadCanvas);
 
-    connect(colorPalette, &ColorPalette::clearColorPalette, this, &MainWindow::clearColorPalette);
-
-    connect(ui->versionHistoryComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::onVersionSelected);
-
-    connect(versionHistory, &VersionHistory::versionChanged, this, &MainWindow::updateSprite);
-
-
+    // Version History
+    connect(undoButton, &QPushButton::clicked, &versionHistory, &VersionHistory::undo);
+    connect(redoButton, &QPushButton::clicked, &versionHistory, &VersionHistory::redo);
+    connect(&versionHistory, &VersionHistory::historyChanged, this, &MainWindow::updateSprite);
 }
 
 MainWindow::~MainWindow()
 {
+    tool = nullptr;
+    sprite = nullptr;
+    model = nullptr;
+    delete fileManager;
     delete ui;
+    delete graphic;
 }
 
-void MainWindow::addNewColorButton(QColor color)
-{
+void MainWindow::mouseMoveEvent(QMouseEvent *event) {
+    double mouseX = event->position().x();
+    double mouseY = event->position().y();
+
+    int oldCanvasX = canvasX;
+    int oldCanvasY = canvasY;
+    QLabel* canvas = ui->canvas;
+
+    // If the mouse is moved into bounds -> Update canvas coordinates
+    if (mouseX > canvas->pos().x() && mouseX < canvas->width() + canvas->pos().x() &&
+        mouseY > canvas->pos().y() && mouseY < canvas->height() + canvas->pos().y()) {
+        // Normalize
+        mouseX = mouseX - canvas->pos().x();
+        mouseY = mouseY - canvas->pos().y();
+
+        // Project into Canvas Coords
+        canvasX = (int)(mouseX / (canvas->width() / sprite->getWidth()));
+        canvasY = (int)(mouseY / (canvas->width() / sprite->getWidth()));
+
+        if (canvasX != oldCanvasX || canvasY != oldCanvasY)
+            newPosition = true;
+    }
+
+    if (newPosition) {
+        tool->useTool(sprite, canvasX, canvasY);
+        newPosition = false;
+    }
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *event) {
+    double mouseX = event->position().x();
+    double mouseY = event->position().y();
+    QLabel* canvas = ui->canvas;
+
+    if (mouseX > canvas->pos().x() && mouseX < canvas->width() + canvas->pos().x() &&
+        mouseY > canvas->pos().y() && mouseY < canvas->height() + canvas->pos().y()) {
+
+        mouseX = mouseX - canvas->pos().x();
+        mouseY = mouseY - canvas->pos().y();
+
+        canvasX = (int)(mouseX / (canvas->width() / sprite->getWidth()));
+        canvasY = (int)(mouseY / (canvas->width() / sprite->getWidth()));
+
+        tool->useTool(sprite, canvasX, canvasY);
+        newPosition = true;
+    }
+}
+
+void MainWindow::drawSpriteFrame(int frame) {
+
+    int width = sprite->getWidth();
+    int oldFrame = sprite->getFrame();
+    sprite->setCurrentFrame(frame);
+
+    int pixelColors[4];
+
+    for (int row = 0; row < width; row++) {
+        for (int col = 0; col < width; col++) {
+
+            sprite->getPixel(row, col, pixelColors); //get pixel location & colors
+            image.setPixel(row, col,
+                           qRgba(pixelColors[0], pixelColors[1], pixelColors[2], pixelColors[3]));
+        }
+    }
+    graphic->addPixmap(QPixmap::fromImage(image));
+    ui->canvas->setPixmap(QPixmap::fromImage(image).scaled(
+        ui->canvas->size(),
+        Qt::KeepAspectRatio,
+        Qt::FastTransformation));
+    sprite->setCurrentFrame(oldFrame);
+}
+
+void MainWindow::updateSprite() {
+    drawSpriteFrame(sprite->getFrame());
+}
+
+void MainWindow::addNewColorButton(QColor color) {
     QGroupBox *groupBox = findChild<QGroupBox*>("leftPanel");
     if (!groupBox) {
         return;
@@ -78,17 +183,14 @@ void MainWindow::addNewColorButton(QColor color)
     newButton->setStyleSheet(styleSheet);
     colorPaletteButtonGroup->addButton(newButton, -1);
     layout->addWidget(newButton);
-    qDebug() << colorPaletteButtonGroup->buttons().count();
 }
 
 void MainWindow::selectedColor(QAbstractButton *button) {
     if (!button) return;
 
-    //TODO: I still have to make the REGEX to actually gnab the color (stored as the background image)
     QRegularExpression regexSolidWhite("solid white");
     QRegularExpression regexSolidBlack("solid black");
     if (currentColorButton != nullptr) {
-        qDebug() << "if you see this before it crashed, this is it";
         QString previousStyle = currentColorButton->styleSheet();
         previousStyle.replace(regexSolidWhite, "solid black");
         currentColorButton->setStyleSheet(previousStyle);
@@ -97,6 +199,10 @@ void MainWindow::selectedColor(QAbstractButton *button) {
     QString currentStyle = button->styleSheet();
     currentStyle.replace(regexSolidBlack, "solid white");
     currentColorButton->setStyleSheet(currentStyle);
+
+    //set color:
+    QColor newColor = currentColorButton->palette().color(QPalette::Button);
+    tool->setCurrentColor({newColor.red(), newColor.green(), newColor.blue(), 255});
 }
 
 void MainWindow::removeColorButton() {
@@ -117,20 +223,5 @@ void MainWindow::clearColorPalette() {
         delete button;
     }
 }
-
-void MainWindow::onVersionSelected(int index) {
-    versionHistory->versionClicked(index);
-}
-
-void MainWindow::onSpriteModified(const Sprite& newSprite) {
-    versionHistory->addHistory(newSprite);
-    ui->versionHistoryComboBox->addItem("Version " + QString::number(ui->versionHistoryComboBox->count() + 1));
-}
-
-void MainWindow::updateSprite(const Sprite& sprite) {
-    // Update the sprite display with the selected version
-}
-
-
 
 

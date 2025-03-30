@@ -20,8 +20,12 @@
  * https://stackoverflow.com/questions/15893040/how-to-create-read-write-json-files-in-qt5
 */
 
-FileManager::FileManager(QObject *parent) : QObject{parent} {
-    frames = QVector<int>();
+FileManager::FileManager(QObject *parent) : QObject{parent}, sprite(nullptr) {
+
+}
+
+void FileManager::setSprite(Sprite *sprite) {
+    this->sprite = sprite;
 }
 
 void FileManager::saveButtonClicked() {
@@ -34,22 +38,25 @@ void FileManager::saveButtonClicked() {
 
     //This will represent the data of the saved canvas width.
     QJsonObject jsonData;
-    jsonData.insert("Width", width);
+    int width = sprite->getWidth();
+    jsonData["Width"] = width;
 
     int frameSize = (width * width) * 4;
+    vector<int*>& spriteFrames = sprite->getFrames();
 
     //valuesArray will represent the pixel data of the r,g,b,a values.
-    QJsonArray valuesArray;
     //framesArray will represent all the total valuesArray.
     QJsonArray framesArray;
-    for (int i = 0; i < frameSize; i++) {
-        for(int j = 0; j < frames.length(); j++) {
-            valuesArray.append(frames[j]);
+    for (int i = 0; i < spriteFrames.size(); i++) {
+        QJsonArray valuesArray;
+        int* pixelData = spriteFrames[i];
+        for(int j = 0; j < frameSize; j++) {
+            valuesArray.append(pixelData[j]);
         }
         framesArray.append(valuesArray);
     }
 
-    jsonData.insert("Frames", framesArray);
+    jsonData["Frames"] = framesArray;
 
     //Write the data in json to the file.
     QFile file(savedFile);
@@ -63,38 +70,38 @@ void FileManager::saveButtonClicked() {
 void FileManager::loadButtonClicked() {
     QString loadedFile = QFileDialog::getOpenFileName(nullptr, QObject::tr("Load .SSP File"), "C:/", "SSP (*.ssp)");
 
+    if (loadedFile.isEmpty()) {
+        return;
+    }
+
     //Read the json data.
     QFile file(loadedFile);
-    if(file.open(QFile::ReadOnly)) {
-        QTextStream stream(&file);
-        QString jsonString = file.readAll();
-        file.close();
-
-        QJsonDocument jsonDocument = QJsonDocument::fromJson(jsonString.toUtf8());
-        QJsonArray jsonArray = jsonDocument.array();
-
-        //     //The sent json data to be deserialized.
-        //     //QJsonArray jsonData;
-        //     //jsonData >> jsonString;
-
-        //Canvas width is the first data sent, so read it first.
-        width = jsonArray.first().toInt();
-
-        //     //TODO: read the json data as an increment in order to place pixels on canvas.
-
-        //         //Borrowed from assignment 3, utilize to set RGBA values & assist in determining pixel location.
-        //         for(int x = 0; x < width; x++) {
-        //             for(int y = 0; x < width; y++) {
-        //                 if (x < 0 || x >= width || y < 0 || y >= width) {
-        //                     int offset = (y * width + x) * 4;
-        //                     frames[offset + 0] = r; // red
-        //                     frames[offset + 1] = g; // green
-        //                     frames[offset + 2] = b; // blue
-        //                     frames[offset + 3] = a; // alpha (keep at 255 for no transparency)
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+    if (!file.open(QFile::ReadOnly)) {
+        return;
     }
+
+    QByteArray jsonData = file.readAll();
+    file.close();
+
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData);
+    if (jsonDoc.isNull() || !jsonDoc.isObject()) {
+        return;
+    }
+
+    QJsonObject jsonObj = jsonDoc.object();
+    int width = jsonObj["Width"].toInt();
+    QJsonArray jsonFramesArray = jsonObj["Frames"].toArray();
+
+    vector<int> frames;
+
+    for (const QJsonValue &frameValue : jsonFramesArray) {
+        QJsonArray frameArray = frameValue.toArray();
+
+        for (const QJsonValue &frameValue : frameArray) {
+            frames.push_back(frameValue.toInt());
+        }
+    }
+
+    //Load the canvas with the given width and frames.
+    emit loadCanvas(width, frames);
 }

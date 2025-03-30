@@ -1,23 +1,70 @@
 #include "model.h"
-#include "filemanager.h"
 
 Model::Model(QObject* parent) :
     QObject(parent) {
 
+    sprite = new Sprite();
+    tool = new Tool();
 }
 
+Model::~Model(){
+    delete tool;
+    delete sprite;
+}
 
-    // void fillToolCall (x, y, color[4]) {
-    //     Find the current color at x, y;
+Sprite* Model::getSpritePtr() {
+    return sprite;
+}
 
-    //     Call a recursive method and pass through (x, y, color, and old color);
-    // }
+Tool* Model::getToolPtr(){
+    return tool;
+}
 
-    // void recursive (x, y, const ref newColor, const ref oldColor) {
-    //     Use the sprite setPixel method with (x, y, color);
-    //     Check the pixel above. If all the rgb values match with oldColor, call recursive(x, y-1, newColor, oldColor);
-    //     Check the pixel right. If all the rgb values match with oldColor, call recursive(x+1, y, newColor, oldColor);
-    //     Check the pixel below. If all the rgb values match with oldColor, call recursive(x, y+1, newColor, oldColor);
-    //     Check the pixel left. If all the rgb values match with oldColor, call recursive(x-1, y, newColor, oldColor);
-    // }
-// }
+//TOOL METHODS
+void Model::setTool(Tool::Tools clickedTool) {
+    tool->setCurrentTool(clickedTool);
+}
+void Model::setToolColor(const int (&rgba)[4]) {
+    tool->setCurrentColor(rgba);
+}
+
+//FILEMANAGER METHODS
+void Model::saveSprite(){
+    fileManager->saveButtonClicked();
+    //fileManager.saveFile(sprite);
+}
+
+void Model::loadSprite(){
+    fileManager->loadButtonClicked();
+}
+
+Tool::Tools Model::getTool() {
+    return tool->getCurrentTool();
+}
+
+//COLORPALETTE
+void Model::addColorToPalette(){}
+
+void Model::useTool(Sprite *sprite, int x, int y) {
+    tool->useTool(sprite, x, y);
+    emit updateSprite();
+}
+
+void Model::loadCanvas(int width, vector<int> &frames) {
+    sprite->resize(width);
+    vector<int*>& spriteFrames = sprite->getFrames();
+    spriteFrames.clear();
+
+    int frameSize = (width * width) * 4;
+
+    for(int i = 0; i < frames.size() / frameSize; i++) {
+        int *pixelData = new int[frameSize];
+        for (int j = 0; j < frameSize; j++) {
+            pixelData[j] = frames[i * frameSize + j];
+        }
+        spriteFrames.push_back(pixelData);
+    }
+    sprite->setCurrentFrame(0);
+
+    emit updateSprite();
+}

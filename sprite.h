@@ -48,6 +48,19 @@ public:
     ~Sprite();
 
     /**
+     * @brief Sprite - Copy Constructor for the Sprite Object
+     * @param other - other Sprite Object to copy
+     */
+    Sprite(const Sprite& other);
+
+    /**
+     * @brief operator = - Copy assignment operator using swap
+     * @param other - other Sprite object to copy
+     * @return values swapped between the two
+     */
+    Sprite& operator=(Sprite other);
+
+    /**
      * @brief resize - Updates the canvas size and crops the image accordingly. Anchors the crop
      * to the top left of the image.
      * @param newWidth - The new side length to set the canvas to (in pixels).
@@ -76,6 +89,8 @@ public:
      */
     vector<int*>& getFrames();
 
+    int getFrame();
+
     /**
      * @brief getWidth - Returns the side length of the canvas in pixels.
      * @return The number of pixels stored on each side of the canvas.
@@ -90,6 +105,10 @@ public:
      * @param returnArray - The array to store the color data into. Must have a size of 4.
      */
     void getPixel(int x, int y, int (&returnArray)[4]);
+
+signals:
+
+    void drawFrame(int frame);
 };
 
 #endif // SPRITE_H
