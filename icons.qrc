@@ -2,11 +2,11 @@
     <qresource prefix="/background">
         <file>transparency-background.png</file>
     </qresource>
-    <qresource prefix="/app-icons">
+    <qresource prefix="/">
         <file>app-icons/add-color.png</file>
         <file>app-icons/add-next.png</file>
         <file>app-icons/add-prev.png</file>
-        <file>app-icons/confirm-resize.png</file>
+        <file>app-icons/confirm.png</file>
         <file>app-icons/download-colorpalette.png</file>
         <file>app-icons/download-ssp.png</file>
         <file>app-icons/eraser-tool.png</file>
