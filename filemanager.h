@@ -13,26 +13,22 @@ public:
     FileManager(QObject *parent = nullptr);
 
     /**
+     * @brief setSprite
+     * @param sprite
+     */
+    void setSprite(Sprite *sprite);
+
+    /**
      * @brief saveFile - Saves the sprite in .ssp format.
      * @param sprite - The sprite to be saved.
      */
     void saveFile(const Sprite& sprite);
-
-    /**
-     * @brief loadFile - Loads the given .ssp file into the canvas.
-     */
-    Sprite& loadFile();
   
 private:
     /**
-     * @brief width - The width of the canvas to be squared.
+     * @brief sprite - An instance of sprite.
      */
-    int width;
-
-    /**
-     * @brief frames - A vector of ints to keep track of the frames.
-     */
-    QVector<int> frames;
+    Sprite *sprite;
 
 public slots:
     /**
@@ -43,6 +39,14 @@ public slots:
      * @brief loadButtonClicked - Handles when the UI load button is clicked.
      */
     void loadButtonClicked();
+
+signals:
+    /**
+     * @brief loadCanvas - Notifies for the canvas to be updated upon file load.
+     * @param width - The image data width.
+     * @param frames - The image data frames.
+     */
+    void loadCanvas(int width, std::vector<int> &frames);
 };
 
 #endif // FILEMANAGER_H

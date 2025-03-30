@@ -42,6 +42,7 @@ public slots:
     void selectedColor(QAbstractButton *button);
     void removeColorButton();
     void drawSpriteFrame(int frame);
+    void updateSprite();
     void clearColorPalette();
 
 private:

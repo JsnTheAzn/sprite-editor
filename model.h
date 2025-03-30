@@ -27,18 +27,18 @@ private:
     /**
      * @brief colorPalette - Stores all colors in the loaded palette.
      */
-    ColorPalette colorPalette;
+    ColorPalette *colorPalette;
 
     /**
      * @brief fileManager - Manages all saving and loading functionalities for both the Sprite
      * and the ColorPalette.
      */
-    FileManager fileManager;
+    FileManager *fileManager;
 
     /**
      * @brief versionHistory - Manages and stores the recent history for the current session.
      */
-    VersionHistory versionHistory;
+    VersionHistory *versionHistory;
 
     /**
      * @brief currFrame - Stores the currently showcased frame on the animation preview.
@@ -104,6 +104,14 @@ public:
      * in the Model.
      * @return the pointer to the Model's sprite.
      */
+    void useTool(Sprite *sprite, int x, int y);
+
+    /**
+     * @brief getSprite
+     * @return
+     */
+    Sprite* getSprite();
+    
     Sprite* getSpritePtr();
 
     /**
@@ -114,6 +122,13 @@ public:
     Tool* getToolPtr();
 
 public slots:
+    /**
+     * @brief loadCanvas - Notifies for the canvas to be updated upon file load.
+     * @param width - The image data width.
+     * @param frames - The image data frames.
+     */
+    void loadCanvas(int width, std::vector<int> &frames);
+    
     /**
      * @brief saveSprite - executes the necessary code to save the sprite as
      * a .ssp file.
@@ -130,6 +145,9 @@ public slots:
      * @brief addColorToPalette - adds a color to colorPalette
      */
     void addColorToPalette();
+
+signals:
+    void updateSprite();
 
 };
 

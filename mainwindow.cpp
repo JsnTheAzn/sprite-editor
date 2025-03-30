@@ -18,12 +18,15 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     ui->setupUi(this);
 
     setMouseTracking(true);
+    fileManager = new FileManager();
+    this->model = model;
     canvasX = 0;
     canvasY = 0;
     newPosition = true;
     tool = model->getToolPtr();
     sprite = model->getSpritePtr();
 
+    fileManager->setSprite(sprite);
     // DELETE:::::: \/
     tool->setCurrentColor({100, 100, 100, 255});
     // /\
@@ -49,6 +52,7 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     connect(colorPalette, &ColorPalette::addNewColorButtonSignal, this, &MainWindow::addNewColorButton);
     connect(ui->savePaletteButton, &QPushButton::clicked, colorPalette, &ColorPalette::savePalette);
     connect(ui->loadPaletteButton, &QPushButton::clicked, colorPalette, &ColorPalette::loadPalette);
+    connect(model, &Model::updateSprite, this, &MainWindow::updateSprite);
     connect(colorPalette, &ColorPalette::removeColorSignal, this, &MainWindow::removeColorButton);
     connect(colorPalette, &ColorPalette::clearColorPalette, this, &MainWindow::clearColorPalette);
     
@@ -56,6 +60,7 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     connect(colorPaletteButtonGroup, &QButtonGroup::buttonClicked, this, &MainWindow::selectedColor);
     connect(ui->removeColor, &QPushButton::clicked, this, &MainWindow::removeColorButton);
     connect(sprite, &Sprite::drawFrame, this, &MainWindow::drawSpriteFrame);
+    connect(fileManager, &FileManager::loadCanvas, model, &Model::loadCanvas);
 }
 
 MainWindow::~MainWindow()
@@ -136,6 +141,10 @@ void MainWindow::drawSpriteFrame(int frame) {
         Qt::KeepAspectRatio,
         Qt::FastTransformation));
     sprite->setCurrentFrame(oldFrame);
+}
+
+void MainWindow::updateSprite() {
+    drawSpriteFrame(sprite->getFrame());
 }
 
 void MainWindow::addNewColorButton(QColor color)
