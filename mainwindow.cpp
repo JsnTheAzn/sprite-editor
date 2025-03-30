@@ -43,8 +43,8 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
       
     // CONNECTIONS:
     //view to model
-    connect(ui->saveButton, &QPushButton::clicked, model, &Model::saveSprite);
-    connect(ui->loadButton, &QPushButton::clicked, model, &Model::loadSprite);
+    connect(ui->saveButton, &QPushButton::clicked, fileManager, &FileManager::saveButtonClicked);
+    connect(ui->loadButton, &QPushButton::clicked, fileManager, &FileManager::loadButtonClicked);
     connect(ui->addColor, &QPushButton::clicked, colorPalette, &ColorPalette::addColor);
     connect(this, &MainWindow::colorDeleted, colorPalette, &ColorPalette::removeColor);
 
@@ -56,9 +56,11 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     connect(colorPalette, &ColorPalette::removeColorSignal, this, &MainWindow::removeColorButton);
     connect(colorPalette, &ColorPalette::clearColorPalette, this, &MainWindow::clearColorPalette);
     
-      //view to... erm... view?
+    //view to... erm... view?
     connect(colorPaletteButtonGroup, &QButtonGroup::buttonClicked, this, &MainWindow::selectedColor);
     connect(ui->removeColor, &QPushButton::clicked, this, &MainWindow::removeColorButton);
+
+    // model to model
     connect(sprite, &Sprite::drawFrame, this, &MainWindow::drawSpriteFrame);
     connect(fileManager, &FileManager::loadCanvas, model, &Model::loadCanvas);
 }
