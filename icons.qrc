@@ -3,7 +3,22 @@
         <file>transparency-background.png</file>
     </qresource>
     <qresource prefix="/">
-        <file>download-icon.png</file>
-        <file>upload-icon.png</file>
+        <file>app-icons/add-color.png</file>
+        <file>app-icons/add-next.png</file>
+        <file>app-icons/add-prev.png</file>
+        <file>app-icons/confirm.png</file>
+        <file>app-icons/download-colorpalette.png</file>
+        <file>app-icons/download-ssp.png</file>
+        <file>app-icons/eraser-tool.png</file>
+        <file>app-icons/fill-tool.png</file>
+        <file>app-icons/next-frame.png</file>
+        <file>app-icons/paint-tool.png</file>
+        <file>app-icons/prev-frame.png</file>
+        <file>app-icons/redo.png</file>
+        <file>app-icons/remove-color.png</file>
+        <file>app-icons/remove-frame.png</file>
+        <file>app-icons/undo.png</file>
+        <file>app-icons/upload-colorpalette.png</file>
+        <file>app-icons/upload-ssp.png</file>
     </qresource>
 </RCC>

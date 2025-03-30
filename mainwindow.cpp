@@ -25,8 +25,8 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     newPosition = true;
     tool = model->getToolPtr();
     sprite = model->getSpritePtr();
-    undoButton = model->something; // Need to connect from model
-    redoButton = model->something; // Need to connect from model
+    //undoButton = model->something; // Need to connect from model
+    //redoButton = model->something; // Need to connect from model
 
     fileManager->setSprite(sprite);
     // DELETE:::::: \/
