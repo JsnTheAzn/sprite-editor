@@ -21,8 +21,8 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     canvasX = 0;
     canvasY = 0;
     newPosition = true;
-    tool = new Tool();
-    sprite = new Sprite();
+    tool = model->getToolPtr();
+    sprite = model->getSpritePtr();
 
     // DELETE:::::: \/
     tool->setCurrentColor({100, 100, 100, 255});
@@ -60,10 +60,10 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    tool = nullptr;
+    sprite = nullptr;
     delete ui;
-    delete tool;
     delete graphic;
-    delete sprite;
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
