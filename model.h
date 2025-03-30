@@ -17,23 +17,23 @@ private:
     /**
      * @brief sprite - Stores the image and frame data for the current sprite.
      */
-    Sprite sprite;
+    Sprite *sprite;
 
     /**
      * @brief colorPalette - Stores all colors in the loaded palette.
      */
-    ColorPalette colorPalette;
+    ColorPalette *colorPalette;
 
     /**
      * @brief fileManager - Manages all saving and loading functionalities for both the Sprite
      * and the ColorPalette.
      */
-    FileManager fileManager;
+    FileManager *fileManager;
 
     /**
      * @brief versionHistory - Manages and stores the recent history for the current session.
      */
-    VersionHistory versionHistory;
+    VersionHistory *versionHistory;
 
     /**
      * @brief tool - Manages the tools and their properties.
@@ -89,9 +89,24 @@ public:
      * @param y - The y coordinate.
      * @param rgba - The RGBA values.
      */
-    void useTool(Sprite *sprite, int x, int y, const int (&rgba)[4]);
+    void useTool(Sprite *sprite, int x, int y);
+
+    /**
+     * @brief getSprite
+     * @return
+     */
+    Sprite* getSprite();
 
 public slots:
+    /**
+     * @brief loadCanvas - Notifies for the canvas to be updated upon file load.
+     * @param width - The image data width.
+     * @param frames - The image data frames.
+     */
+    void loadCanvas(int width, std::vector<int> &frames);
+
+signals:
+    void updateSprite();
 
 };
 

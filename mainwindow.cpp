@@ -19,12 +19,14 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
 
     setMouseTracking(true);
     fileManager = new FileManager();
+    this->model = model;
     canvasX = 0;
     canvasY = 0;
     newPosition = true;
     tool = new Tool();
-    sprite = new Sprite();
+    sprite = model->getSprite();
 
+    fileManager->setSprite(sprite);
     // DELETE:::::: \/
     tool->setCurrentColor({100, 100, 100, 255});
     // /\
@@ -50,13 +52,13 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     connect(colorPalette, &ColorPalette::addNewColorButtonSignal, this, &MainWindow::addNewColorButton);
     connect(ui->savePaletteButton, &QPushButton::clicked, colorPalette, &ColorPalette::savePalette);
     connect(ui->loadPaletteButton, &QPushButton::clicked, colorPalette, &ColorPalette::loadPalette);
-    connect(colorPalette, &ColorPalette::removeColorSignal, this, &MainWindow::removeColorButton);
-    connect(colorPalette, &ColorPalette::clearColorPalette, this, &MainWindow::clearColorPalette);
-    
-      //view to... erm... view?
+    connect(model, &Model::updateSprite, this, &MainWindow::updateSprite);
+  
+    //view to... erm... view?
     connect(colorPaletteButtonGroup, &QButtonGroup::buttonClicked, this, &MainWindow::selectedColor);
     connect(ui->removeColor, &QPushButton::clicked, this, &MainWindow::removeColorButton);
     connect(sprite, &Sprite::drawFrame, this, &MainWindow::drawSpriteFrame);
+    connect(fileManager, &FileManager::loadCanvas, model, &Model::loadCanvas);
 }
 
 MainWindow::~MainWindow()
@@ -142,6 +144,10 @@ void MainWindow::drawSpriteFrame(int frame) {
     sprite->setCurrentFrame(oldFrame);
 }
 
+void MainWindow::updateSprite() {
+    drawSpriteFrame(sprite->getFrame());
+}
+
 void MainWindow::addNewColorButton(QColor color)
 {
     QGroupBox *groupBox = findChild<QGroupBox*>("leftPanel");
@@ -169,8 +175,6 @@ void MainWindow::addNewColorButton(QColor color)
 }
 
 void MainWindow::selectedColor(QAbstractButton *button) {
-    if (!button) return;
-
     //TODO: I still have to make the REGEX to actually gnab the color (stored as the background image)
     QRegularExpression regexSolidWhite("solid white");
     QRegularExpression regexSolidBlack("solid black");
@@ -188,21 +192,9 @@ void MainWindow::selectedColor(QAbstractButton *button) {
 
 void MainWindow::removeColorButton() {
     //TODO: go back into the model and remove the specific color from the vector.
-    if (currentColorButton) {
-        colorPaletteButtonGroup->removeButton(currentColorButton);
-        delete currentColorButton;
-        currentColorButton = nullptr;
-    }
+    colorPaletteButtonGroup->removeButton(currentColorButton);
+    delete currentColorButton;
     //TODO: THIS IS WRONGGGGGGGGGGGG!
     emit colorDeleted(0);
 }
-
-void MainWindow::clearColorPalette() {
-    // Remove all buttons from the palette UI
-    for (QAbstractButton* button : colorPaletteButtonGroup->buttons()) {
-        colorPaletteButtonGroup->removeButton(button);
-        delete button;
-    }
-}
-
 

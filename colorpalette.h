@@ -14,15 +14,13 @@ private:
 
 signals:
     void addNewColorButtonSignal(QColor color);
-    void removeColorSignal(QColor color);
-    void clearColorPalette();
 
 public slots:
     /**
      * @brief removeColor - Removes color from the color palette
      * @param colorIndex - Based on the color index is what we want to remove
      */
-    void removeColor(QColor color);
+    void removeColor(int colorIndex);
 
 public:
     ColorPalette(QObject *parent = nullptr);
@@ -42,6 +40,10 @@ public:
      */
     void loadPalette();
 
+    /**
+     * @brief selectColor - Method to showcase the selected color on the Color? button
+     */
+    void selectColor();
 
     /**
      * @brief getColors - Gets the colors of the palette
