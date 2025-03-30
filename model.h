@@ -17,7 +17,7 @@ private:
     /**
      * @brief sprite - Stores a refrence to the image and frame data for the current sprite.
      */
-    Sprite* sprite;
+    Sprite *sprite;
 
     /**
      * @brief tool - Manages the tools and their properties.
@@ -105,12 +105,6 @@ public:
      * @return the pointer to the Model's sprite.
      */
     void useTool(Sprite *sprite, int x, int y);
-
-    /**
-     * @brief getSprite
-     * @return
-     */
-    Sprite* getSprite();
     
     Sprite* getSpritePtr();
 

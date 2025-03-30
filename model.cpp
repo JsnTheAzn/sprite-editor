@@ -5,7 +5,6 @@ Model::Model(QObject* parent) :
 
     sprite = new Sprite();
     tool = new Tool();
-    sprite = new Sprite();
 }
 
 Model::~Model(){
@@ -31,12 +30,12 @@ void Model::setToolColor(const int (&rgba)[4]) {
 
 //FILEMANAGER METHODS
 void Model::saveSprite(){
-    fileManager.saveButtonClicked();
+    fileManager->saveButtonClicked();
     //fileManager.saveFile(sprite);
 }
 
 void Model::loadSprite(){
-    fileManager.loadButtonClicked();
+    fileManager->loadButtonClicked();
 }
 
 Tool::Tools Model::getTool() {
@@ -44,7 +43,7 @@ Tool::Tools Model::getTool() {
 }
 
 //COLORPALETTE
-void Model::addColorToPalette(){
+void Model::addColorToPalette(){}
 
 void Model::useTool(Sprite *sprite, int x, int y) {
     tool->useTool(sprite, x, y);
@@ -68,8 +67,4 @@ void Model::loadCanvas(int width, vector<int> &frames) {
     sprite->setCurrentFrame(0);
 
     emit updateSprite();
-}
-
-Sprite* Model::getSprite() {
-    return sprite;
 }

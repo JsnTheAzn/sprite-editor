@@ -50,6 +50,8 @@ private:
     Ui::MainWindow *ui;
     ColorPalette *colorPalette;
     Sprite *sprite;
+    FileManager *fileManager;
+    Model *model;
     Tool *tool;
     QImage image;
     QGraphicsScene *graphic;

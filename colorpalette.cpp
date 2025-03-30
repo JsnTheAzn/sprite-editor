@@ -15,7 +15,7 @@ ColorPalette::ColorPalette(QObject *parent) : QObject{parent} {
 
 void ColorPalette::addColor() {
     if (colors.size() <= 8) {
-        QColor selectedColor = QColorDialog::getColor(Qt::white, nullptr, "Select Color");
+        QColor selectedColor = QColorDialog::getColor(Qt::white, nullptr, "Select Color", QColorDialog::ShowAlphaChannel);
         if (selectedColor.isValid()) {
             colors.append(selectedColor);
             emit addNewColorButtonSignal(selectedColor);

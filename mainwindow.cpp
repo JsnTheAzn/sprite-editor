@@ -147,8 +147,7 @@ void MainWindow::updateSprite() {
     drawSpriteFrame(sprite->getFrame());
 }
 
-void MainWindow::addNewColorButton(QColor color)
-{
+void MainWindow::addNewColorButton(QColor color) {
     QGroupBox *groupBox = findChild<QGroupBox*>("leftPanel");
     if (!groupBox) {
         return;
