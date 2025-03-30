@@ -48,7 +48,6 @@ private:
     QButtonGroup *colorPaletteButtonGroup;
     Ui::MainWindow *ui;
     ColorPalette *colorPalette;
-    Model *model;
     Sprite *sprite;
     Tool *tool;
     QImage image;
