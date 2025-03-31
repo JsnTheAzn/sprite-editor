@@ -23,7 +23,6 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     canvasX = 0;
     canvasY = 0;
     newPosition = true;
-    versionHistory = model->getVersionHistoryPointer();
     tool = model->getToolPtr();
     sprite = model->getSpritePtr();
 
@@ -69,14 +68,14 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     connect(fileManager, &FileManager::loadCanvas, model, &Model::loadCanvas);
 
     // Version History
-    connect(ui->undoButton, &QPushButton::clicked, versionHistory, &VersionHistory::undo);
-    connect(ui->redoButton, &QPushButton::clicked, versionHistory, &VersionHistory::redo);
-    connect(versionHistory, &VersionHistory::versionChanged, this, &MainWindow::updateSprite);
+    connect(ui->undoButton, &QPushButton::clicked, model->getVersionHistoryPointer(), &VersionHistory::undo);
+    connect(ui->redoButton, &QPushButton::clicked, model->getVersionHistoryPointer(), &VersionHistory::redo);
+    connect(model->getVersionHistoryPointer(), &VersionHistory::versionChanged, this, &MainWindow::updateSprite);
     connect(this, &MainWindow::saveNewVersion, model, &Model::appendVersion);
     connect(ui->versionHistoryComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &MainWindow::selectVersion);
-    connect(versionHistory, &VersionHistory::versionChanged, this, &MainWindow::updateVersionComboBox);
-    connect(versionHistory, &VersionHistory::versionChanged, this, &MainWindow::revertSprite);
+    connect(model->getVersionHistoryPointer(), &VersionHistory::versionChanged, this, &MainWindow::updateVersionComboBox);
+    connect(model->getVersionHistoryPointer(), &VersionHistory::versionChanged, this, &MainWindow::revertSprite);
 }
 
 MainWindow::~MainWindow()
@@ -253,6 +252,7 @@ void MainWindow::selectVersion(int index) {
     if(ui->versionHistoryComboBox->hasFocus())
         model->setVersionIndex(index);
     qDebug() << "version index changed to " << index;
+    //revertSprite(versionHistory->getSpriteAtCurrentVersion());
 }
 
 void MainWindow::updateUndoRedoButtons() {
@@ -264,9 +264,10 @@ void MainWindow::updateUndoRedoButtons() {
 }
 
 void MainWindow::updateVersionComboBox() {
-    qDebug() << "version updated, combo box will update.";
     // Block signals to prevent triggering versionSelected.
     ui->versionHistoryComboBox->blockSignals(true);
+
+    qDebug() << "version updated, combo box will update.";
 
     //store the string name of the tool used...
     QString currentToolString;
@@ -297,7 +298,7 @@ void MainWindow::updateVersionComboBox() {
 
 void MainWindow::revertSprite(const Sprite& currentSprite) {
     *sprite = currentSprite;
-
+    qDebug() << "reverting sprite";
     updateSprite();
     updateVersionComboBox();
     updateUndoRedoButtons();

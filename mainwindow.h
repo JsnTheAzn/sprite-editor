@@ -145,7 +145,6 @@ private:
     Tool *tool;
     QImage image;
     QGraphicsScene *graphic;
-    VersionHistory *versionHistory;
     QAbstractButton *currentColorButton;
 
     /* Canvas Positions */
