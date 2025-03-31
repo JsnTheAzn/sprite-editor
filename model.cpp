@@ -1,8 +1,12 @@
 #include "model.h"
+#include "mainwindow.h"
 #include <QDebug>
 
 Model::Model(QObject* parent) :
     QObject(parent) {
+
+    colorPalette = nullptr;
+    fileManager = nullptr;
 
     sprite = new Sprite();
     tool = new Tool();
@@ -13,6 +17,10 @@ Model::~Model(){
     delete tool;
     delete sprite;
     delete versionHistory;
+    delete colorPalette;
+    delete fileManager;
+    qDebug() << "all model pointers destructed.";
+
 }
 
 //SPRITE
@@ -45,6 +53,10 @@ Tool::Tools Model::getTool() {
 }
 
 //VERSION HISTORY
+VersionHistory* Model::getVersionHistoryPointer(){
+    return versionHistory;
+}
+
 void Model::appendVersion(Sprite* updatedSprite){
     qDebug() << "Version appended from MODEL. Sending query to VERSIONHISTORY";
     versionHistory->addHistory(updatedSprite);

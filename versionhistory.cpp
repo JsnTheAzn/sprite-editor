@@ -21,7 +21,7 @@ void VersionHistory::addHistory(const Sprite& newSprite) {
 
     spriteHistory.push_back(newSprite);
 
-    emit versionChanged(getCurrentVersion()); // Notify UI
+    emit versionChanged(getSpriteAtCurrentVersion()); // Notify UI
 }
 
 void VersionHistory::deleteFutureHistory(int position) {
@@ -33,18 +33,18 @@ void VersionHistory::deleteFutureHistory(int position) {
 void VersionHistory::undo() {
     if (currentIndex > 0) {
         currentIndex--;
-        emit versionChanged(getCurrentVersion());
+        emit versionChanged(getSpriteAtCurrentVersion());
     }
 }
 
 void VersionHistory::redo() {
     if (currentIndex < (int)spriteHistory.size() - 1) {
         currentIndex++;
-        emit versionChanged(getCurrentVersion());
+        emit versionChanged(getSpriteAtCurrentVersion());
     }
 }
 
-Sprite VersionHistory::getCurrentVersion() const {
+Sprite VersionHistory::getSpriteAtCurrentVersion() const {
     if((currentIndex >= 0 && currentIndex < (int)spriteHistory.size()))
         return spriteHistory[currentIndex];
     return Sprite();

@@ -19,11 +19,11 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
 
     setMouseTracking(true);
     fileManager = new FileManager();
-    versionHistory = new VersionHistory();
     this->model = model;
     canvasX = 0;
     canvasY = 0;
     newPosition = true;
+    versionHistory = model->getVersionHistoryPointer();
     tool = model->getToolPtr();
     sprite = model->getSpritePtr();
 
@@ -77,13 +77,12 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    tool = nullptr;
-    sprite = nullptr;
-    model = nullptr;
     delete fileManager;
-    delete versionHistory;
     delete ui;
     delete graphic;
+    delete colorPaletteButtonGroup;
+    delete colorPalette;
+    qDebug() << "all pointers destructed in MW.";
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
@@ -194,6 +193,7 @@ void MainWindow::drawSpriteFrame(int frame) {
 }
 
 void MainWindow::updateSprite() {
+    qDebug() << "Updated sprite. Should be called after addHistory is called.";
     drawSpriteFrame(sprite->getFrame());
 }
 

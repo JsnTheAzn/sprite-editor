@@ -63,10 +63,10 @@ public:
     void redo();
 
     /**
-     * @brief getCurrentVersion - fetches the sprite at the current version.
+     * @brief getSpriteAtCurrentVersion - fetches the sprite at the current version.
      * @return the current version of th sprite.
      */
-    Sprite getCurrentVersion() const;
+    Sprite getSpriteAtCurrentVersion() const;
 
 signals:
     /**

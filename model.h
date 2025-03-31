@@ -106,14 +106,26 @@ public:
      */
     void useTool(Sprite *sprite, int x, int y);
     
+    /**
+     * @brief getSpritePtr - returns a pointer to the Sprite object stored
+     * in the Model.
+     * @return the pointer to the Model's tool.
+     */
     Sprite* getSpritePtr();
 
     /**
-     * @brief getSpritePtr - returns a pointer to the tool object stored
+     * @brief getToolPtr - returns a pointer to the Tool object stored
      * in the Model.
      * @return the pointer to the Model's tool.
      */
     Tool* getToolPtr();
+
+    /**
+     * @brief getVersionHistoryPointer - returns a pointer to the
+     * version hsitory object stored in the Model.
+     * @return the pointer to the Model's versionHistory.
+     */
+    VersionHistory* getVersionHistoryPointer();
 
 public slots:
     /**
