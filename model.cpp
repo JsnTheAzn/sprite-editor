@@ -15,10 +15,7 @@ Model::Model(QObject* parent) :
 
 Model::~Model(){
     delete tool;
-    delete sprite;
     delete versionHistory;
-    delete colorPalette;
-    delete fileManager;
     qDebug() << "all model pointers destructed.";
 
 }

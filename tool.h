@@ -58,7 +58,7 @@ private:
     /**
      * @brief currentTool - The current tool used by the user.
      */
-    Tools currentTool;
+    Tools currentTool;    
 
     /**
      * @brief fillToolCall - Fills an area at the specified x & y coordinates with RGBA values.

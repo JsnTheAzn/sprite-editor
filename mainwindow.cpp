@@ -77,11 +77,12 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    tool = nullptr;
+    sprite = nullptr;
+    model = nullptr;
     delete fileManager;
     delete ui;
     delete graphic;
-    delete colorPaletteButtonGroup;
-    delete colorPalette;
     qDebug() << "all pointers destructed in MW.";
 }
 
