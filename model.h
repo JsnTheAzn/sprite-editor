@@ -104,6 +104,17 @@ public:
      * @return the pointer to the Model's sprite.
      */
     void useTool(Sprite *sprite, int x, int y);
+
+    /**
+     * @brief setVersionIndex - sets the current version to a different one.
+     */
+    void setVersionIndex(int index);
+
+    /**
+     * @brief getVersionIndex - returns the version number.
+     * @return the current version number.
+     */
+    int getVersionIndex();
     
     /**
      * @brief getSpritePtr - returns a pointer to the Sprite object stored
@@ -125,6 +136,12 @@ public:
      * @return the pointer to the Model's versionHistory.
      */
     VersionHistory* getVersionHistoryPointer();
+
+    /**
+     * @brief getHistorySize - gets the size of the version history vector.
+     * @return the size of the version history vector as an int.
+     */
+    int getHistorySize();
 
 public slots:
     /**
@@ -158,6 +175,10 @@ public slots:
     void appendVersion(Sprite* updatedSprite);
 
 signals:
+    /**
+     * @brief updateSprite - signals that the internal sprite state
+     * has been updated.
+     */
     void updateSprite();
 
 };

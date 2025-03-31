@@ -151,25 +151,6 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event){
 
     qDebug() << "Mouse released; sending signal from MAIN to MODEL to save new version.";
     emit saveNewVersion(sprite);
-
-    //store the string name of the tool used...
-    std::string currentToolString;
-    switch (tool->getCurrentTool()){
-    case Tool::Tools::Pen:
-        currentToolString = "Pen";
-        break;
-    case Tool::Tools::Eraser:
-        currentToolString = "Eraser";
-        break;
-    case Tool::Tools::PaintBucket:
-        currentToolString = "Paint Bucket";
-        break;
-    }
-
-    qDebug() << "Current tool: " << currentToolString;
-    //...then, call an update to the VH combobox
-
-    //(TODO)
 }
 
 void MainWindow::drawSpriteFrame(int frame) {
@@ -266,11 +247,57 @@ void MainWindow::clearColorPalette() {
 }
 
 // VERSION HISTORY
-void MainWindow::selectVersion(){
+void MainWindow::selectVersion(int index) {
+    if(ui->versionHistoryComboBox->hasFocus())
+        model->setVersionIndex(index);
     qDebug() << "index changed.";
 }
 
-void MainWindow::updateVersionComboBox(){
+void MainWindow::updateUndoRedoButtons() {
+    // If there is no previous version, disable undo button.
+    ui->undoButton->setEnabled(model->getVersionIndex() > 0);
+
+    // If there is no next version, disable redo button.
+    ui->redoButton->setEnabled(model->getVersionIndex() < model->getHistorySize() - 1);
+}
+
+void MainWindow::updateVersionComboBox() {
     qDebug() << "version updated, combo box will update.";
+    // Block signals to prevent triggering versionSelected.
+    ui->versionHistoryComboBox->blockSignals(true);
+
+    //store the string name of the tool used...
+    QString currentToolString;
+    switch (tool->getCurrentTool()){
+    case Tool::Tools::Pen:
+        currentToolString = "Pen";
+        break;
+    case Tool::Tools::Eraser:
+        currentToolString = "Eraser";
+        break;
+    case Tool::Tools::PaintBucket:
+        currentToolString = "Paint Bucket";
+        break;
+    }
+
+    // ...then, update the VH combobox items.
+    ui->versionHistoryComboBox->clear();
+    for(int i = 0; i < model->getHistorySize(); i++){
+        QString label(QString("Version %1: ").arg(i+1).append(currentToolString));
+        ui->versionHistoryComboBox->addItem(label);
+    }
+
+    // Select the current version
+    ui->versionHistoryComboBox->setCurrentIndex(model->getVersionIndex());
+
+    ui->versionHistoryComboBox->blockSignals(false);
+}
+
+void MainWindow::revertSprite(const Sprite& currentSprite) {
+    *sprite = currentSprite;
+
+    updateSprite();
+    updateVersionComboBox();
+    updateUndoRedoButtons();
 }
 

@@ -68,6 +68,24 @@ public:
      */
     Sprite getSpriteAtCurrentVersion() const;
 
+    /**
+     * @brief setVersionIndex - sets the current version.
+     * @param index - the version to revert to.
+     */
+    void setVersionIndex(int index);
+
+    /**
+     * @brief getVersionIndex - gets the current version number.
+     * @return the current version number
+     */
+    int getVersionIndex() const { return currentIndex; };
+
+    /**
+     * @brief size - returns the total size of the version history.
+     * @return the size as an int.
+     */
+    int size() const { return (int)spriteHistory.size(); }
+
 signals:
     /**
      * @brief versionChanged - emits a signal that the current version

@@ -62,6 +62,7 @@ public:
      */
     ~MainWindow();
 
+
 signals:
     /**
      * @brief colorDeleted - signals when a color has been deleted from
@@ -114,11 +115,18 @@ public slots:
      */
     void clearColorPalette();
 
+    /**
+     * @brief revertSprite - reverts sprite to a different version from
+     * its version history.
+     */
+    void revertSprite(const Sprite& currentSprite);
+
+
 private slots:
     /**
      * @brief selectVersion - updates the index of the version combo box.
      */
-    void selectVersion();
+    void selectVersion(int index);
 
     /**
      * @brief updateVersionComboBox - updates the contents of the version combo box
@@ -153,6 +161,11 @@ private:
      * @return True if the mouse is inside of the canvas widget.
      */
     bool isInCanvas(int x, int y);
+
+    /**
+     * @brief updateUndoRedoButtons - handles enabling and disabling of the undo and redo buttons.
+     */
+    void updateUndoRedoButtons();
 
 #endif // MAINWINDOW_H
 };

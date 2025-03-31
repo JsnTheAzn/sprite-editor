@@ -34,18 +34,30 @@ void VersionHistory::undo() {
     if (currentIndex > 0) {
         currentIndex--;
         emit versionChanged(getSpriteAtCurrentVersion());
+        qDebug() << "UNDO";
     }
+
 }
 
 void VersionHistory::redo() {
     if (currentIndex < (int)spriteHistory.size() - 1) {
         currentIndex++;
         emit versionChanged(getSpriteAtCurrentVersion());
+        qDebug() << "REDO";
     }
+
 }
 
 Sprite VersionHistory::getSpriteAtCurrentVersion() const {
     if((currentIndex >= 0 && currentIndex < (int)spriteHistory.size()))
         return spriteHistory[currentIndex];
     return Sprite();
+}
+
+void VersionHistory::setVersionIndex(int index) {
+    if (index >= 0 && index < (int)spriteHistory.size()) {
+        currentIndex = index;
+        qDebug() << "version index successfully set: " << index;
+        emit versionChanged(getSpriteAtCurrentVersion());
+    }
 }

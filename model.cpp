@@ -79,11 +79,23 @@ void Model::loadCanvas(int width, vector<int> &frames) {
 }
 
 //VERSION HISTORY
-VersionHistory* Model::getVersionHistoryPointer(){
+VersionHistory* Model::getVersionHistoryPointer() {
     return versionHistory;
 }
 
-void Model::appendVersion(Sprite* updatedSprite){
+void Model::appendVersion(Sprite* updatedSprite) {
     qDebug() << "Version appended from MODEL. Sending query to VERSIONHISTORY";
     versionHistory->addHistory(updatedSprite);
+}
+
+void Model::setVersionIndex(int index) {
+    versionHistory->setVersionIndex(index);
+}
+
+int Model::getVersionIndex() {
+    return versionHistory->getVersionIndex();
+}
+
+int Model::getHistorySize() {
+    return versionHistory->size();
 }
