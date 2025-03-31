@@ -84,6 +84,8 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
             this, &MainWindow::updateVersionComboBox); // history version switched (history list)
     connect(model->getVersionHistoryPointer(), &VersionHistory::versionChanged,
             this, &MainWindow::revertSprite); // history version switched (sprite data)
+    connect(model, &Model::toolChanged,
+            this, &MainWindow::toggleToolButtons);
     
     // view to controller:
     connect(colorPaletteButtonGroup, &QButtonGroup::buttonClicked,
@@ -330,5 +332,28 @@ void MainWindow::resizeButtonPressed() {
     if (viable) {
         image = QImage(newWidth, newWidth, QImage::Format_RGBA64);
         sprite->resize(newWidth);
+    }
+}
+
+void MainWindow::toggleToolButtons() {
+    Tool::Tools updatedTool = tool->getCurrentTool();
+
+    // Set all the buttons to unchecked
+    ui->paintButton->setDisabled(false);
+    ui->eraseButton->setDisabled(false);
+    ui->fillButton->setDisabled(false);
+
+
+    // Then, toggle the ones that SHOULD be checked.
+    switch(updatedTool) {
+    case Tool::Tools::Pen:
+        ui->paintButton->setDisabled(true);
+        break;
+    case Tool::Tools::Eraser:
+        ui->eraseButton->setDisabled(true);
+        break;
+    case Tool::Tools::PaintBucket:
+        ui->fillButton->setDisabled(true);
+        break;
     }
 }

@@ -115,6 +115,11 @@ public slots:
      * @brief clearColorPalette - clears all buttons from the color palette.
      */
     void clearColorPalette();
+
+    /**
+     * @brief resizeButtonPressed - updates the sprite to visually reflect the
+     * resize.
+     */
     void resizeButtonPressed();
 
     /**
@@ -123,6 +128,10 @@ public slots:
      */
     void revertSprite(const Sprite& currentSprite);
 
+    /**
+     * @brief toggleToolButtons - toggles the tool button
+     */
+    void toggleToolButtons();
 
 private slots:
     /**

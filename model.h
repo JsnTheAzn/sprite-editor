@@ -175,6 +175,11 @@ signals:
      */
     void updateSprite();
 
+    /**
+     * @brief toolChanged - emitted when a new tool is clicked.
+     */
+    void toolChanged();
+
 };
 
 #endif // MODEL_H

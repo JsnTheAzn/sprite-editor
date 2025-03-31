@@ -199,18 +199,22 @@ QPushButton:hover  {
      <property name="styleSheet">
       <string notr="true">QPushButton{
 	border-image: url(:/app-icons/paint-tool.png);
-		background-color: none;
+	background-color: none;
 }
 QPushButton:hover  {
 	background-color : rgb(204, 204, 204);
-	border-color: rgb(0, 0, 255);
-	border-style: solid;
-	border-width: 2px;
+	border-radius: 5px;
+}
+QPushButton:disabled  {
+	background-color : rgb(204, 204, 204);
 	border-radius: 5px;
 }</string>
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QPushButton" name="undoButton">
@@ -292,14 +296,18 @@ QPushButton:hover  {
 }
 QPushButton:hover  {
 	background-color : rgb(204, 204, 204);
-	border-color: rgb(0, 0, 255);
-	border-style: solid;
-	border-width: 2px;
+	border-radius: 5px;
+}
+QPushButton:disabled  {
+	background-color : rgb(204, 204, 204);
 	border-radius: 5px;
 }</string>
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QPushButton" name="fillButton">
@@ -321,14 +329,18 @@ QPushButton:hover  {
 }
 QPushButton:hover  {
 	background-color : rgb(204, 204, 204);
-	border-color: rgb(0, 0, 255);
-	border-style: solid;
-	border-width: 2px;
+	border-radius: 5px;
+}
+QPushButton:disabled  {
+	background-color : rgb(204, 204, 204);
 	border-radius: 5px;
 }</string>
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QPushButton" name="colorButton">

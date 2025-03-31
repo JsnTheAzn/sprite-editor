@@ -35,6 +35,7 @@ Tool* Model::getToolPtr(){
 
 void Model::setTool(Tool::Tools clickedTool) {
     tool->setCurrentTool(clickedTool);
+    emit toolChanged();
 }
 void Model::setToolColor(const int (&rgba)[4]) {
     tool->setCurrentColor(rgba);
