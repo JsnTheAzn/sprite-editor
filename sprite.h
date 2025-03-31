@@ -5,9 +5,9 @@
 
 using std::vector;
 
-class Sprite : public QObject
-{
+class Sprite : public QObject {
     Q_OBJECT
+    friend class Model;
 
 private:
 
@@ -46,6 +46,19 @@ public:
      * @brief ~Sprite - Desconstructor that removes the image data from the heap.
      */
     ~Sprite();
+
+    /**
+     * @brief Sprite - Copy Constructor for the Sprite Object
+     * @param other - other Sprite Object to copy
+     */
+    Sprite(const Sprite& other);
+
+    /**
+     * @brief operator = - Copy assignment operator using swap
+     * @param other - other Sprite object to copy
+     * @return values swapped between the two
+     */
+    Sprite& operator=(Sprite other);
 
     /**
      * @brief resize - Updates the canvas size and crops the image accordingly. Anchors the crop

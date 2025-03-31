@@ -12,6 +12,22 @@ Sprite::~Sprite() {
     }
 }
 
+Sprite::Sprite(const Sprite& other) : QObject(other.parent()), width(other.width), currFrame(other.currFrame) {
+    frames.reserve(other.frames.size());
+    for (int* oldFrame : other.frames) {
+        int* newFrame = new int[width * width * 4]; // Allocate new memory
+        std::copy(oldFrame, oldFrame + (width * width * 4), newFrame); // Deep copy pixel data
+        frames.push_back(newFrame);
+    }
+}
+
+Sprite& Sprite::operator=(Sprite other) {
+    std::swap(width, other.width);
+    std::swap(currFrame, other.currFrame);
+    std::swap(frames, other.frames);
+    return *this; // Copy-and-swap idiom
+}
+
 void Sprite::resize(int newWidth) {
     int* newImage = new int[newWidth * newWidth * 4]{};
 

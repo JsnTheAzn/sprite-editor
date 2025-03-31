@@ -8,8 +8,7 @@
 #include "versionhistory.h"
 #include "tool.h"
 
-class Model : public QObject
-{
+class Model : public QObject {
     Q_OBJECT
 
 private:
@@ -44,12 +43,6 @@ private:
      * @brief currFrame - Stores the currently showcased frame on the animation preview.
      */
     int currFrame;
-
-    /**
-     * @brief currColor - Stores the current Red, Green, Blue, and Alpha values of the color
-     * to draw.
-     */
-    int currColor[4];
 
     /**
      * @brief frameRate - Stores the current speed of the sprite animation.
@@ -105,15 +98,44 @@ public:
      * @return the pointer to the Model's sprite.
      */
     void useTool(Sprite *sprite, int x, int y);
+
+    /**
+     * @brief setVersionIndex - sets the current version to a different one.
+     */
+    void setVersionIndex(int index);
+
+    /**
+     * @brief getVersionIndex - returns the version number.
+     * @return the current version number.
+     */
+    int getVersionIndex();
     
+    /**
+     * @brief getSpritePtr - returns a pointer to the Sprite object stored
+     * in the Model.
+     * @return the pointer to the Model's tool.
+     */
     Sprite* getSpritePtr();
 
     /**
-     * @brief getSpritePtr - returns a pointer to the tool object stored
+     * @brief getToolPtr - returns a pointer to the Tool object stored
      * in the Model.
      * @return the pointer to the Model's tool.
      */
     Tool* getToolPtr();
+
+    /**
+     * @brief getVersionHistoryPointer - returns a pointer to the
+     * version hsitory object stored in the Model.
+     * @return the pointer to the Model's versionHistory.
+     */
+    VersionHistory* getVersionHistoryPointer();
+
+    /**
+     * @brief getHistorySize - gets the size of the version history vector.
+     * @return the size of the version history vector as an int.
+     */
+    int getHistorySize();
 
 public slots:
     /**
@@ -140,7 +162,17 @@ public slots:
      */
     void addColorToPalette();
 
+    /**
+     * @brief appendVersion - adds a version of this sprite to the version history.
+     * @param updatedSprite - the updated sprite to add.
+     */
+    void appendVersion(Sprite* updatedSprite);
+
 signals:
+    /**
+     * @brief updateSprite - signals that the internal sprite state
+     * has been updated.
+     */
     void updateSprite();
 
 };

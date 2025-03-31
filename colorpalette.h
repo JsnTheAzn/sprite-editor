@@ -6,9 +6,9 @@
 #include <QVector>
 #include <QMap>
 
-class ColorPalette : public QObject
-{
+class ColorPalette : public QObject {
     Q_OBJECT
+    friend class Model;
 
 private:
     QMap<int, QColor> colors;

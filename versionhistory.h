@@ -6,24 +6,93 @@
 
 using std::vector;
 
-class VersionHistory : public QObject
-{
+class VersionHistory : public QObject {
     Q_OBJECT
+    friend class Model;
 
 private:
+    /**
+     * @brief spriteHistory - holds, in order, a history of the last
+     * 30 tool strokes done by the user.
+     */
+    vector<Sprite> spriteHistory;
 
-    vector<Sprite> historyVector;
+    /**
+     * @brief currentIndex - holds the current version index of the sprite,
+     * stored as a number between 1 and 30.
+     */
+    int currentIndex;
 
-    void deleteFutureHistory(int position);
+    /**
+     * @brief deleteFutureHistory - deletes the entire history beyond an index.
+     * @param versionNumber - the version to delete from, stored as an integer from 1-30
+     */
+    void deleteFutureHistory(int versionNumber);
 
 public:
+    /**
+     * @brief VersionHistory - creates a VersionHistory object.
+     */
     VersionHistory();
 
-    void versionClicked();
+    /**
+     * @brief updateVersion - updates the version of the sprite.
+     */
+    void updateVersion();
 
-    void addHistory();
+    /**
+     * @brief addHistory - adds an event to the version history.
+     * @param newSprite - the new version of the sprite, to be appended to the history.
+     */
+    void addHistory(const Sprite& newSprite);
 
+    /**
+     * @brief deleteHistory
+     * @param position
+     */
     void deleteHistory(int position);
+
+    /**
+     * @brief undo - returns to the previous version of the Sprite.
+     */
+    void undo();
+
+    /**
+     * @brief redo - returns to the next version of the Sprite.
+     */
+    void redo();
+
+    /**
+     * @brief getSpriteAtCurrentVersion - fetches the sprite at the current version.
+     * @return the current version of th sprite.
+     */
+    Sprite getSpriteAtCurrentVersion() const;
+
+    /**
+     * @brief setVersionIndex - sets the current version.
+     * @param index - the version to revert to.
+     */
+    void setVersionIndex(int index);
+
+    /**
+     * @brief getVersionIndex - gets the current version number.
+     * @return the current version number
+     */
+    int getVersionIndex() const { return currentIndex; };
+
+    /**
+     * @brief size - returns the total size of the version history.
+     * @return the size as an int.
+     */
+    int size() const { return (int)spriteHistory.size(); }
+
+signals:
+    /**
+     * @brief versionChanged - emits a signal that the current version
+     * has been changed.
+     * @param currentSprite - sends a copy of the current Sprite.
+     */
+    void versionChanged(const Sprite& currentSprite);
 };
 
 #endif // VERSIONHISTORY_H

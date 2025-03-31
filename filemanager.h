@@ -6,6 +6,8 @@
 
 class FileManager : public QObject {
     Q_OBJECT
+    friend class Model;
+
 public:
     /**
      * @brief FileManager - Default FileManager constructor.

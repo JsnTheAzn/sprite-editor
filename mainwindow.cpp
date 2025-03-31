@@ -67,6 +67,16 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     // model to model
     connect(sprite, &Sprite::drawFrame, this, &MainWindow::drawSpriteFrame);
     connect(fileManager, &FileManager::loadCanvas, model, &Model::loadCanvas);
+
+    // Version History
+    connect(ui->undoButton, &QPushButton::clicked, model->getVersionHistoryPointer(), &VersionHistory::undo);
+    connect(ui->redoButton, &QPushButton::clicked, model->getVersionHistoryPointer(), &VersionHistory::redo);
+    connect(model->getVersionHistoryPointer(), &VersionHistory::versionChanged, this, &MainWindow::updateSprite);
+    connect(this, &MainWindow::saveNewVersion, model, &Model::appendVersion);
+    connect(ui->versionHistoryComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &MainWindow::selectVersion);
+    connect(model->getVersionHistoryPointer(), &VersionHistory::versionChanged, this, &MainWindow::updateVersionComboBox);
+    connect(model->getVersionHistoryPointer(), &VersionHistory::versionChanged, this, &MainWindow::revertSprite);
 }
 
 MainWindow::~MainWindow()
@@ -77,6 +87,7 @@ MainWindow::~MainWindow()
     delete fileManager;
     delete ui;
     delete graphic;
+    qDebug() << "all pointers destructed in MW.";
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
@@ -113,9 +124,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
     double mouseY = event->position().y();
     QLabel* canvas = ui->canvas;
 
-    if (mouseX > canvas->pos().x() && mouseX < canvas->width() + canvas->pos().x() &&
-        mouseY > canvas->pos().y() && mouseY < canvas->height() + canvas->pos().y()) {
-
+    if (isInCanvas(mouseX, mouseY)) {
         mouseX = mouseX - canvas->pos().x();
         mouseY = mouseY - canvas->pos().y();
 
@@ -125,6 +134,24 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
         tool->useTool(sprite, canvasX, canvasY);
         newPosition = false;
     }
+}
+
+bool MainWindow::isInCanvas(int x, int y){
+    bool isValidX = x > ui->canvas->pos().x() && x < ui->canvas->width() + ui->canvas->pos().x();
+    bool isValidY = y > ui->canvas->pos().y() && y < ui->canvas->height() + ui->canvas->pos().y();
+    return isValidX && isValidY;
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *event){
+    double mouseX = event->position().x();
+    double mouseY = event->position().y();
+
+    //if the mouse is not in the canvas, we don't care.
+    if(!isInCanvas(mouseX, mouseY))
+        return;
+
+    qDebug() << "Mouse released; sending signal from MAIN to MODEL to save new version.";
+    emit saveNewVersion(sprite);
 }
 
 void MainWindow::drawSpriteFrame(int frame) {
@@ -143,6 +170,7 @@ void MainWindow::drawSpriteFrame(int frame) {
             image.setPixelColor(row, col, setColor);
         }
     }
+
     graphic->addPixmap(QPixmap::fromImage(image));
     ui->canvas->setPixmap(QPixmap::fromImage(image).scaled(
         ui->canvas->size(),
@@ -152,8 +180,10 @@ void MainWindow::drawSpriteFrame(int frame) {
 }
 
 void MainWindow::updateSprite() {
+    qDebug() << "Updated sprite. Should be called after addHistory is called.";
     drawSpriteFrame(sprite->getFrame());
 }
+
 
 void MainWindow::addNewColorButton(QColor color, int id) {
     QGroupBox *groupBox = findChild<QGroupBox*>("leftPanel");
@@ -225,6 +255,58 @@ void MainWindow::clearColorPalette() {
     }
 }
 
+// VERSION HISTORY
+void MainWindow::selectVersion(int index) {
+    model->setVersionIndex(index);
+}
+
+void MainWindow::updateUndoRedoButtons() {
+    // If there is no previous version, disable undo button.
+    ui->undoButton->setEnabled(model->getVersionIndex() > 0);
+
+    // If there is no next version, disable redo button.
+    ui->redoButton->setEnabled(model->getVersionIndex() < model->getHistorySize() - 1);
+}
+
+void MainWindow::updateVersionComboBox() {
+    // Block signals to prevent triggering versionSelected.
+    ui->versionHistoryComboBox->blockSignals(true);
+
+    //store the string name of the tool used...
+    QString currentToolString;
+    switch (tool->getCurrentTool()){
+    case Tool::Tools::Pen:
+        currentToolString = "Pen";
+        break;
+    case Tool::Tools::Eraser:
+        currentToolString = "Eraser";
+        break;
+    case Tool::Tools::PaintBucket:
+        currentToolString = "Paint Bucket";
+        break;
+    }
+
+    // ...then, update the VH combobox items.
+    ui->versionHistoryComboBox->clear();
+    for(int i = 0; i < model->getHistorySize(); i++){
+        QString label(QString("Version %1: ").arg(i+1).append(currentToolString));
+        ui->versionHistoryComboBox->addItem(label);
+    }
+
+    // Select the current version
+    ui->versionHistoryComboBox->setCurrentIndex(model->getVersionIndex());
+
+    ui->versionHistoryComboBox->blockSignals(false);
+}
+
+void MainWindow::revertSprite(const Sprite& currentSprite) {
+    *sprite = currentSprite;
+
+    updateSprite();
+    updateVersionComboBox();
+    updateUndoRedoButtons();
+}
+
 void MainWindow::resizeButtonPressed() {
     bool viable;
     int newWidth = ui->widthInput->text().toInt(&viable);
@@ -232,5 +314,4 @@ void MainWindow::resizeButtonPressed() {
         image = QImage(newWidth, newWidth, QImage::Format_RGBA64);
         sprite->resize(newWidth);
     }
-
 }

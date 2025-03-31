@@ -1,26 +1,38 @@
 #include "model.h"
+#include "mainwindow.h"
+#include <QDebug>
 
 Model::Model(QObject* parent) :
     QObject(parent) {
 
+    colorPalette = nullptr;
+    fileManager = nullptr;
+
     sprite = new Sprite();
     tool = new Tool();
+    versionHistory = new VersionHistory();
 }
 
 Model::~Model(){
     delete tool;
-    delete sprite;
+    delete versionHistory;
+    qDebug() << "all model pointers destructed.";
+
 }
 
+//SPRITE
 Sprite* Model::getSpritePtr() {
     return sprite;
 }
 
+//COLORPALETTE
+void Model::addColorToPalette(){}
+
+//TOOL
 Tool* Model::getToolPtr(){
     return tool;
 }
 
-//TOOL METHODS
 void Model::setTool(Tool::Tools clickedTool) {
     tool->setCurrentTool(clickedTool);
 }
@@ -28,26 +40,22 @@ void Model::setToolColor(const int (&rgba)[4]) {
     tool->setCurrentColor(rgba);
 }
 
-//FILEMANAGER METHODS
-void Model::saveSprite(){
-    fileManager->saveButtonClicked();
-    //fileManager.saveFile(sprite);
-}
-
-void Model::loadSprite(){
-    fileManager->loadButtonClicked();
+void Model::useTool(Sprite *sprite, int x, int y) {
+    tool->useTool(sprite, x, y);
+    emit updateSprite();
 }
 
 Tool::Tools Model::getTool() {
     return tool->getCurrentTool();
 }
 
-//COLORPALETTE
-void Model::addColorToPalette(){}
+//FILEMANAGER
+void Model::saveSprite(){
+    fileManager->saveButtonClicked();
+}
 
-void Model::useTool(Sprite *sprite, int x, int y) {
-    tool->useTool(sprite, x, y);
-    emit updateSprite();
+void Model::loadSprite(){
+    fileManager->loadButtonClicked();
 }
 
 void Model::loadCanvas(int width, vector<int> &frames) {
@@ -57,7 +65,7 @@ void Model::loadCanvas(int width, vector<int> &frames) {
 
     int frameSize = (width * width) * 4;
 
-    for(int i = 0; i < frames.size() / frameSize; i++) {
+    for(int i = 0; i < (int)frames.size() / frameSize; i++) {
         int *pixelData = new int[frameSize];
         for (int j = 0; j < frameSize; j++) {
             pixelData[j] = frames[i * frameSize + j];
@@ -67,4 +75,29 @@ void Model::loadCanvas(int width, vector<int> &frames) {
     sprite->setCurrentFrame(0);
 
     emit updateSprite();
+}
+
+//VERSION HISTORY
+VersionHistory* Model::getVersionHistoryPointer() {
+    return versionHistory;
+}
+
+void Model::appendVersion(Sprite* updatedSprite) {
+    qDebug() << "\nVersion appended from MODEL. Sending query to VERSIONHISTORY";
+    qDebug() << "Sprite pointer before save: " << updatedSprite;
+    versionHistory->addHistory(*updatedSprite);
+    qDebug() << "Total history size: " << versionHistory->size();
+}
+
+void Model::setVersionIndex(int index) {
+    versionHistory->setVersionIndex(index);
+    qDebug() << "version index in MODEL: was set to " << index << " and became " << versionHistory->getVersionIndex();
+}
+
+int Model::getVersionIndex() {
+    return versionHistory->getVersionIndex();
+}
+
+int Model::getHistorySize() {
+    return versionHistory->size();
 }
