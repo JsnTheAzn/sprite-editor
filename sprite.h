@@ -115,6 +115,17 @@ public:
     int getNumberOfFrames();
 
     /**
+     * @brief deleteCurrentFrame - Deletes the current frame from the vector of frames.
+     */
+    void deleteCurrentFrame();
+
+    /**
+     * @brief addPrevFrame - Adds a new frame into the vertex of frames.
+     * @param Index of the vector you wish to add the frame into
+     */
+    void insertFrame(int index);
+
+    /**
      * @brief getPixel - Sets the inputted array to the color of the pixel at the given x and y
      * canvas coordinates.
      * @param x - The canvas X coordinate (ascending left to right).

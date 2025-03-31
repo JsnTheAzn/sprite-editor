@@ -125,3 +125,13 @@ void Sprite::resizeCropping(const int oldImage[], int newImage[], int oldWidth, 
 int Sprite::getNumberOfFrames() {
     return (int)frames.size();
 }
+
+void Sprite::deleteCurrentFrame() {
+    delete[] frames[currFrame];
+    currFrame--;
+}
+
+void Sprite::insertFrame(int index) {
+    int* newImage = new int[width * width * 4]{};
+    frames.insert(frames.begin() + index, newImage);
+}
