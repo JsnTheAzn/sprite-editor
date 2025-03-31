@@ -83,12 +83,15 @@ VersionHistory* Model::getVersionHistoryPointer() {
 }
 
 void Model::appendVersion(Sprite* updatedSprite) {
-    qDebug() << "Version appended from MODEL. Sending query to VERSIONHISTORY";
+    qDebug() << "\nVersion appended from MODEL. Sending query to VERSIONHISTORY";
+    qDebug() << "Sprite pointer before save: " << updatedSprite;
     versionHistory->addHistory(*updatedSprite);
+    qDebug() << "Total history size: " << versionHistory->size();
 }
 
 void Model::setVersionIndex(int index) {
     versionHistory->setVersionIndex(index);
+    qDebug() << "version index in MODEL: was set to " << index << " and became " << versionHistory->getVersionIndex();
 }
 
 int Model::getVersionIndex() {

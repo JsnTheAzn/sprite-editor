@@ -249,10 +249,7 @@ void MainWindow::clearColorPalette() {
 
 // VERSION HISTORY
 void MainWindow::selectVersion(int index) {
-    if(ui->versionHistoryComboBox->hasFocus())
-        model->setVersionIndex(index);
-    qDebug() << "version index changed to " << index;
-    //revertSprite(versionHistory->getSpriteAtCurrentVersion());
+    model->setVersionIndex(index);
 }
 
 void MainWindow::updateUndoRedoButtons() {
@@ -266,8 +263,6 @@ void MainWindow::updateUndoRedoButtons() {
 void MainWindow::updateVersionComboBox() {
     // Block signals to prevent triggering versionSelected.
     ui->versionHistoryComboBox->blockSignals(true);
-
-    qDebug() << "version updated, combo box will update.";
 
     //store the string name of the tool used...
     QString currentToolString;
@@ -298,7 +293,7 @@ void MainWindow::updateVersionComboBox() {
 
 void MainWindow::revertSprite(const Sprite& currentSprite) {
     *sprite = currentSprite;
-    qDebug() << "reverting sprite";
+
     updateSprite();
     updateVersionComboBox();
     updateUndoRedoButtons();

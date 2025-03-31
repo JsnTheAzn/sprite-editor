@@ -27,9 +27,6 @@ void VersionHistory::addHistory(const Sprite& newSprite) {
 void VersionHistory::deleteFutureHistory(int position) {
     if (position < (int)spriteHistory.size()) {
         spriteHistory.erase(spriteHistory.begin() + position, spriteHistory.end());
-
-        if(currentIndex >= (int)spriteHistory.size())
-            currentIndex = (int)spriteHistory.size() - 1;
     }
 }
 
