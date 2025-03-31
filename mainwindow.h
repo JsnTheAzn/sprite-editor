@@ -133,6 +133,12 @@ public slots:
      */
     void toggleToolButtons();
 
+    /**
+     * @brief updateFPS - updates the FPS
+     * @param fps - the new FPS
+     */
+    void updateFPS(int newFps);
+
 private slots:
     /**
      * @brief selectVersion - updates the index of the version combo box.
@@ -146,7 +152,7 @@ private slots:
     void updateVersionComboBox();
 
 private:
-    /* Instance Variables: Pointers */
+    //Instance Variables: Pointers
     QButtonGroup *colorPaletteButtonGroup;
     Ui::MainWindow *ui;
     ColorPalette *colorPalette;
@@ -157,11 +163,15 @@ private:
     QImage image;
     QGraphicsScene *graphic;
     QAbstractButton *currentColorButton;
+    QIntValidator* fpsValidator;
 
     // Canvas Positions
     int canvasX;
     int canvasY;
     bool newPosition;
+
+    //Other instace vars
+    int fps;
 
     /**
      * @brief isInCanvas - Boolean statement to declare whether or not an x-y position

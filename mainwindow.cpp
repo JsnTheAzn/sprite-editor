@@ -28,6 +28,9 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
 
     fileManager->setSprite(sprite);
 
+    fpsValidator = new QIntValidator(0, 60, this); // Accepts integers from 0 to 100
+    ui->fpsInput->setValidator(fpsValidator);
+
     // IMAGE SETUP:
     image = QImage(sprite->getWidth(), sprite->getWidth(), QImage::Format_RGBA64);
     graphic = new QGraphicsScene(this);
@@ -96,6 +99,10 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
             this, &MainWindow::resizeButtonPressed); // resize button setup
     connect(ui->versionHistoryComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &MainWindow::selectVersion); // version history selection setup
+    connect(ui->fpsSlider, &QSlider::valueChanged,
+            this, &MainWindow::updateFPS);
+    connect(ui->fpsInput, &QLineEdit::returnPressed,
+            this, [this]{updateFPS(ui->fpsInput->text().toInt());});
 
     // model to model:
     connect(fileManager, &FileManager::loadCanvas,
@@ -110,9 +117,10 @@ MainWindow::~MainWindow()
     delete fileManager;
     delete ui;
     delete graphic;
-    qDebug() << "all pointers destructed in MW.";
+    delete fpsValidator;
 }
 
+// MOUSE EVENTS
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
     double mouseX = event->position().x();
     double mouseY = event->position().y();
@@ -177,6 +185,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event){
     emit saveNewVersion(sprite);
 }
 
+// DRAWING
 void MainWindow::drawSpriteFrame(int frame) {
     int width = sprite->getWidth();
     int oldFrame = sprite->getFrame();
@@ -356,4 +365,13 @@ void MainWindow::toggleToolButtons() {
         ui->fillButton->setDisabled(true);
         break;
     }
+}
+
+// ANIMATION
+void MainWindow::updateFPS(int newFps) {
+    qDebug() << "fps slider or edit updated";
+    ui->fpsSlider->setSliderPosition(fps);
+    ui->fpsInput->setText(QString::number(fps));
+
+    fps = fps;
 }

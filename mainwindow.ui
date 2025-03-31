@@ -629,7 +629,7 @@ background-image: url(:/background/transparency-background.png);</string>
       <string>True to Size?</string>
      </property>
     </widget>
-    <widget class="QSlider" name="horizontalSlider">
+    <widget class="QSlider" name="fpsSlider">
      <property name="geometry">
       <rect>
        <x>10</x>
