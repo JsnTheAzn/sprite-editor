@@ -140,6 +140,12 @@ public slots:
      */
     void addColorToPalette();
 
+    /**
+     * @brief appendVersion - adds a version of this sprite to the version history.
+     * @param updatedSprite - the updated sprite to add.
+     */
+    void appendVersion(Sprite* updatedSprite);
+
 signals:
     void updateSprite();
 

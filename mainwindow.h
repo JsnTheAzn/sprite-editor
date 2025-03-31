@@ -30,6 +30,7 @@ class MainWindow : public QMainWindow
 protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
 
 public:
     MainWindow(Model* model, QWidget *parent = nullptr);
@@ -37,6 +38,7 @@ public:
 
 signals:
     void colorDeleted(int colorIndex);
+    void saveNewVersion(Sprite *current);
 
 public slots:
     void addNewColorButton(QColor color);
@@ -56,10 +58,8 @@ private:
     Tool *tool;
     QImage image;
     QGraphicsScene *graphic;
-    QPushButton* undoButton;
-    QPushButton* redoButton;
-    VersionHistory versionHistory;
-
+    VersionHistory* versionHistory;
+    QAbstractButton *currentColorButton;
 
     int canvasX;
     int canvasY;
@@ -72,6 +72,6 @@ private:
      */
     bool checkMouseBounds();
 
-    QAbstractButton *currentColorButton;
+
 #endif // MAINWINDOW_H
 };

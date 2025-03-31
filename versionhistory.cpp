@@ -1,44 +1,51 @@
 #include "versionhistory.h"
+#include <QDebug>
 
-VersionHistory::VersionHistory() {}
+VersionHistory::VersionHistory() {
+    spriteHistory.push_back(Sprite());
+    qDebug() << "New version history created.";
+}
 
 
 void VersionHistory::addHistory(const Sprite& newSprite) {
+    qDebug() << "Adding history. Current index: " << currentIndex;
     // If we are in the middle of the history, remove future versions
     deleteFutureHistory(currentIndex + 1);
 
-    // Add new version
-    if (historyVector.size() == 30) {
-        historyVector.erase(historyVector.begin()); // Remove the oldest version if at cap
+    // Adding a new version:
+    if (spriteHistory.size() == 30) {
+        spriteHistory.erase(spriteHistory.begin()); // Remove the oldest version if at cap
     } else {
         currentIndex++;
     }
 
-    historyVector.push_back(newSprite);
+    spriteHistory.push_back(newSprite);
 
-    emit historyChanged(getCurrentVersion()); // Notify UI
+    emit versionChanged(getCurrentVersion()); // Notify UI
 }
 
 void VersionHistory::deleteFutureHistory(int position) {
-    if (position < historyVector.size()) {
-        historyVector.erase(historyVector.begin() + position, historyVector.end());
+    if (position < (int)spriteHistory.size()) {
+        spriteHistory.erase(spriteHistory.begin() + position, spriteHistory.end());
     }
 }
 
 void VersionHistory::undo() {
     if (currentIndex > 0) {
         currentIndex--;
-        emit historyChanged(getCurrentVersion());
+        emit versionChanged(getCurrentVersion());
     }
 }
 
 void VersionHistory::redo() {
-    if (currentIndex < historyVector.size() - 1) {
+    if (currentIndex < (int)spriteHistory.size() - 1) {
         currentIndex++;
-        emit historyChanged(getCurrentVersion());
+        emit versionChanged(getCurrentVersion());
     }
 }
 
 Sprite VersionHistory::getCurrentVersion() const {
-    return (currentIndex >= 0 && currentIndex < historyVector.size()) ? historyVector[currentIndex] : Sprite();
+    if((currentIndex >= 0 && currentIndex < (int)spriteHistory.size()))
+        return spriteHistory[currentIndex];
+    return Sprite();
 }

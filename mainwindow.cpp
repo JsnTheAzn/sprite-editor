@@ -19,14 +19,13 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
 
     setMouseTracking(true);
     fileManager = new FileManager();
+    versionHistory = new VersionHistory();
     this->model = model;
     canvasX = 0;
     canvasY = 0;
     newPosition = true;
     tool = model->getToolPtr();
     sprite = model->getSpritePtr();
-    //undoButton = model->something; // Need to connect from model
-    //redoButton = model->something; // Need to connect from model
 
     fileManager->setSprite(sprite);
     // DELETE:::::: \/
@@ -70,9 +69,10 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     connect(fileManager, &FileManager::loadCanvas, model, &Model::loadCanvas);
 
     // Version History
-    connect(undoButton, &QPushButton::clicked, &versionHistory, &VersionHistory::undo);
-    connect(redoButton, &QPushButton::clicked, &versionHistory, &VersionHistory::redo);
-    connect(&versionHistory, &VersionHistory::historyChanged, this, &MainWindow::updateSprite);
+    connect(ui->undoButton, &QPushButton::clicked, versionHistory, &VersionHistory::undo);
+    connect(ui->redoButton, &QPushButton::clicked, versionHistory, &VersionHistory::redo);
+    connect(versionHistory, &VersionHistory::versionChanged, this, &MainWindow::updateSprite);
+    connect(this, &MainWindow::saveNewVersion, model, &Model::appendVersion);
 }
 
 MainWindow::~MainWindow()
@@ -81,6 +81,7 @@ MainWindow::~MainWindow()
     sprite = nullptr;
     model = nullptr;
     delete fileManager;
+    delete versionHistory;
     delete ui;
     delete graphic;
 }
@@ -131,6 +132,11 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
         tool->useTool(sprite, canvasX, canvasY);
         newPosition = true;
     }
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *event){
+    qDebug() << "Mouse released; sending signal from MAIN to MODEL to save new version.";
+    emit saveNewVersion(sprite);
 }
 
 void MainWindow::drawSpriteFrame(int frame) {
