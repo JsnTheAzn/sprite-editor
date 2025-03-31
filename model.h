@@ -40,16 +40,6 @@ private:
     VersionHistory *versionHistory;
 
     /**
-     * @brief currFrame - Stores the currently showcased frame on the animation preview.
-     */
-    int currFrame;
-
-    /**
-     * @brief frameRate - Stores the current speed of the sprite animation.
-     */
-    int frameRate;
-
-    /**
      * @brief playAnimation - Loops through the frames to play the current animation of the
      * sprite somewhere.
      */

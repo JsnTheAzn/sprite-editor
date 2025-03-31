@@ -121,3 +121,7 @@ void Sprite::resizeCropping(const int oldImage[], int newImage[], int oldWidth, 
         }
     }
 }
+
+int Sprite::getNumberOfFrames() {
+    return (int)frames.size();
+}

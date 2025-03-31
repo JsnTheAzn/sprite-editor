@@ -82,6 +82,11 @@ public:
      */
     void updatePixel(int x, int y, const int (&rgba)[4]);
 
+    /**
+     * @brief clearPixel - Clears the image pixel data at canvas grid position (x, y).
+     * @param x - The canvas X coordinate (ascending left to right).
+     * @param y - The canvas Y coordinate (ascending top to bottom).
+     */
     void clearPixel(int x, int y);
 
     /**
@@ -91,6 +96,10 @@ public:
      */
     vector<int*>& getFrames();
 
+    /**
+     * @brief getFrame - returns index of frame.
+     * @return Index of frame
+     */
     int getFrame();
 
     /**
@@ -98,6 +107,12 @@ public:
      * @return The number of pixels stored on each side of the canvas.
      */
     int getWidth();
+
+    /**
+     * @brief getNumberOfFrames - Returns the current number of frames.
+     * @return The number of frames stored in the vector.
+     */
+    int getNumberOfFrames();
 
     /**
      * @brief getPixel - Sets the inputted array to the color of the pixel at the given x and y
@@ -109,7 +124,6 @@ public:
     void getPixel(int x, int y, int (&returnArray)[4]);
 
 signals:
-
     void drawFrame(int frame);
 };
 

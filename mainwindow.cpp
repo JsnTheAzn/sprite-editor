@@ -397,15 +397,27 @@ void MainWindow::updateFPSSlider(int newFps) {
 
 void MainWindow::goToNextFrame() {
     qDebug() << "this is nextframe";
-    model->currFrame
+    int nextFrameIndex = sprite->getFrame()++;
+
+    // Ensure there is a next frame before continuing.
+    if(nextFrameIndex < sprite->getNumberOfFrames()) {
+        sprite->setCurrentFrame(nextFrameIndex);
+    }
 }
 
 void MainWindow::goToPrevFrame() {
     qDebug() << "this is goToPrevFrame";
+    int prevFrameIndex = sprite->getFrame()--;
+
+    // Ensure there is a previous frame before continuing.
+    if(prevFrameIndex < 0) {
+        sprite->setCurrentFrame(prevFrameIndex);
+    }
 }
 
 void MainWindow::deleteCurrentFrame() {
     qDebug() << "this is removeCurrentFrame";
+    //if currentFrame is 0, then there is no more other frames
 }
 
 void MainWindow::addPrevFrame() {
