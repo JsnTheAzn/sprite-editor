@@ -26,6 +26,7 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     newPosition = true;
     tool = model->getToolPtr();
     sprite = model->getSpritePtr();
+    fps = 0;
 
     fileManager->setSprite(sprite);
 
@@ -101,9 +102,7 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     connect(ui->versionHistoryComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &MainWindow::selectVersion); // version history selection setup
     connect(ui->fpsSlider, &QSlider::valueChanged,
-            this, &MainWindow::updateFPS);
-    connect(ui->fpsInput, &QLineEdit::returnPressed,
-            this, [this]{updateFPS(ui->fpsInput->text().toInt());});
+            this, &MainWindow::updateFPSSlider);
 
     // model to model:
     connect(fileManager, &FileManager::loadCanvas,
@@ -381,10 +380,7 @@ void MainWindow::toggleToolButtons() {
 }
 
 // ANIMATION
-void MainWindow::updateFPS(int newFps) {
-    qDebug() << "fps slider or edit updated";
-    ui->fpsSlider->setSliderPosition(fps);
+void MainWindow::updateFPSSlider(int newFps) {
+    fps = newFps;
     ui->fpsInput->setText(QString::number(fps));
-
-    fps = fps;
 }

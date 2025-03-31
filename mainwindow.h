@@ -134,10 +134,10 @@ public slots:
     void toggleToolButtons();
 
     /**
-     * @brief updateFPS - updates the FPS
+     * @brief updateFPS - updates the FPS from the slider.
      * @param fps - the new FPS
      */
-    void updateFPS(int newFps);
+    void updateFPSSlider(int newFps);
 
 private slots:
     /**
