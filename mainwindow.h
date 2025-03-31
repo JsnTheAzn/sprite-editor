@@ -44,6 +44,7 @@ public slots:
     void drawSpriteFrame(int frame);
     void updateSprite();
     void clearColorPalette();
+    void resizeButtonPressed();
 
 private:
     QButtonGroup *colorPaletteButtonGroup;
@@ -55,7 +56,6 @@ private:
     Tool *tool;
     QImage image;
     QGraphicsScene *graphic;
-
 
     int canvasX;
     int canvasY;

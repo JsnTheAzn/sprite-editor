@@ -19,6 +19,7 @@ void Sprite::resize(int newWidth) {
     delete[] frames[currFrame];
     frames[currFrame] = newImage;
     width = newWidth;
+    emit drawFrame(currFrame);
 }
 
 void Sprite::setCurrentFrame(int frame) {

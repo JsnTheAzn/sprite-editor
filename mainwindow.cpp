@@ -62,6 +62,7 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     //view to... erm... view?
     connect(colorPaletteButtonGroup, &QButtonGroup::buttonClicked, this, &MainWindow::selectedColor);
     connect(ui->removeColor, &QPushButton::clicked, this, &MainWindow::removeColorButton);
+    connect(ui->confirmResize, &QPushButton::clicked, this, &MainWindow::resizeButtonPressed);
 
     // model to model
     connect(sprite, &Sprite::drawFrame, this, &MainWindow::drawSpriteFrame);
@@ -224,4 +225,12 @@ void MainWindow::clearColorPalette() {
     }
 }
 
+void MainWindow::resizeButtonPressed() {
+    bool viable;
+    int newWidth = ui->widthInput->text().toInt(&viable);
+    if (viable) {
+        image = QImage(newWidth, newWidth, QImage::Format_RGBA64);
+        sprite->resize(newWidth);
+    }
 
+}
