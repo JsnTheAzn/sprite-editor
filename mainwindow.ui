@@ -343,31 +343,6 @@ QPushButton:disabled  {
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="colorButton">
-     <property name="geometry">
-      <rect>
-       <x>100</x>
-       <y>30</y>
-       <width>32</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Current color&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton  {	
-	background-color: none;
-	border-color: black;
-	border-style: solid;
-	border-width: 2px;
-	border-radius: 5px;
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
     <widget class="QWidget" name="paletteWidget" native="true">
      <property name="geometry">
       <rect>
@@ -520,6 +495,28 @@ QPushButton:hover  {
 QPushButton:hover  {
 	background-color : rgb(204, 204, 204);
 	border-color: rgb(0, 0, 255);
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 5px;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="currentColorLabel">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>30</y>
+       <width>31</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel  {	
+	background-color: none;
+	border-color: black;
 	border-style: solid;
 	border-width: 2px;
 	border-radius: 5px;
@@ -946,7 +943,7 @@ QPushButton:hover  {
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>32</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>

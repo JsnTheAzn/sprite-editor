@@ -253,6 +253,14 @@ void MainWindow::selectedColor(QAbstractButton *button) {
     qDebug() << "buttongroup id: " << colorPaletteButtonGroup->id(currentColorButton);
     QColor newColor = colorPalette->getColor(colorPaletteButtonGroup->id(currentColorButton));
     tool->setCurrentColor({newColor.red(), newColor.green(), newColor.blue(), newColor.alpha()});
+    QString styleSheet = QString("QLabel  {"
+        "background-color: rgba(%1, %2, %3, %4); "
+        "border-color: black; "
+        "border-style: solid; "
+        "border-width: 2px; "
+        "border-radius: 5px;}")
+        .arg(newColor.red()).arg(newColor.green()).arg(newColor.blue()).arg(newColor.alpha());
+    ui->currentColorLabel->setStyleSheet(styleSheet);
 }
 
 void MainWindow::removeColorButton() {
