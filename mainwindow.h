@@ -66,12 +66,13 @@ private:
     bool newPosition;
 
     /**
-     * @brief checkMouseBounds - Boolean statement to declare whether or not the current position
-     * of the mouse is within the bounds of the canvas.
+     * @brief isInCanvas - Boolean statement to declare whether or not an x-y position
+     *  is within the bounds of the canvas.
+     * @param x - the x position to check.
+     * @param y - the y position to check.
      * @return True if the mouse is inside of the canvas widget.
      */
-    bool checkMouseBounds();
-
+    bool isInCanvas(int x, int y);
 
 #endif // MAINWINDOW_H
 };

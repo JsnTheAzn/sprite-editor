@@ -120,9 +120,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
     double mouseY = event->position().y();
     QLabel* canvas = ui->canvas;
 
-    if (mouseX > canvas->pos().x() && mouseX < canvas->width() + canvas->pos().x() &&
-        mouseY > canvas->pos().y() && mouseY < canvas->height() + canvas->pos().y()) {
-
+    if (isInCanvas(mouseX, mouseY)) {
         mouseX = mouseX - canvas->pos().x();
         mouseY = mouseY - canvas->pos().y();
 
@@ -134,9 +132,41 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
     }
 }
 
+bool MainWindow::isInCanvas(int x, int y){
+    bool isValidX = x > ui->canvas->pos().x() && x < ui->canvas->width() + ui->canvas->pos().x();
+    bool isValidY = y > ui->canvas->pos().y() && y < ui->canvas->height() + ui->canvas->pos().y();
+    return isValidX && isValidY;
+}
+
 void MainWindow::mouseReleaseEvent(QMouseEvent *event){
+    double mouseX = event->position().x();
+    double mouseY = event->position().y();
+
+    //if the mouse is not in the canvas, we don't care.
+    if(!isInCanvas(mouseX, mouseY))
+        return;
+
     qDebug() << "Mouse released; sending signal from MAIN to MODEL to save new version.";
     emit saveNewVersion(sprite);
+
+    //store the string name of the tool used...
+    std::string currentToolString;
+    switch (tool->getCurrentTool()){
+    case Tool::Tools::Pen:
+        currentToolString = "Pen";
+        break;
+    case Tool::Tools::Eraser:
+        currentToolString = "Eraser";
+        break;
+    case Tool::Tools::PaintBucket:
+        currentToolString = "Paint Bucket";
+        break;
+    }
+
+    qDebug() << "Current tool: " << currentToolString;
+    //...then, call an update to the VH combobox
+
+    //(TODO)
 }
 
 void MainWindow::drawSpriteFrame(int frame) {
