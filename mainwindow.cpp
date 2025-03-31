@@ -32,7 +32,7 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     // /\
 
     // IMAGE SETUP:
-    image = QImage(sprite->getWidth(), sprite->getWidth(), QImage::Format_RGBA32FPx4);
+    image = QImage(sprite->getWidth(), sprite->getWidth(), QImage::Format_RGBA64);
     graphic = new QGraphicsScene(this);
     graphic->addPixmap(QPixmap::fromImage(image));    
     
@@ -45,7 +45,7 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     //view to model
     connect(ui->saveButton, &QPushButton::clicked, fileManager, &FileManager::saveButtonClicked);
     connect(ui->loadButton, &QPushButton::clicked, fileManager, &FileManager::loadButtonClicked);
-    connect(ui->addColor, &QPushButton::clicked, colorPalette, &ColorPalette::addColor);
+    connect(ui->addColor, &QPushButton::clicked, colorPalette, &ColorPalette::queryColor);
     connect(ui->eraseButton, &QPushButton::clicked, model, [model]{model->setTool(Tool::Tools::Eraser);});
     connect(ui->paintButton, &QPushButton::clicked, model, [model]{model->setTool(Tool::Tools::Pen);});
     connect(ui->fillButton, &QPushButton::clicked, model, [model]{model->setTool(Tool::Tools::PaintBucket);});
@@ -62,6 +62,7 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     //view to... erm... view?
     connect(colorPaletteButtonGroup, &QButtonGroup::buttonClicked, this, &MainWindow::selectedColor);
     connect(ui->removeColor, &QPushButton::clicked, this, &MainWindow::removeColorButton);
+    connect(ui->confirmResize, &QPushButton::clicked, this, &MainWindow::resizeButtonPressed);
 
     // model to model
     connect(sprite, &Sprite::drawFrame, this, &MainWindow::drawSpriteFrame);
@@ -122,12 +123,11 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
         canvasY = (int)(mouseY / (canvas->width() / sprite->getWidth()));
 
         tool->useTool(sprite, canvasX, canvasY);
-        newPosition = true;
+        newPosition = false;
     }
 }
 
 void MainWindow::drawSpriteFrame(int frame) {
-
     int width = sprite->getWidth();
     int oldFrame = sprite->getFrame();
     sprite->setCurrentFrame(frame);
@@ -138,8 +138,9 @@ void MainWindow::drawSpriteFrame(int frame) {
         for (int col = 0; col < width; col++) {
 
             sprite->getPixel(row, col, pixelColors); //get pixel location & colors
-            image.setPixel(row, col,
-                           qRgba(pixelColors[0], pixelColors[1], pixelColors[2], pixelColors[3]));
+            QColor setColor = QColor(
+                pixelColors[0], pixelColors[1], pixelColors[2], pixelColors[3]);
+            image.setPixelColor(row, col, setColor);
         }
     }
     graphic->addPixmap(QPixmap::fromImage(image));
@@ -154,7 +155,7 @@ void MainWindow::updateSprite() {
     drawSpriteFrame(sprite->getFrame());
 }
 
-void MainWindow::addNewColorButton(QColor color) {
+void MainWindow::addNewColorButton(QColor color, int id) {
     QGroupBox *groupBox = findChild<QGroupBox*>("leftPanel");
     if (!groupBox) {
         return;
@@ -168,16 +169,19 @@ void MainWindow::addNewColorButton(QColor color) {
         return;
     }
     QPushButton* newButton = new QPushButton("", this);
-    QString styleSheet = QString("background-color: rgb(%1, %2, %3);"
+    QString styleSheet = QString("background-color: rgba(%1, %2, %3, %4);"
                                  "border: 1px solid black;")
         .arg(color.red())
         .arg(color.green())
-        .arg(color.blue());
+        .arg(color.blue())
+        .arg(color.alpha());
     newButton->setStyleSheet(styleSheet);
-    colorPaletteButtonGroup->addButton(newButton, -1);
+    colorPaletteButtonGroup->addButton(newButton, id);
     layout->addWidget(newButton);
 }
 
+
+// REWORK REWORK REWORK:
 void MainWindow::selectedColor(QAbstractButton *button) {
     if (!button) return;
 
@@ -194,13 +198,17 @@ void MainWindow::selectedColor(QAbstractButton *button) {
     currentColorButton->setStyleSheet(currentStyle);
 
     //set color:
-    QColor newColor = currentColorButton->palette().color(QPalette::Button);
-    tool->setCurrentColor({newColor.red(), newColor.green(), newColor.blue(), 255});
+    // QColor newColor = currentColorButton->palette().color(QPalette::Button);
+    qDebug() << "buttongroup id: " << colorPaletteButtonGroup->id(currentColorButton);
+    QColor newColor = colorPalette->getColor(colorPaletteButtonGroup->id(currentColorButton));
+    tool->setCurrentColor({newColor.red(), newColor.green(), newColor.blue(), newColor.alpha()});
 }
 
 void MainWindow::removeColorButton() {
     //TODO: go back into the model and remove the specific color from the vector.
     if (currentColorButton) {
+        int id = colorPaletteButtonGroup->id(currentColorButton);
+        colorPalette->removeColor(id);
         colorPaletteButtonGroup->removeButton(currentColorButton);
         delete currentColorButton;
         currentColorButton = nullptr;
@@ -217,4 +225,12 @@ void MainWindow::clearColorPalette() {
     }
 }
 
+void MainWindow::resizeButtonPressed() {
+    bool viable;
+    int newWidth = ui->widthInput->text().toInt(&viable);
+    if (viable) {
+        image = QImage(newWidth, newWidth, QImage::Format_RGBA64);
+        sprite->resize(newWidth);
+    }
 
+}

@@ -10,25 +10,26 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 
-ColorPalette::ColorPalette(QObject *parent) : QObject{parent} {
+ColorPalette::ColorPalette(QObject *parent) : QObject{parent}, nextID(0) {
 }
 
-void ColorPalette::addColor() {
+void ColorPalette::queryColor() {
+    QColor selectedColor = QColorDialog::getColor(Qt::white, nullptr, "Select Color", QColorDialog::ShowAlphaChannel);
+    if (selectedColor.isValid()) {
+        addColor(selectedColor);
+    }
+}
+
+void ColorPalette::addColor(const QColor& newColor) {
     if (colors.size() <= 8) {
-        QColor selectedColor = QColorDialog::getColor(Qt::white, nullptr, "Select Color", QColorDialog::ShowAlphaChannel);
-        if (selectedColor.isValid()) {
-            colors.append(selectedColor);
-            emit addNewColorButtonSignal(selectedColor);
-        }
+        colors.insert(nextID, newColor);
+        emit addNewColorButtonSignal(newColor, nextID);
+        nextID++;
     }
 }
 
-void ColorPalette::removeColor(QColor color) {
-    int index = colors.indexOf(color); // Find the index of the color
-    if (index != -1) {
-        colors.removeAt(index);
-        emit removeColorSignal(color); // Notify UI to remove the button
-    }
+void ColorPalette::removeColor(int id) {
+    colors.remove(id);
 }
 
 void ColorPalette::savePalette() {
@@ -46,7 +47,7 @@ void ColorPalette::savePalette() {
 
     // Store colors
     QJsonArray colorsArray;
-    for (const QColor &color : colors) {
+    for (const QColor &color : std::as_const(colors)) {
         QJsonObject colorObject;
         colorObject["r"] = color.red();
         colorObject["g"] = color.green();
@@ -89,7 +90,7 @@ void ColorPalette::loadPalette() {
     emit clearColorPalette();
     colors.clear();
 
-    for (const QJsonValue &value : colorsArray) {
+    for (const QJsonValue &value : std::as_const(colorsArray)) {
         QJsonObject colorObj = value.toObject();
         int r = colorObj["r"].toInt();
         int g = colorObj["g"].toInt();
@@ -97,14 +98,13 @@ void ColorPalette::loadPalette() {
         int a = colorObj["a"].toInt(255);
 
         QColor color(r, g, b, a);
-        colors.append(color);
-        emit addNewColorButtonSignal(color);
+        addColor(color);
     }
 
     qDebug() << "Loaded" << colors.size() << "colors from" << fileName;
 }
 
-
-QVector<QColor> ColorPalette::getColors() const {
-    return colors;
+QColor& ColorPalette::getColor(int index) {
+    return colors[index];
 }
+

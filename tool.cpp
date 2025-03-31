@@ -17,13 +17,12 @@ void Tool::setCurrentTool(Tools tool) {
 }
 
 void Tool::useTool(Sprite *sprite, int x, int y) {
-    int erase[4] = {0, 0, 0, 0};
     switch(currentTool) {
     case Tools::Pen:
         sprite->updatePixel(x, y, currentColor);
         break;
     case Tools::Eraser:
-        sprite->updatePixel(x, y, erase);
+        sprite->clearPixel(x, y);
         break;
     case Tools::PaintBucket:
         fillToolCall(sprite, x, y);

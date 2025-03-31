@@ -38,12 +38,13 @@ signals:
     void colorDeleted(int colorIndex);
 
 public slots:
-    void addNewColorButton(QColor color);
+    void addNewColorButton(QColor color, int id);
     void selectedColor(QAbstractButton *button);
     void removeColorButton();
     void drawSpriteFrame(int frame);
     void updateSprite();
     void clearColorPalette();
+    void resizeButtonPressed();
 
 private:
     QButtonGroup *colorPaletteButtonGroup;
@@ -55,7 +56,6 @@ private:
     Tool *tool;
     QImage image;
     QGraphicsScene *graphic;
-
 
     int canvasX;
     int canvasY;
