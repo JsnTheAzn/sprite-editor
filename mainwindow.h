@@ -38,7 +38,7 @@ signals:
     void colorDeleted(int colorIndex);
 
 public slots:
-    void addNewColorButton(QColor color);
+    void addNewColorButton(QColor color, int id);
     void selectedColor(QAbstractButton *button);
     void removeColorButton();
     void drawSpriteFrame(int frame);

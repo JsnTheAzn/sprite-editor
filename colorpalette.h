@@ -4,16 +4,18 @@
 #include <QObject>
 #include <QColor>
 #include <QVector>
+#include <QMap>
 
 class ColorPalette : public QObject
 {
     Q_OBJECT
 
 private:
-    QVector<QColor> colors; // Store colors as QColor objects
+    QMap<int, QColor> colors;
+    int nextID;
 
 signals:
-    void addNewColorButtonSignal(QColor color);
+    void addNewColorButtonSignal(QColor color, int id);
     void removeColorSignal(QColor color);
     void clearColorPalette();
 
@@ -22,15 +24,14 @@ public slots:
      * @brief removeColor - Removes color from the color palette
      * @param colorIndex - Based on the color index is what we want to remove
      */
-    void removeColor(QColor color);
+    void removeColor(int id);
 
 public:
     ColorPalette(QObject *parent = nullptr);
 
-    /**
-     * @brief addColor - Adds a color to the color palette
-     */
-    void addColor();
+    void queryColor();
+
+    void addColor(const QColor& newColor);
 
     /**
      * @brief savePalette - Saves the Color Palette
@@ -42,12 +43,8 @@ public:
      */
     void loadPalette();
 
+    QColor& getColor(int index);
 
-    /**
-     * @brief getColors - Gets the colors of the palette
-     * @return The vector of colors stored
-     */
-    QVector<QColor> getColors() const; // Function to return the stored colors
 };
 
 #endif // COLORPALETTE_H
