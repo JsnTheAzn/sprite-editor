@@ -85,7 +85,8 @@ public slots:
      * @brief addNewColorButton - adds a new button to the color palette.
      * @param color - the color to add, as a QColor.
      */
-    void addNewColorButton(QColor color);
+
+    void addNewColorButton(QColor color, int id);
 
     /**
      * @brief selectedColor - handles selection of a color button.
@@ -114,6 +115,7 @@ public slots:
      * @brief clearColorPalette - clears all buttons from the color palette.
      */
     void clearColorPalette();
+    void resizeButtonPressed();
 
     /**
      * @brief revertSprite - reverts sprite to a different version from
@@ -147,7 +149,7 @@ private:
     QGraphicsScene *graphic;
     QAbstractButton *currentColorButton;
 
-    /* Canvas Positions */
+    // Canvas Positions
     int canvasX;
     int canvasY;
     bool newPosition;

@@ -35,6 +35,7 @@ void Sprite::resize(int newWidth) {
     delete[] frames[currFrame];
     frames[currFrame] = newImage;
     width = newWidth;
+    emit drawFrame(currFrame);
 }
 
 void Sprite::setCurrentFrame(int frame) {
@@ -44,11 +45,41 @@ void Sprite::setCurrentFrame(int frame) {
 void Sprite::updatePixel(int x, int y, const int (&rgba)[4]) {
     int offset = (y * width + x) * 4;
     int* currImage = frames[currFrame];
+    double backPixel[4] = {(double)currImage[offset + 0] / 255, (double)currImage[offset + 1] / 255,
+                        (double)currImage[offset + 2] / 255, (double)currImage[offset + 3] / 255};
+    double frontPixel[4] = {(double)rgba[0] / 255, (double)rgba[1] / 255,
+                        (double)rgba[2] / 255, (double)rgba[3] / 255};
+    double finalPixel[4];
 
-    currImage[offset + 0] = rgba[0];
-    currImage[offset + 1] = rgba[1];
-    currImage[offset + 2] = rgba[2];
-    currImage[offset + 3] = rgba[3];
+    // ALPHA MASK:
+    // alpha channel
+    finalPixel[3] = 1 - (1 - frontPixel[3]) * (1 - backPixel[3]);
+    // red channel
+    finalPixel[0] = (frontPixel[0] * frontPixel[3] / finalPixel[3]) +
+                    (backPixel[0] * backPixel[3] * (1 - frontPixel[3]) / finalPixel[3]);
+    // green channel
+    finalPixel[1] = (frontPixel[1] * frontPixel[3] / finalPixel[3]) +
+                    (backPixel[1] * backPixel[3] * (1 - frontPixel[3]) / finalPixel[3]);
+    // blue channel
+    finalPixel[2] = (frontPixel[2] * frontPixel[3] / finalPixel[3]) +
+                    (backPixel[2] * backPixel[3] * (1 - frontPixel[3]) / finalPixel[3]);
+
+    currImage[offset + 0] = (int)(finalPixel[0] * 255);
+    currImage[offset + 1] = (int)(finalPixel[1] * 255);
+    currImage[offset + 2] = (int)(finalPixel[2] * 255);
+    currImage[offset + 3] = (int)(finalPixel[3] * 255);
+
+    emit drawFrame(currFrame);
+}
+
+void Sprite::clearPixel(int x, int y) {
+    int offset = (y * width + x) * 4;
+    int* currImage = frames[currFrame];
+
+    currImage[offset + 0] = 0;
+    currImage[offset + 1] = 0;
+    currImage[offset + 2] = 0;
+    currImage[offset + 3] = 0;
 
     emit drawFrame(currFrame);
 }
