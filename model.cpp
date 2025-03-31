@@ -52,7 +52,6 @@ Tool::Tools Model::getTool() {
 //FILEMANAGER
 void Model::saveSprite(){
     fileManager->saveButtonClicked();
-    //fileManager.saveFile(sprite);
 }
 
 void Model::loadSprite(){
@@ -85,7 +84,7 @@ VersionHistory* Model::getVersionHistoryPointer() {
 
 void Model::appendVersion(Sprite* updatedSprite) {
     qDebug() << "Version appended from MODEL. Sending query to VERSIONHISTORY";
-    versionHistory->addHistory(updatedSprite);
+    versionHistory->addHistory(*updatedSprite);
 }
 
 void Model::setVersionIndex(int index) {

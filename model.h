@@ -45,12 +45,6 @@ private:
     int currFrame;
 
     /**
-     * @brief currColor - Stores the current Red, Green, Blue, and Alpha values of the color
-     * to draw.
-     */
-    int currColor[4];
-
-    /**
      * @brief frameRate - Stores the current speed of the sprite animation.
      */
     int frameRate;

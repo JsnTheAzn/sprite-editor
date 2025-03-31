@@ -1,7 +1,7 @@
 #include "versionhistory.h"
 #include <QDebug>
 
-VersionHistory::VersionHistory() {
+VersionHistory::VersionHistory() : currentIndex(0) {
     spriteHistory.push_back(Sprite());
     qDebug() << "New version history created.";
 }
@@ -27,6 +27,9 @@ void VersionHistory::addHistory(const Sprite& newSprite) {
 void VersionHistory::deleteFutureHistory(int position) {
     if (position < (int)spriteHistory.size()) {
         spriteHistory.erase(spriteHistory.begin() + position, spriteHistory.end());
+
+        if(currentIndex >= (int)spriteHistory.size())
+            currentIndex = (int)spriteHistory.size() - 1;
     }
 }
 

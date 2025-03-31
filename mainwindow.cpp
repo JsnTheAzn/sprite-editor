@@ -76,6 +76,7 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     connect(ui->versionHistoryComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &MainWindow::selectVersion);
     connect(versionHistory, &VersionHistory::versionChanged, this, &MainWindow::updateVersionComboBox);
+    connect(versionHistory, &VersionHistory::versionChanged, this, &MainWindow::revertSprite);
 }
 
 MainWindow::~MainWindow()
@@ -169,6 +170,7 @@ void MainWindow::drawSpriteFrame(int frame) {
                            qRgba(pixelColors[0], pixelColors[1], pixelColors[2], pixelColors[3]));
         }
     }
+
     graphic->addPixmap(QPixmap::fromImage(image));
     ui->canvas->setPixmap(QPixmap::fromImage(image).scaled(
         ui->canvas->size(),
@@ -250,7 +252,7 @@ void MainWindow::clearColorPalette() {
 void MainWindow::selectVersion(int index) {
     if(ui->versionHistoryComboBox->hasFocus())
         model->setVersionIndex(index);
-    qDebug() << "index changed.";
+    qDebug() << "version index changed to " << index;
 }
 
 void MainWindow::updateUndoRedoButtons() {
