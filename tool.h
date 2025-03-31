@@ -7,9 +7,9 @@ using std::vector;
 
 class Sprite;
 
-class Tool : public QObject
-{
+class Tool : public QObject {
     Q_OBJECT
+    friend class Model;
 
 public:
     /**

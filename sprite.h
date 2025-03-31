@@ -5,9 +5,9 @@
 
 using std::vector;
 
-class Sprite : public QObject
-{
+class Sprite : public QObject {
     Q_OBJECT
+    friend class Model;
 
 private:
 

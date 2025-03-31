@@ -6,9 +6,9 @@
 
 using std::vector;
 
-class VersionHistory : public QObject
-{
+class VersionHistory : public QObject {
     Q_OBJECT
+    friend class Model;
 
 private:
     /**

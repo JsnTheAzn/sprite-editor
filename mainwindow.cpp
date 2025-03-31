@@ -73,6 +73,9 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     connect(ui->redoButton, &QPushButton::clicked, versionHistory, &VersionHistory::redo);
     connect(versionHistory, &VersionHistory::versionChanged, this, &MainWindow::updateSprite);
     connect(this, &MainWindow::saveNewVersion, model, &Model::appendVersion);
+    connect(ui->versionHistoryComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &MainWindow::selectVersion);
+    connect(versionHistory, &VersionHistory::versionChanged, this, &MainWindow::updateVersionComboBox);
 }
 
 MainWindow::~MainWindow()
@@ -198,6 +201,7 @@ void MainWindow::updateSprite() {
     drawSpriteFrame(sprite->getFrame());
 }
 
+// COLORPALETTE
 void MainWindow::addNewColorButton(QColor color) {
     QGroupBox *groupBox = findChild<QGroupBox*>("leftPanel");
     if (!groupBox) {
@@ -261,4 +265,12 @@ void MainWindow::clearColorPalette() {
     }
 }
 
+// VERSION HISTORY
+void MainWindow::selectVersion(){
+    qDebug() << "index changed.";
+}
+
+void MainWindow::updateVersionComboBox(){
+    qDebug() << "version updated, combo box will update.";
+}
 

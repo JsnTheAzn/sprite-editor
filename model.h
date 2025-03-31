@@ -8,8 +8,7 @@
 #include "versionhistory.h"
 #include "tool.h"
 
-class Model : public QObject
-{
+class Model : public QObject {
     Q_OBJECT
 
 private:

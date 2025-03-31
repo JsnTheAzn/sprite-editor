@@ -23,8 +23,7 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 protected:
@@ -114,6 +113,18 @@ public slots:
      * @brief clearColorPalette - clears all buttons from the color palette.
      */
     void clearColorPalette();
+
+private slots:
+    /**
+     * @brief selectVersion - updates the index of the version combo box.
+     */
+    void selectVersion();
+
+    /**
+     * @brief updateVersionComboBox - updates the contents of the version combo box
+     * to reflect version history.
+     */
+    void updateVersionComboBox();
 
 private:
     /* Instance Variables: Pointers */

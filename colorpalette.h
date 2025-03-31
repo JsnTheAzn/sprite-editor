@@ -5,9 +5,9 @@
 #include <QColor>
 #include <QVector>
 
-class ColorPalette : public QObject
-{
+class ColorPalette : public QObject {
     Q_OBJECT
+    friend class Model;
 
 private:
     QVector<QColor> colors; // Store colors as QColor objects
