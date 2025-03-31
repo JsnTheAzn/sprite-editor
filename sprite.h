@@ -69,6 +69,8 @@ public:
      */
     void updatePixel(int x, int y, const int (&rgba)[4]);
 
+    void clearPixel(int x, int y);
+
     /**
      * @brief getFrames - Returns a reference to the image data stored within the sprite.
      * WARNING: NOTE THAT THIS IS A REFERENCE, NOT A COPY.

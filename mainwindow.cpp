@@ -122,7 +122,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
         canvasY = (int)(mouseY / (canvas->width() / sprite->getWidth()));
 
         tool->useTool(sprite, canvasX, canvasY);
-        newPosition = true;
+        newPosition = false;
     }
 }
 
