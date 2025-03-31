@@ -49,16 +49,6 @@ Tool::Tools Model::getTool() {
     return tool->getCurrentTool();
 }
 
-//VERSION HISTORY
-VersionHistory* Model::getVersionHistoryPointer(){
-    return versionHistory;
-}
-
-void Model::appendVersion(Sprite* updatedSprite){
-    qDebug() << "Version appended from MODEL. Sending query to VERSIONHISTORY";
-    versionHistory->addHistory(updatedSprite);
-}
-
 //FILEMANAGER
 void Model::saveSprite(){
     fileManager->saveButtonClicked();
@@ -86,4 +76,14 @@ void Model::loadCanvas(int width, vector<int> &frames) {
     sprite->setCurrentFrame(0);
 
     emit updateSprite();
+}
+
+//VERSION HISTORY
+VersionHistory* Model::getVersionHistoryPointer(){
+    return versionHistory;
+}
+
+void Model::appendVersion(Sprite* updatedSprite){
+    qDebug() << "Version appended from MODEL. Sending query to VERSIONHISTORY";
+    versionHistory->addHistory(updatedSprite);
 }
