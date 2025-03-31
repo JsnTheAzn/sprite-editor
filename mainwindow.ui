@@ -854,7 +854,7 @@ QPushButton:hover  {
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="deleteCurrentFramebutton">
+    <widget class="QPushButton" name="deleteCurrentFrameButton">
      <property name="geometry">
       <rect>
        <x>250</x>

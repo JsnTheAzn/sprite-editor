@@ -103,6 +103,16 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
             this, &MainWindow::selectVersion); // version history selection setup
     connect(ui->fpsSlider, &QSlider::valueChanged,
             this, &MainWindow::updateFPSSlider);
+    connect(ui->prevFrameButton, &QPushButton::clicked,
+            this, &MainWindow::goToPrevFrame);
+    connect(ui->nextFrameButton, &QPushButton::clicked,
+            this, &MainWindow::goToNextFrame);
+    connect(ui->deleteCurrentFrameButton, &QPushButton::clicked,
+            this, &MainWindow::deleteCurrentFrame);
+    connect(ui->addPrevFrameButton, &QPushButton::clicked,
+            this, &MainWindow::addPrevFrame);
+    connect(ui->addNextFrameButton, &QPushButton::clicked,
+            this, &MainWindow::addNextFrame);
 
     // model to model:
     connect(fileManager, &FileManager::loadCanvas,
@@ -383,4 +393,25 @@ void MainWindow::toggleToolButtons() {
 void MainWindow::updateFPSSlider(int newFps) {
     fps = newFps;
     ui->fpsInput->setText(QString::number(fps));
+}
+
+void MainWindow::goToNextFrame() {
+    qDebug() << "this is nextframe";
+    model->currFrame
+}
+
+void MainWindow::goToPrevFrame() {
+    qDebug() << "this is goToPrevFrame";
+}
+
+void MainWindow::deleteCurrentFrame() {
+    qDebug() << "this is removeCurrentFrame";
+}
+
+void MainWindow::addPrevFrame() {
+    qDebug() << "this is addPrevFrame";
+}
+
+void MainWindow::addNextFrame() {
+    qDebug() << "this is addNextFrame";
 }

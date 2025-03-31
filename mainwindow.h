@@ -139,6 +139,31 @@ public slots:
      */
     void updateFPSSlider(int newFps);
 
+    /**
+     * @brief goToNextFrame - switches current frame to the next one
+     */
+    void goToNextFrame();
+
+    /**
+     * @brief goToPrevFrame - switches current frame to the previous one
+     */
+    void goToPrevFrame();
+
+    /**
+     * @brief deleteCurrentFrame - removes the current frame
+     */
+    void deleteCurrentFrame();
+
+    /**
+     * @brief addPrevFrame - adds frame before current frame
+     */
+    void addPrevFrame();
+
+    /**
+     * @brief addNextFrame - adds frame after current frame
+     */
+    void addNextFrame();
+
 private slots:
     /**
      * @brief selectVersion - updates the index of the version combo box.
