@@ -27,56 +27,77 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     sprite = model->getSpritePtr();
 
     fileManager->setSprite(sprite);
-    // DELETE:::::: \/
-    tool->setCurrentColor({100, 100, 100, 255});
-    // /\
 
     // IMAGE SETUP:
     image = QImage(sprite->getWidth(), sprite->getWidth(), QImage::Format_RGBA64);
     graphic = new QGraphicsScene(this);
-    graphic->addPixmap(QPixmap::fromImage(image));    
+    graphic->addPixmap(QPixmap::fromImage(image));
     
-    //COLOR PALETTE SETUP
+    // COLOR PALETTE SETUP:
     colorPalette = new ColorPalette();
     colorPaletteButtonGroup = new QButtonGroup(this);
     currentColorButton = nullptr;
       
     // CONNECTIONS:
-    //view to model
-    connect(ui->saveButton, &QPushButton::clicked, fileManager, &FileManager::saveButtonClicked);
-    connect(ui->loadButton, &QPushButton::clicked, fileManager, &FileManager::loadButtonClicked);
-    connect(ui->addColor, &QPushButton::clicked, colorPalette, &ColorPalette::queryColor);
-    connect(ui->eraseButton, &QPushButton::clicked, model, [model]{model->setTool(Tool::Tools::Eraser);});
-    connect(ui->paintButton, &QPushButton::clicked, model, [model]{model->setTool(Tool::Tools::Pen);});
-    connect(ui->fillButton, &QPushButton::clicked, model, [model]{model->setTool(Tool::Tools::PaintBucket);});
-    connect(this, &MainWindow::colorDeleted, colorPalette, &ColorPalette::removeColor);
+    // view to model:
+    connect(ui->saveButton, &QPushButton::clicked,
+            fileManager,&FileManager::saveButtonClicked); // save button setup
+    connect(ui->loadButton, &QPushButton::clicked,
+            fileManager, &FileManager::loadButtonClicked); // load button setup
+    connect(ui->addColor, &QPushButton::clicked,
+            colorPalette, &ColorPalette::queryColor); // add color button setup
+    connect(ui->eraseButton, &QPushButton::clicked,
+            model, [model]{model->setTool(Tool::Tools::Eraser);}); // erase tool button setup
+    connect(ui->paintButton, &QPushButton::clicked,
+            model, [model]{model->setTool(Tool::Tools::Pen);}); // paint tool button setup
+    connect(ui->fillButton, &QPushButton::clicked,
+            model, [model]{model->setTool(Tool::Tools::PaintBucket);}); // fill tool button setup
+    connect(ui->savePaletteButton, &QPushButton::clicked,
+            colorPalette, &ColorPalette::savePalette); // save palette button setup
+    connect(ui->loadPaletteButton, &QPushButton::clicked,
+            colorPalette, &ColorPalette::loadPalette); // load palette button setup
+    connect(ui->undoButton, &QPushButton::clicked,
+            model->getVersionHistoryPointer(), &VersionHistory::undo); // undo button setup
+    connect(ui->redoButton, &QPushButton::clicked,
+            model->getVersionHistoryPointer(), &VersionHistory::redo); // redo button setup
 
-    //model to view
-    connect(colorPalette, &ColorPalette::addNewColorButtonSignal, this, &MainWindow::addNewColorButton);
-    connect(ui->savePaletteButton, &QPushButton::clicked, colorPalette, &ColorPalette::savePalette);
-    connect(ui->loadPaletteButton, &QPushButton::clicked, colorPalette, &ColorPalette::loadPalette);
-    connect(model, &Model::updateSprite, this, &MainWindow::updateSprite);
-    connect(colorPalette, &ColorPalette::removeColorSignal, this, &MainWindow::removeColorButton);
-    connect(colorPalette, &ColorPalette::clearColorPalette, this, &MainWindow::clearColorPalette);
+    // controller to model:
+    connect(this, &MainWindow::colorDeleted,
+            colorPalette, &ColorPalette::removeColor); // delete color signal
+    connect(this, &MainWindow::saveNewVersion,
+            model, &Model::appendVersion); // new version signal
+
+    // model to controller:
+    connect(colorPalette, &ColorPalette::addNewColorButtonSignal,
+            this, &MainWindow::addNewColorButton); // add button color in palette
+    connect(colorPalette, &ColorPalette::removeColorSignal,
+            this, &MainWindow::removeColorButton); // remove color in palette
+    connect(colorPalette, &ColorPalette::clearColorPalette,
+            this, &MainWindow::clearColorPalette); // empty the color palette
+    connect(model, &Model::updateSprite,
+            this, &MainWindow::updateSprite); // update sprite signal
+    connect(sprite, &Sprite::drawFrame,
+            this, &MainWindow::drawSpriteFrame); // draw the sprite at a frame
+    connect(model->getVersionHistoryPointer(), &VersionHistory::versionChanged,
+            this, &MainWindow::updateSprite); // history version switched (sprite visuals)
+    connect(model->getVersionHistoryPointer(), &VersionHistory::versionChanged,
+            this, &MainWindow::updateVersionComboBox); // history version switched (history list)
+    connect(model->getVersionHistoryPointer(), &VersionHistory::versionChanged,
+            this, &MainWindow::revertSprite); // history version switched (sprite data)
     
-    //view to... erm... view?
-    connect(colorPaletteButtonGroup, &QButtonGroup::buttonClicked, this, &MainWindow::selectedColor);
-    connect(ui->removeColor, &QPushButton::clicked, this, &MainWindow::removeColorButton);
-    connect(ui->confirmResize, &QPushButton::clicked, this, &MainWindow::resizeButtonPressed);
-
-    // model to model
-    connect(sprite, &Sprite::drawFrame, this, &MainWindow::drawSpriteFrame);
-    connect(fileManager, &FileManager::loadCanvas, model, &Model::loadCanvas);
-
-    // Version History
-    connect(ui->undoButton, &QPushButton::clicked, model->getVersionHistoryPointer(), &VersionHistory::undo);
-    connect(ui->redoButton, &QPushButton::clicked, model->getVersionHistoryPointer(), &VersionHistory::redo);
-    connect(model->getVersionHistoryPointer(), &VersionHistory::versionChanged, this, &MainWindow::updateSprite);
-    connect(this, &MainWindow::saveNewVersion, model, &Model::appendVersion);
+    // view to controller:
+    connect(colorPaletteButtonGroup, &QButtonGroup::buttonClicked,
+            this, &MainWindow::selectedColor); // color palette select
+    connect(ui->removeColor, &QPushButton::clicked,
+            this, &MainWindow::removeColorButton); // remove color button setup
+    connect(ui->confirmResize, &QPushButton::clicked,
+            this, &MainWindow::resizeButtonPressed); // resize button setup
     connect(ui->versionHistoryComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &MainWindow::selectVersion);
-    connect(model->getVersionHistoryPointer(), &VersionHistory::versionChanged, this, &MainWindow::updateVersionComboBox);
-    connect(model->getVersionHistoryPointer(), &VersionHistory::versionChanged, this, &MainWindow::revertSprite);
+            this, &MainWindow::selectVersion); // version history selection setup
+
+    // model to model:
+    connect(fileManager, &FileManager::loadCanvas,
+            model, &Model::loadCanvas); // communicates a loaded sprite
 }
 
 MainWindow::~MainWindow()
@@ -171,7 +192,7 @@ void MainWindow::drawSpriteFrame(int frame) {
         }
     }
 
-    graphic->addPixmap(QPixmap::fromImage(image));
+    // graphic->addPixmap(QPixmap::fromImage(image));
     ui->canvas->setPixmap(QPixmap::fromImage(image).scaled(
         ui->canvas->size(),
         Qt::KeepAspectRatio,
@@ -210,8 +231,6 @@ void MainWindow::addNewColorButton(QColor color, int id) {
     layout->addWidget(newButton);
 }
 
-
-// REWORK REWORK REWORK:
 void MainWindow::selectedColor(QAbstractButton *button) {
     if (!button) return;
 
@@ -235,7 +254,6 @@ void MainWindow::selectedColor(QAbstractButton *button) {
 }
 
 void MainWindow::removeColorButton() {
-    //TODO: go back into the model and remove the specific color from the vector.
     if (currentColorButton) {
         int id = colorPaletteButtonGroup->id(currentColorButton);
         colorPalette->removeColor(id);
@@ -243,7 +261,6 @@ void MainWindow::removeColorButton() {
         delete currentColorButton;
         currentColorButton = nullptr;
     }
-    //TODO: THIS IS WRONGGGGGGGGGGGG!
     emit colorDeleted(0);
 }
 
