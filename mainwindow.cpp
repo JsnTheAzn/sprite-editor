@@ -10,6 +10,7 @@
 #include <QGridLayout>
 #include <QButtonGroup>
 #include <QRegularExpression>
+#include <QLineEdit>
 
 MainWindow::MainWindow(Model* model, QWidget *parent)
     : QMainWindow(parent)
@@ -190,6 +191,10 @@ void MainWindow::drawSpriteFrame(int frame) {
     int width = sprite->getWidth();
     int oldFrame = sprite->getFrame();
     sprite->setCurrentFrame(frame);
+
+    //Resize loaded .ssp file to correct width and update QLineEdit.
+    image = QImage(width, width, QImage::Format_ARGB32);
+    ui->widthInput->setText(QString::number(width));
 
     int pixelColors[4];
 
