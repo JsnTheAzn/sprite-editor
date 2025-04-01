@@ -403,6 +403,13 @@ void MainWindow::drawAnimationFrame() {
 void MainWindow::updateFPS(int newFps) {
     fps = newFps;
     ui->fpsInput->setText(QString::number(fps));
+
+    // Trigger animation changes.
+    if(fps == 0)
+        animationTimer->stop();
+    else
+        animationTimer->start(1000/fps);
+
 }
 
 void MainWindow::goToNextFrame() {
