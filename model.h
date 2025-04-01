@@ -1,3 +1,10 @@
+/**
+ * @brief model - The model class represents and deals with the model portion of MVC.
+ * @version 3/31/2025
+ * @authors Evan Tucker, Max Donaldson, Ariadne Petroulakis, Jason Khong, Ian Weller
+ * * checked by Evan Tucker
+ */
+
 #ifndef MODEL_H
 #define MODEL_H
 
