@@ -137,7 +137,7 @@ public slots:
      * @brief updateFPS - updates the FPS from the slider.
      * @param fps - the new FPS
      */
-    void updateFPSSlider(int newFps);
+    void updateFPS(int newFps);
 
     /**
      * @brief goToNextFrame - switches current frame to the next one

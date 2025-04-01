@@ -102,7 +102,7 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     connect(ui->versionHistoryComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &MainWindow::selectVersion); // version history selection setup
     connect(ui->fpsSlider, &QSlider::valueChanged,
-            this, &MainWindow::updateFPSSlider);
+            this, &MainWindow::updateFPS);
     connect(ui->prevFrameButton, &QPushButton::clicked,
             this, &MainWindow::goToPrevFrame);
     connect(ui->nextFrameButton, &QPushButton::clicked,
@@ -390,7 +390,7 @@ void MainWindow::toggleToolButtons() {
 }
 
 // ANIMATION
-void MainWindow::updateFPSSlider(int newFps) {
+void MainWindow::updateFPS(int newFps) {
     fps = newFps;
     ui->fpsInput->setText(QString::number(fps));
 }
