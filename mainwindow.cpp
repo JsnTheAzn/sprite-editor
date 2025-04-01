@@ -11,6 +11,7 @@
 #include <QButtonGroup>
 #include <QRegularExpression>
 #include <QLineEdit>
+#include <QTimer>
 
 MainWindow::MainWindow(Model* model, QWidget *parent)
     : QMainWindow(parent)
@@ -42,6 +43,9 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     colorPalette = new ColorPalette();
     colorPaletteButtonGroup = new QButtonGroup(this);
     currentColorButton = nullptr;
+
+    // ANIMATION SETUP
+    animationTimer = new QTimer(this);
       
     // CONNECTIONS:
     // view to model:
@@ -113,6 +117,7 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
             this, &MainWindow::addPrevFrame);
     connect(ui->addNextFrameButton, &QPushButton::clicked,
             this, &MainWindow::addNextFrame);
+    connect(animationTimer, &QTimer::timeout, this, QOverload<>::of(&MainWindow::drawAnimationFrame));
 
     // model to model:
     connect(fileManager, &FileManager::loadCanvas,
@@ -390,6 +395,11 @@ void MainWindow::toggleToolButtons() {
 }
 
 // ANIMATION
+void MainWindow::drawAnimationFrame() {
+    qDebug() << "CONSTANTLY DRAW A FRAME. CURRENTLY RUNNING AT " << fps << "fps";
+}
+
+// FRAMES
 void MainWindow::updateFPS(int newFps) {
     fps = newFps;
     ui->fpsInput->setText(QString::number(fps));

@@ -176,6 +176,11 @@ private slots:
      */
     void updateVersionComboBox();
 
+    /**
+     * @brief drawAnimationFrame
+     */
+    void drawAnimationFrame();
+
 private:
     //Instance Variables: Pointers
     QButtonGroup *colorPaletteButtonGroup;
@@ -189,6 +194,7 @@ private:
     QGraphicsScene *graphic;
     QAbstractButton *currentColorButton;
     QIntValidator* fpsValidator;
+    QTimer* animationTimer;
 
     // Canvas Positions
     int canvasX;
