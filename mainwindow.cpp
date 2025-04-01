@@ -206,7 +206,6 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event){
 
 // DRAWING
 void MainWindow::drawSpriteFrame(int frame) {
-    qDebug() << "drawSpriteFrame";
     int width = sprite->getWidth();
     int oldFrame = sprite->getFrame();
     sprite->setCurrentFrame(frame);
@@ -234,9 +233,7 @@ void MainWindow::drawSpriteFrame(int frame) {
 }
 
 void MainWindow::updateSprite() {
-    qDebug() << "started update sprite. Should be called after addHistory is called.";
     drawSpriteFrame(sprite->getFrame());
-    qDebug() << "Updated sprite. Should be called after addHistory is called.";
 }
 
 
@@ -282,7 +279,6 @@ void MainWindow::selectedColor(QAbstractButton *button) {
 
     //set color:
     // QColor newColor = currentColorButton->palette().color(QPalette::Button);
-    qDebug() << "buttongroup id: " << colorPaletteButtonGroup->id(currentColorButton);
     QColor newColor = colorPalette->getColor(colorPaletteButtonGroup->id(currentColorButton));
     tool->setCurrentColor({newColor.red(), newColor.green(), newColor.blue(), newColor.alpha()});
     QString styleSheet = QString("QLabel  {"
@@ -459,7 +455,6 @@ void MainWindow::goToNextFrame() {
         drawSpriteFrame(sprite->getFrame());
         ui->frameSelectorCombobox->setCurrentIndex(sprite->getFrame());
     }
-    qDebug() << "index: " << sprite->getFrame();
 }
 
 void MainWindow::goToPrevFrame() {
@@ -471,13 +466,6 @@ void MainWindow::goToPrevFrame() {
         drawSpriteFrame(sprite->getFrame());
         ui->frameSelectorCombobox->setCurrentIndex(sprite->getFrame());
     }
-    qDebug() << "index: " << sprite->getFrame();
-}
-
-void MainWindow::goToFrameIndex(int index) {
-    sprite->setCurrentFrame(index);
-    drawSpriteFrame(sprite->getFrame());
-    ui->frameSelectorCombobox->setCurrentIndex(sprite->getFrame());
 }
 
 void MainWindow::goToFrameIndex(int index) {
