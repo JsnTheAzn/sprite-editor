@@ -293,14 +293,14 @@ void MainWindow::selectedColor(QAbstractButton *button) {
 }
 
 void MainWindow::removeColorButton() {
-    int id = colorPaletteButtonGroup->id(currentColorButton);
     if (currentColorButton) {
+        int id = colorPaletteButtonGroup->id(currentColorButton);
         colorPalette->removeColor(id);
         colorPaletteButtonGroup->removeButton(currentColorButton);
         delete currentColorButton;
         currentColorButton = nullptr;
+        emit colorDeleted(id);
     }
-    emit colorDeleted(id);
 }
 
 void MainWindow::clearColorPalette() {
