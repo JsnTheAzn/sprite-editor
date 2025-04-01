@@ -80,6 +80,16 @@ signals:
      */
     void saveNewVersion(Sprite *current);
 
+    /**
+     * @brief ctrlZPressed - Signal when control + z is pressed.
+     */
+    void ctrlZPressed();
+
+    /**
+     * @brief ctrlYPressed - Signal when control + Y is pressed.
+     */
+    void ctrlYPressed();
+
 public slots:
     /**
      * @brief addNewColorButton - adds a new button to the color palette.
@@ -237,6 +247,13 @@ private:
      * @brief updateUndoRedoButtons - handles enabling and disabling of the undo and redo buttons.
      */
     void updateUndoRedoButtons();
+
+    /**
+     * @brief keyPressEvent - Takes in a key press and determines if it's a
+     * Control + Z or a Control + Y. Otherwise, calls the non-overrided keyPressEvent with event
+     * @param Key which was pressed
+     */
+    void keyPressEvent(QKeyEvent *event);
 
 #endif // MAINWINDOW_H
 };

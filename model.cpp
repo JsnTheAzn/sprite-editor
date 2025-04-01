@@ -102,3 +102,5 @@ int Model::getVersionIndex() {
 int Model::getHistorySize() {
     return versionHistory->size();
 }
+
+

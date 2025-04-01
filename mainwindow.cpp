@@ -66,6 +66,10 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
             model->getVersionHistoryPointer(), &VersionHistory::undo); // undo button setup
     connect(ui->redoButton, &QPushButton::clicked,
             model->getVersionHistoryPointer(), &VersionHistory::redo); // redo button setup
+    connect(this, &MainWindow::ctrlZPressed,
+            model->getVersionHistoryPointer(), &VersionHistory::undo); // undo keyboard shortcut setup
+    connect(this, &MainWindow::ctrlYPressed,
+            model->getVersionHistoryPointer(), &VersionHistory::redo); // redo keyboard shortcut setup
 
     // controller to model:
     connect(this, &MainWindow::colorDeleted,
@@ -300,8 +304,8 @@ void MainWindow::removeColorButton() {
         colorPaletteButtonGroup->removeButton(currentColorButton);
         delete currentColorButton;
         currentColorButton = nullptr;
+        emit colorDeleted(id);
     }
-    emit colorDeleted(0);
 }
 
 void MainWindow::clearColorPalette() {
@@ -510,3 +514,12 @@ void MainWindow::addNextFrame() {
                                 "Frame " + QString::number(currentFrameIndex + 1));
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event) {
+    if (event->modifiers() & Qt::ControlModifier && event->key() == Qt::Key_Z) {
+        emit ctrlZPressed();
+    }
+    if (event->modifiers() & Qt::ControlModifier && event->key() == Qt::Key_Y) {
+        emit ctrlYPressed();
+    }
+    QMainWindow::keyPressEvent(event);
+}

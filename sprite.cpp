@@ -135,6 +135,7 @@ int Sprite::getNumberOfFrames() {
 void Sprite::deleteCurrentFrame() {
     if ((int)frames.size() == 1)
         return;
+
     delete frames[currFrame];
     frames.erase(frames.begin() + currFrame);
 
