@@ -106,6 +106,12 @@ public slots:
     void drawSpriteFrame(int frame);
 
     /**
+     * @brief drawAnimationFrame - draws a frame of a Sprite on the canvas.
+     * @param frame - the specific frame to draw.
+     */
+    void drawAnimationFrame(int frame);
+
+    /**
      * @brief updateSprite - draws, on the camnvas in the view,
      *  a sprite update from the model
      */
@@ -191,6 +197,7 @@ private:
     Model *model;
     Tool *tool;
     QImage image;
+    QImage animationImage;;
     QGraphicsScene *graphic;
     QAbstractButton *currentColorButton;
     QIntValidator* fpsValidator;
@@ -201,8 +208,9 @@ private:
     int canvasY;
     bool newPosition;
 
-    //Other instace vars
+    // Animation Vars
     int fps;
+    int animationFrame;
 
     /**
      * @brief isInCanvas - Boolean statement to declare whether or not an x-y position

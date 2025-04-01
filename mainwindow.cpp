@@ -28,17 +28,13 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     tool = model->getToolPtr();
     sprite = model->getSpritePtr();
     fps = 0;
+    animationFrame = 0;
 
     fileManager->setSprite(sprite);
 
     fpsValidator = new QIntValidator(0, 60, this); // Accepts integers from 0 to 100
     ui->fpsInput->setValidator(fpsValidator);
 
-    // IMAGE SETUP:
-    image = QImage(sprite->getWidth(), sprite->getWidth(), QImage::Format_RGBA64);
-    graphic = new QGraphicsScene(this);
-    graphic->addPixmap(QPixmap::fromImage(image));
-    
     // COLOR PALETTE SETUP:
     colorPalette = new ColorPalette();
     colorPaletteButtonGroup = new QButtonGroup(this);
@@ -131,7 +127,6 @@ MainWindow::~MainWindow()
     model = nullptr;
     delete fileManager;
     delete ui;
-    delete graphic;
     delete fpsValidator;
 }
 
@@ -222,7 +217,6 @@ void MainWindow::drawSpriteFrame(int frame) {
         }
     }
 
-    // graphic->addPixmap(QPixmap::fromImage(image));
     ui->canvas->setPixmap(QPixmap::fromImage(image).scaled(
         ui->canvas->size(),
         Qt::KeepAspectRatio,
@@ -397,6 +391,37 @@ void MainWindow::toggleToolButtons() {
 // ANIMATION
 void MainWindow::drawAnimationFrame() {
     qDebug() << "CONSTANTLY DRAW A FRAME. CURRENTLY RUNNING AT " << fps << "fps";
+    drawAnimationFrame((animationFrame++) % sprite->getNumberOfFrames());
+
+    qDebug() << "DRAWING FRAME " << animationFrame << " with fps " << fps;
+
+}
+
+void MainWindow::drawAnimationFrame(int frame) {
+    int width = sprite->getWidth();
+    int oldFrame = animationFrame;
+    animationFrame = frame;
+
+    // //Resize loaded .ssp file to correct width and update QLineEdit.
+    animationImage = QImage(width, width, QImage::Format_ARGB32);
+
+    int pixelColors[4];
+
+    //
+    for (int row = 0; row < width; row++) {
+        for (int col = 0; col < width; col++) {
+
+            sprite->getPixelAtFrame(animationFrame, row, col, pixelColors); //get pixel location & colors
+            QColor setColor = QColor(
+                pixelColors[0], pixelColors[1], pixelColors[2], pixelColors[3]);
+            animationImage.setPixelColor(row, col, setColor);
+        }
+    }
+
+    ui->animationPreview->setPixmap(QPixmap::fromImage(animationImage).scaled(
+        ui->animationPreview->size(),
+        Qt::KeepAspectRatio,
+        Qt::FastTransformation));
 }
 
 // FRAMES

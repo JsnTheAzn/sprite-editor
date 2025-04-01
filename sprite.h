@@ -134,6 +134,16 @@ public:
      */
     void getPixel(int x, int y, int (&returnArray)[4]);
 
+    /**
+     * @brief getPixel - Sets the inputted array to the color of the pixel at the given x and y
+     * canvas coordinates and any given frame.
+     * @param frame - the frame to take from.
+     * @param x - The canvas X coordinate (ascending left to right).
+     * @param y - The canvas Y coordinate (ascending top to bottom).
+     * @param returnArray - The array to store the color data into. Must have a size of 4.
+     */
+    void getPixelAtFrame(int frame, int x, int y, int (&returnArray)[4]);
+
 signals:
     void drawFrame(int frame);
 };
