@@ -1,3 +1,10 @@
+/**
+ * @brief colorpalette - The ColorPalette class. This class handles the model portion of the
+ * color palette.
+ * @version 3/31/2025
+ * @authors Evan Tucker, Max Donaldson, Ariadne Petroulakis, Jason Khong, Ian Weller
+ * * checked by Ian Weller
+ */
 #ifndef COLORPALETTE_H
 #define COLORPALETTE_H
 

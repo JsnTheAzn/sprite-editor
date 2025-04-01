@@ -480,6 +480,12 @@ void MainWindow::goToFrameIndex(int index) {
     ui->frameSelectorCombobox->setCurrentIndex(sprite->getFrame());
 }
 
+void MainWindow::goToFrameIndex(int index) {
+    sprite->setCurrentFrame(index);
+    drawSpriteFrame(sprite->getFrame());
+    ui->frameSelectorCombobox->setCurrentIndex(sprite->getFrame());
+}
+
 void MainWindow::deleteCurrentFrame() {
     ui->frameSelectorCombobox->removeItem(sprite->getFrame());
     sprite->deleteCurrentFrame();
@@ -500,6 +506,7 @@ void MainWindow::addNextFrame() {
     ui->frameSelectorCombobox->insertItem(currentFrameIndex,
                                 "Frame " + QString::number(currentFrameIndex + 1));
 }
+
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
     if (event->modifiers() & Qt::ControlModifier && event->key() == Qt::Key_Z) {

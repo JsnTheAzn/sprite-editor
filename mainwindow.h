@@ -79,7 +79,8 @@ signals:
     void saveNewVersion(Sprite *current);
 
     /**
-     * @brief ctrlZPressed - Signal when control + z is pressed.
+     * @brief addNewColorButton - Adds a new button to the color palette.
+     * @param color - The color to add, as a QColor.
      */
     void ctrlZPressed();
 
@@ -113,8 +114,8 @@ public slots:
     void drawSpriteFrame(int frame);
 
     /**
-     * @brief drawAnimationFrame - draws a frame of a Sprite on the canvas.
-     * @param frame - the specific frame to draw.
+     * @brief updateSprite - Draws, on the camnvas in the view,
+     *  a sprite update from the model.
      */
     void drawAnimationFrame(int frame);
 
