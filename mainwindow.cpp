@@ -201,6 +201,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event){
 
 // DRAWING
 void MainWindow::drawSpriteFrame(int frame) {
+    qDebug() << "drawSpriteFrame";
     int width = sprite->getWidth();
     int oldFrame = sprite->getFrame();
     sprite->setCurrentFrame(frame);
@@ -230,8 +231,9 @@ void MainWindow::drawSpriteFrame(int frame) {
 }
 
 void MainWindow::updateSprite() {
-    qDebug() << "Updated sprite. Should be called after addHistory is called.";
+    qDebug() << "started update sprite. Should be called after addHistory is called.";
     drawSpriteFrame(sprite->getFrame());
+    qDebug() << "Updated sprite. Should be called after addHistory is called.";
 }
 
 
@@ -406,6 +408,7 @@ void MainWindow::goToNextFrame() {
     // Ensure there is a next frame before continuing.
     if(nextFrameIndex < sprite->getNumberOfFrames()) {
         sprite->setCurrentFrame(nextFrameIndex);
+        drawSpriteFrame(sprite->getFrame());
     }
 }
 
@@ -414,17 +417,16 @@ void MainWindow::goToPrevFrame() {
     int prevFrameIndex = sprite->getFrame() - 1;
 
     // Ensure there is a previous frame before continuing.
-    if(prevFrameIndex < 0) {
+    if (prevFrameIndex >= 0) {
         sprite->setCurrentFrame(prevFrameIndex);
+        drawSpriteFrame(sprite->getFrame());
     }
 }
 
 void MainWindow::deleteCurrentFrame() {
     qDebug() << "this is removeCurrentFrame";
     //if currentFrame is 0, then there is no more other frames
-    if (sprite->getFrame() != 0) {
-        sprite->deleteCurrentFrame();
-    }
+    sprite->deleteCurrentFrame();
 }
 
 void MainWindow::addPrevFrame() {

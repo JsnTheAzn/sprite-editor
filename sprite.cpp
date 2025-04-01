@@ -54,6 +54,8 @@ void Sprite::updatePixel(int x, int y, const int (&rgba)[4]) {
     // ALPHA MASK:
     // alpha channel
     finalPixel[3] = 1 - (1 - frontPixel[3]) * (1 - backPixel[3]);
+    if (finalPixel[3] < 0.0001)
+        return;
     // red channel
     finalPixel[0] = (frontPixel[0] * frontPixel[3] / finalPixel[3]) +
                     (backPixel[0] * backPixel[3] * (1 - frontPixel[3]) / finalPixel[3]);
@@ -127,8 +129,16 @@ int Sprite::getNumberOfFrames() {
 }
 
 void Sprite::deleteCurrentFrame() {
-    delete[] frames[currFrame];
-    currFrame--;
+    if ((int)frames.size() == 1)
+        return;
+
+    delete frames[currFrame];
+    frames.erase(frames.begin() + currFrame);
+
+    if (currFrame > (int)(frames.size() - 1))
+        currFrame = (int)(frames.size() - 1);
+
+    emit drawFrame(currFrame);
 }
 
 void Sprite::insertFrame(int index) {
