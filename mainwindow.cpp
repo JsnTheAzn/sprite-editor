@@ -65,6 +65,10 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
             model->getVersionHistoryPointer(), &VersionHistory::undo); // undo button setup
     connect(ui->redoButton, &QPushButton::clicked,
             model->getVersionHistoryPointer(), &VersionHistory::redo); // redo button setup
+    connect(this, &MainWindow::ctrlZPressed,
+            model->getVersionHistoryPointer(), &VersionHistory::undo); // undo keyboard shortcut setup
+    connect(this, &MainWindow::ctrlYPressed,
+            model->getVersionHistoryPointer(), &VersionHistory::redo); // undo keyboard shortcut setup
 
     // controller to model:
     connect(this, &MainWindow::colorDeleted,
@@ -433,4 +437,14 @@ void MainWindow::addNextFrame() {
     qDebug() << "this is addNextFrame";
     int currentFrameIndex = sprite->getFrame() + 1;
     sprite->insertFrame(currentFrameIndex);
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event) {
+    if (event->modifiers() & Qt::ControlModifier && event->key() == Qt::Key_Z) {
+        emit ctrlZPressed();
+    }
+    if (event->modifiers() & Qt::ControlModifier && event->key() == Qt::Key_Y) {
+        emit ctrlYPressed();
+    }
+    QMainWindow::keyPressEvent(event);
 }
