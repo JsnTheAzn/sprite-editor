@@ -12,6 +12,7 @@
 #include <QRegularExpression>
 #include <QLineEdit>
 #include <QTimer>
+#include <QCheckBox>
 
 MainWindow::MainWindow(Model* model, QWidget *parent)
     : QMainWindow(parent)
@@ -117,6 +118,8 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
             this, &MainWindow::goToFrameIndex);
     connect(animationTimer, &QTimer::timeout, 
             this, QOverload<>::of(&MainWindow::drawAnimationFrame));
+    connect(ui->trueToSizeCheckbox, &QCheckBox::checkStateChanged,
+            this, &MainWindow::trueToSizeToggled);
 
     // model to model:
     connect(fileManager, &FileManager::loadCanvas,
@@ -395,6 +398,10 @@ void MainWindow::toggleToolButtons() {
 }
 
 // ANIMATION
+void MainWindow::trueToSizeToggled(int status) {
+    drawAnimationFrame();
+}
+
 void MainWindow::drawAnimationFrame() {
     qDebug() << "CONSTANTLY DRAW A FRAME. CURRENTLY RUNNING AT " << fps << "fps";
     drawAnimationFrame((animationFrame + 1) % sprite->getNumberOfFrames());
@@ -405,7 +412,6 @@ void MainWindow::drawAnimationFrame() {
 
 void MainWindow::drawAnimationFrame(int frame) {
     int width = sprite->getWidth();
-    int oldFrame = animationFrame;
     animationFrame = frame;
 
     // //Resize loaded .ssp file to correct width and update QLineEdit.
@@ -423,11 +429,17 @@ void MainWindow::drawAnimationFrame(int frame) {
             animationImage.setPixelColor(row, col, setColor);
         }
     }
+    if(ui->trueToSizeCheckbox->isChecked()){
+        ui->animationPreview->setPixmap(QPixmap::fromImage(animationImage).scaled(
+            Qt::KeepAspectRatio,
+            Qt::FastTransformation));
+    } else {
+        ui->animationPreview->setPixmap(QPixmap::fromImage(animationImage).scaled(
+            ui->animationPreview->size(),
+            Qt::KeepAspectRatio,
+            Qt::FastTransformation));
+    }
 
-    ui->animationPreview->setPixmap(QPixmap::fromImage(animationImage).scaled(
-        ui->animationPreview->size(),
-        Qt::KeepAspectRatio,
-        Qt::FastTransformation));
 }
 
 // FRAMES

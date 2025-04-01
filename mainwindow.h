@@ -176,6 +176,12 @@ public slots:
      */
     void addNextFrame();
 
+    /**
+     * @brief trueToSizeToggled - checks if the true to size button has been toggled.
+     * @param status - if it's checked or unchecked.
+     */
+    void trueToSizeToggled(int status);
+
 private slots:
     /**
      * @brief selectVersion - updates the index of the version combo box.
