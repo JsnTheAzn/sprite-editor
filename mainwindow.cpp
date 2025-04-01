@@ -407,11 +407,7 @@ void MainWindow::trueToSizeToggled(int status) {
 }
 
 void MainWindow::drawAnimationFrame() {
-    qDebug() << "CONSTANTLY DRAW A FRAME. CURRENTLY RUNNING AT " << fps << "fps";
     drawAnimationFrame((animationFrame + 1) % sprite->getNumberOfFrames());
-
-    qDebug() << "DRAWING FRAME " << animationFrame << " with fps " << fps << " when frame total is " << sprite->getNumberOfFrames();
-
 }
 
 void MainWindow::drawAnimationFrame(int frame) {
@@ -434,9 +430,7 @@ void MainWindow::drawAnimationFrame(int frame) {
         }
     }
     if(ui->trueToSizeCheckbox->isChecked()){
-        ui->animationPreview->setPixmap(QPixmap::fromImage(animationImage).scaled(
-            Qt::KeepAspectRatio,
-            Qt::FastTransformation));
+        ui->animationPreview->setPixmap(QPixmap::fromImage(animationImage));
     } else {
         ui->animationPreview->setPixmap(QPixmap::fromImage(animationImage).scaled(
             ui->animationPreview->size(),
@@ -489,8 +483,13 @@ void MainWindow::goToFrameIndex(int index) {
     ui->frameSelectorCombobox->setCurrentIndex(sprite->getFrame());
 }
 
+void MainWindow::goToFrameIndex(int index) {
+    sprite->setCurrentFrame(index);
+    drawSpriteFrame(sprite->getFrame());
+    ui->frameSelectorCombobox->setCurrentIndex(sprite->getFrame());
+}
+
 void MainWindow::deleteCurrentFrame() {
-    qDebug() << "this is removeCurrentFrame";
     //if currentFrame is 0, then there is no more other frames
     ui->frameSelectorCombobox->removeItem(sprite->getFrame());
     sprite->deleteCurrentFrame();
