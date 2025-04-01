@@ -100,14 +100,14 @@ int Sprite::getWidth() {
 
 void Sprite::getPixelAtFrame(int frame, int x, int y, int (&returnArray)[4]) {
     int offset = (y * width + x) * 4;
-    returnArray[0] = frames[currentFrame][offset + 0];
-    returnArray[1] = frames[currentFrame][offset + 1];
-    returnArray[2] = frames[currentFrame][offset + 2];
-    returnArray[3] = frames[currentFrame][offset + 3];
+    returnArray[0] = frames[frame][offset + 0];
+    returnArray[1] = frames[frame][offset + 1];
+    returnArray[2] = frames[frame][offset + 2];
+    returnArray[3] = frames[frame][offset + 3];
 }
 
 void Sprite::getPixel(int x, int y, int (&returnArray)[4]) {
-    getPixelAtFrame(currFrame, x, y, returnArray);
+    getPixelAtFrame(currentFrame, x, y, returnArray);
 }
 
 void Sprite::resizeCropping(const int oldImage[], int newImage[], int oldWidth, int newWidth) {

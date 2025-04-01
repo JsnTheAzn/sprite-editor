@@ -480,12 +480,6 @@ void MainWindow::goToFrameIndex(int index) {
     ui->frameSelectorCombobox->setCurrentIndex(sprite->getFrame());
 }
 
-void MainWindow::goToFrameIndex(int index) {
-    sprite->setCurrentFrame(index);
-    drawSpriteFrame(sprite->getFrame());
-    ui->frameSelectorCombobox->setCurrentIndex(sprite->getFrame());
-}
-
 void MainWindow::deleteCurrentFrame() {
     ui->frameSelectorCombobox->removeItem(sprite->getFrame());
     sprite->deleteCurrentFrame();
