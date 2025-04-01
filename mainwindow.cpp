@@ -26,8 +26,8 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
     canvasX = 0;
     canvasY = 0;
     newPosition = true;
-    tool = model->getToolPtr();
-    sprite = model->getSpritePtr();
+    tool = model->getToolPointer();
+    sprite = model->getSpritePointer();
     fps = 0;
     animationFrame = 0;
 
@@ -197,11 +197,10 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event){
     double mouseX = event->position().x();
     double mouseY = event->position().y();
 
-    //if the mouse is not in the canvas, we don't care.
+    // If the mouse is not in the canvas, return.
     if(!isInCanvas(mouseX, mouseY))
         return;
 
-    qDebug() << "Mouse released; sending signal from MAIN to MODEL to save new version.";
     emit saveNewVersion(sprite);
 }
 
@@ -212,7 +211,7 @@ void MainWindow::drawSpriteFrame(int frame) {
     int oldFrame = sprite->getFrame();
     sprite->setCurrentFrame(frame);
 
-    //Resize loaded .ssp file to correct width and update QLineEdit.
+    // Resize loaded .ssp file to correct width and update QLineEdit.
     image = QImage(width, width, QImage::Format_ARGB32);
     ui->widthInput->setText(QString::number(width));
 
@@ -220,7 +219,6 @@ void MainWindow::drawSpriteFrame(int frame) {
 
     for (int row = 0; row < width; row++) {
         for (int col = 0; col < width; col++) {
-
             sprite->getPixel(row, col, pixelColors); //get pixel location & colors
             QColor setColor = QColor(
                 pixelColors[0], pixelColors[1], pixelColors[2], pixelColors[3]);
@@ -386,7 +384,6 @@ void MainWindow::toggleToolButtons() {
     ui->eraseButton->setDisabled(false);
     ui->fillButton->setDisabled(false);
 
-
     // Then, toggle the ones that SHOULD be checked.
     switch(updatedTool) {
     case Tool::Tools::Pen:
@@ -483,14 +480,18 @@ void MainWindow::goToFrameIndex(int index) {
     ui->frameSelectorCombobox->setCurrentIndex(sprite->getFrame());
 }
 
+void MainWindow::goToFrameIndex(int index) {
+    sprite->setCurrentFrame(index);
+    drawSpriteFrame(sprite->getFrame());
+    ui->frameSelectorCombobox->setCurrentIndex(sprite->getFrame());
+}
+
 void MainWindow::deleteCurrentFrame() {
-    //if currentFrame is 0, then there is no more other frames
     ui->frameSelectorCombobox->removeItem(sprite->getFrame());
     sprite->deleteCurrentFrame();
 }
 
 void MainWindow::addPrevFrame() {
-    qDebug() << "this is addPrevFrame";
     int currentFrameIndex = sprite->getFrame();
     sprite->insertFrame(currentFrameIndex);
     ui->frameSelectorCombobox->insertItem(currentFrameIndex,
@@ -500,7 +501,6 @@ void MainWindow::addPrevFrame() {
 }
 
 void MainWindow::addNextFrame() {
-    qDebug() << "this is addNextFrame";
     int currentFrameIndex = sprite->getFrame() + 1;
     sprite->insertFrame(currentFrameIndex);
     ui->frameSelectorCombobox->insertItem(currentFrameIndex,

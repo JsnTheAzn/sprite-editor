@@ -15,9 +15,8 @@ ColorPalette::ColorPalette(QObject *parent) : QObject{parent}, nextID(0) {
 
 void ColorPalette::queryColor() {
     QColor selectedColor = QColorDialog::getColor(Qt::white, nullptr, "Select Color", QColorDialog::ShowAlphaChannel);
-    if (selectedColor.isValid()) {
+    if (selectedColor.isValid())
         addColor(selectedColor);
-    }
 }
 
 void ColorPalette::addColor(const QColor& newColor) {
@@ -35,13 +34,11 @@ void ColorPalette::removeColor(int id) {
 void ColorPalette::savePalette() {
     QString savedFile = QFileDialog::getSaveFileName(nullptr, QObject::tr("Save Color Palette"), "C:/", "JSON (*.json)");
 
-    if (savedFile.isEmpty()) {
+    if (savedFile.isEmpty())
         return;
-    }
 
-    if (!savedFile.endsWith(".json", Qt::CaseInsensitive)) {
+    if (!savedFile.endsWith(".json", Qt::CaseInsensitive))
         savedFile += ".json";
-    }
 
     QJsonObject jsonData;
 
@@ -67,22 +64,19 @@ void ColorPalette::savePalette() {
 void ColorPalette::loadPalette() {
     QString fileName = QFileDialog::getOpenFileName(nullptr, QObject::tr("Load Color Palette"), "C:/", "JSON (*.json)");
 
-    if (fileName.isEmpty()) {
+    if (fileName.isEmpty())
         return;
-    }
 
     QFile file(fileName);
-    if (!file.open(QFile::ReadOnly)) {
+    if (!file.open(QFile::ReadOnly))
         return;
-    }
 
     QByteArray jsonData = file.readAll();
     file.close();
 
     QJsonDocument doc = QJsonDocument::fromJson(jsonData);
-    if (doc.isNull() || !doc.isObject()) {
+    if (doc.isNull() || !doc.isObject())
         return;
-    }
 
     QJsonObject rootObj = doc.object();
     QJsonArray colorsArray = rootObj["colors"].toArray();
@@ -100,8 +94,6 @@ void ColorPalette::loadPalette() {
         QColor color(r, g, b, a);
         addColor(color);
     }
-
-    qDebug() << "Loaded" << colors.size() << "colors from" << fileName;
 }
 
 QColor& ColorPalette::getColor(int index) {

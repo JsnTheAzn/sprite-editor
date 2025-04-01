@@ -4,7 +4,7 @@ Sprite::Sprite(QObject* parent) :
     QObject(parent),
     width (16),
     frames({new int[width * width * 4]{}}),
-    currFrame(0) {}
+    currentFrame(0) {}
 
 Sprite::~Sprite() {
     for (int* image : frames) {
@@ -12,7 +12,7 @@ Sprite::~Sprite() {
     }
 }
 
-Sprite::Sprite(const Sprite& other) : QObject(other.parent()), width(other.width), currFrame(other.currFrame) {
+Sprite::Sprite(const Sprite& other) : QObject(other.parent()), width(other.width), currentFrame(other.currentFrame) {
     frames.reserve(other.frames.size());
     for (int* oldFrame : other.frames) {
         int* newFrame = new int[width * width * 4]; // Allocate new memory
@@ -23,7 +23,7 @@ Sprite::Sprite(const Sprite& other) : QObject(other.parent()), width(other.width
 
 Sprite& Sprite::operator=(Sprite other) {
     std::swap(width, other.width);
-    std::swap(currFrame, other.currFrame);
+    std::swap(currentFrame, other.currentFrame);
     std::swap(frames, other.frames);
     return *this; // Copy-and-swap idiom
 }
@@ -31,22 +31,22 @@ Sprite& Sprite::operator=(Sprite other) {
 void Sprite::resize(int newWidth) {
     int* newImage = new int[newWidth * newWidth * 4]{};
 
-    resizeCropping(frames[currFrame], newImage, width, newWidth);
-    delete[] frames[currFrame];
-    frames[currFrame] = newImage;
+    resizeCropping(frames[currentFrame], newImage, width, newWidth);
+    delete[] frames[currentFrame];
+    frames[currentFrame] = newImage;
     width = newWidth;
-    emit drawFrame(currFrame);
+    emit drawFrame(currentFrame);
 }
 
 void Sprite::setCurrentFrame(int frame) {
-    currFrame = frame;
+    currentFrame = frame;
 }
 
 void Sprite::updatePixel(int x, int y, const int (&rgba)[4]) {
     int offset = (y * width + x) * 4;
-    int* currImage = frames[currFrame];
-    double backPixel[4] = {(double)currImage[offset + 0] / 255, (double)currImage[offset + 1] / 255,
-                        (double)currImage[offset + 2] / 255, (double)currImage[offset + 3] / 255};
+    int* currentImage = frames[currentFrame];
+    double backPixel[4] = {(double)currentImage[offset + 0] / 255, (double)currentImage[offset + 1] / 255,
+                        (double)currentImage[offset + 2] / 255, (double)currentImage[offset + 3] / 255};
     double frontPixel[4] = {(double)rgba[0] / 255, (double)rgba[1] / 255,
                         (double)rgba[2] / 255, (double)rgba[3] / 255};
     double finalPixel[4];
@@ -66,24 +66,24 @@ void Sprite::updatePixel(int x, int y, const int (&rgba)[4]) {
     finalPixel[2] = (frontPixel[2] * frontPixel[3] / finalPixel[3]) +
                     (backPixel[2] * backPixel[3] * (1 - frontPixel[3]) / finalPixel[3]);
 
-    currImage[offset + 0] = (int)(finalPixel[0] * 255);
-    currImage[offset + 1] = (int)(finalPixel[1] * 255);
-    currImage[offset + 2] = (int)(finalPixel[2] * 255);
-    currImage[offset + 3] = (int)(finalPixel[3] * 255);
+    currentImage[offset + 0] = (int)(finalPixel[0] * 255);
+    currentImage[offset + 1] = (int)(finalPixel[1] * 255);
+    currentImage[offset + 2] = (int)(finalPixel[2] * 255);
+    currentImage[offset + 3] = (int)(finalPixel[3] * 255);
 
-    emit drawFrame(currFrame);
+    emit drawFrame(currentFrame);
 }
 
 void Sprite::clearPixel(int x, int y) {
     int offset = (y * width + x) * 4;
-    int* currImage = frames[currFrame];
+    int* currentImage = frames[currentFrame];
 
-    currImage[offset + 0] = 0;
-    currImage[offset + 1] = 0;
-    currImage[offset + 2] = 0;
-    currImage[offset + 3] = 0;
+    currentImage[offset + 0] = 0;
+    currentImage[offset + 1] = 0;
+    currentImage[offset + 2] = 0;
+    currentImage[offset + 3] = 0;
 
-    emit drawFrame(currFrame);
+    emit drawFrame(currentFrame);
 }
 
 vector<int*>& Sprite::getFrames() {
@@ -91,7 +91,7 @@ vector<int*>& Sprite::getFrames() {
 }
 
 int Sprite::getFrame() {
-    return currFrame;
+    return currentFrame;
 }
 
 int Sprite::getWidth() {
@@ -100,10 +100,10 @@ int Sprite::getWidth() {
 
 void Sprite::getPixelAtFrame(int frame, int x, int y, int (&returnArray)[4]) {
     int offset = (y * width + x) * 4;
-    returnArray[0] = frames[frame][offset + 0];
-    returnArray[1] = frames[frame][offset + 1];
-    returnArray[2] = frames[frame][offset + 2];
-    returnArray[3] = frames[frame][offset + 3];
+    returnArray[0] = frames[currentFrame][offset + 0];
+    returnArray[1] = frames[currentFrame][offset + 1];
+    returnArray[2] = frames[currentFrame][offset + 2];
+    returnArray[3] = frames[currentFrame][offset + 3];
 }
 
 void Sprite::getPixel(int x, int y, int (&returnArray)[4]) {
@@ -111,7 +111,6 @@ void Sprite::getPixel(int x, int y, int (&returnArray)[4]) {
 }
 
 void Sprite::resizeCropping(const int oldImage[], int newImage[], int oldWidth, int newWidth) {
-    // int buffers = newWidth - oldWidth;
     int newEditIndex;
     int oldAccessIndex;
     int minWidth = qMin(oldWidth, newWidth);
@@ -135,13 +134,14 @@ int Sprite::getNumberOfFrames() {
 void Sprite::deleteCurrentFrame() {
     if ((int)frames.size() == 1)
         return;
-    delete frames[currFrame];
-    frames.erase(frames.begin() + currFrame);
 
-    if (currFrame > (int)(frames.size() - 1))
-        currFrame = (int)(frames.size() - 1);
+    delete frames[currentFrame];
+    frames.erase(frames.begin() + currentFrame);
 
-    emit drawFrame(currFrame);
+    if (currentFrame > (int)(frames.size() - 1))
+        currentFrame = (int)(frames.size() - 1);
+
+    emit drawFrame(currentFrame);
 }
 
 void Sprite::insertFrame(int index) {

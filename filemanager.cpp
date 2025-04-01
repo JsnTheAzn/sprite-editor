@@ -20,9 +20,7 @@
  * https://stackoverflow.com/questions/15893040/how-to-create-read-write-json-files-in-qt5
 */
 
-FileManager::FileManager(QObject *parent) : QObject{parent}, sprite(nullptr) {
-
-}
+FileManager::FileManager(QObject *parent) : QObject{parent}, sprite(nullptr) {}
 
 void FileManager::setSprite(Sprite *sprite) {
     this->sprite = sprite;
@@ -31,12 +29,12 @@ void FileManager::setSprite(Sprite *sprite) {
 void FileManager::saveButtonClicked() {
     QString savedFile = QFileDialog::getSaveFileName(nullptr, QObject::tr("Save .SSP File"), "C:/", "SSP (*.ssp)");
 
-    //Add .ssp extension if file isn't saved with it manually.
+    // Add .ssp extension if file isn't saved with it manually.
     if(!savedFile.endsWith((".ssp"), Qt::CaseSensitive)) {
         savedFile += ".ssp";
     }
 
-    //This will represent the data of the saved canvas width.
+    // This will represent the data of the saved canvas width.
     QJsonObject jsonData;
     int width = sprite->getWidth();
     jsonData["Width"] = width;
@@ -44,8 +42,8 @@ void FileManager::saveButtonClicked() {
     int frameSize = (width * width) * 4;
     vector<int*>& spriteFrames = sprite->getFrames();
 
-    //valuesArray will represent the pixel data of the r,g,b,a values.
-    //framesArray will represent all the total valuesArray.
+    // valuesArray will represent the pixel data of the r,g,b,a values.
+    // framesArray will represent all the total valuesArray.
     QJsonArray framesArray;
     for (int i = 0; i < spriteFrames.size(); i++) {
         QJsonArray valuesArray;
@@ -58,7 +56,7 @@ void FileManager::saveButtonClicked() {
 
     jsonData["Frames"] = framesArray;
 
-    //Write the data in json to the file.
+    // Write the data in json to the file.
     QFile file(savedFile);
     if(file.open(QFile::WriteOnly)) {
         QTextStream stream(&file);
@@ -70,11 +68,10 @@ void FileManager::saveButtonClicked() {
 void FileManager::loadButtonClicked() {
     QString loadedFile = QFileDialog::getOpenFileName(nullptr, QObject::tr("Load .SSP File"), "C:/", "SSP (*.ssp)");
 
-    if (loadedFile.isEmpty()) {
+    if (loadedFile.isEmpty())
         return;
-    }
 
-    //Read the json data.
+    // Read the json data.
     QFile file(loadedFile);
     if (!file.open(QFile::ReadOnly)) {
         return;
@@ -97,11 +94,10 @@ void FileManager::loadButtonClicked() {
     for (const QJsonValue &frameValue : jsonFramesArray) {
         QJsonArray frameArray = frameValue.toArray();
 
-        for (const QJsonValue &frameValue : frameArray) {
+        for (const QJsonValue &frameValue : frameArray)
             frames.push_back(frameValue.toInt());
-        }
     }
 
-    //Load the canvas with the given width and frames.
+    // Load the canvas with the given width and frames.
     emit loadCanvas(width, frames);
 }

@@ -76,54 +76,54 @@ public:
     void setTool(Tool::Tools clickedTool);
 
     /**
-     * @brief setToolColor
-     * @param rgba - sets the color of the current tool, where rgba[0]
+     * @brief setToolColor - Sets the current color of the tool.
+     * @param rgba - Sets the color of the current tool, where rgba[0]
      * is red, rgba[1] is green, rgba[2] is blue, and rgba[3] is alpha.
      */
     void setToolColor(const int (&rgba)[4]);
 
     /**
-     * @brief getSpritePtr - returns a pointer to the sprite object stored
+     * @brief getSpritePtr - Returns a pointer to the sprite object stored
      * in the Model.
-     * @return the pointer to the Model's sprite.
+     * @return The pointer to the Model's sprite.
      */
     void useTool(Sprite *sprite, int x, int y);
 
     /**
-     * @brief setVersionIndex - sets the current version to a different one.
+     * @brief setVersionIndex - Sets the current version to a different one.
      */
     void setVersionIndex(int index);
 
     /**
-     * @brief getVersionIndex - returns the version number.
-     * @return the current version number.
+     * @brief getVersionIndex - Returns the version number.
+     * @return The current version number.
      */
     int getVersionIndex();
     
     /**
-     * @brief getSpritePtr - returns a pointer to the Sprite object stored
+     * @brief getSpritePointer - Returns a pointer to the Sprite object stored
      * in the Model.
-     * @return the pointer to the Model's tool.
+     * @return The pointer to the Model's tool.
      */
-    Sprite* getSpritePtr();
+    Sprite* getSpritePointer();
 
     /**
-     * @brief getToolPtr - returns a pointer to the Tool object stored
+     * @brief getToolPointer - Returns a pointer to the Tool object stored
      * in the Model.
-     * @return the pointer to the Model's tool.
+     * @return The pointer to the Model's tool.
      */
-    Tool* getToolPtr();
+    Tool* getToolPointer();
 
     /**
-     * @brief getVersionHistoryPointer - returns a pointer to the
-     * version hsitory object stored in the Model.
-     * @return the pointer to the Model's versionHistory.
+     * @brief getVersionHistoryPointer - Returns a pointer to the
+     * version history object stored in the Model.
+     * @return The pointer to the Model's versionHistory.
      */
     VersionHistory* getVersionHistoryPointer();
 
     /**
-     * @brief getHistorySize - gets the size of the version history vector.
-     * @return the size of the version history vector as an int.
+     * @brief getHistorySize - Gets the size of the version history vector.
+     * @return The size of the version history vector as an int.
      */
     int getHistorySize();
 
@@ -136,40 +136,39 @@ public slots:
     void loadCanvas(int width, std::vector<int> &frames);
     
     /**
-     * @brief saveSprite - executes the necessary code to save the sprite as
+     * @brief saveSprite - Executes the necessary code to save the sprite as
      * a .ssp file.
      */
     void saveSprite();
 
     /**
-     * @brief loadSprite - executes the necessary code to load the sprite from
+     * @brief loadSprite - Executes the necessary code to load the sprite from
      * a .ssp file.
      */
     void loadSprite();
 
     /**
-     * @brief addColorToPalette - adds a color to colorPalette
+     * @brief addColorToPalette - Adds a color to colorPalette
      */
     void addColorToPalette();
 
     /**
-     * @brief appendVersion - adds a version of this sprite to the version history.
-     * @param updatedSprite - the updated sprite to add.
+     * @brief appendVersion - Adds a version of this sprite to the version history.
+     * @param updatedSprite - The updated sprite to add.
      */
     void appendVersion(Sprite* updatedSprite);
 
 signals:
     /**
-     * @brief updateSprite - signals that the internal sprite state
+     * @brief updateSprite - Signals that the internal sprite state
      * has been updated.
      */
     void updateSprite();
 
     /**
-     * @brief toolChanged - emitted when a new tool is clicked.
+     * @brief toolChanged - Emitted when a new tool is clicked.
      */
     void toolChanged();
-
 };
 
 #endif // MODEL_H

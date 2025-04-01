@@ -15,7 +15,6 @@
 #include <QColor>
 #include <QGridLayout>
 #include <QButtonGroup>
-#include "versionhistory.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -28,54 +27,53 @@ class MainWindow : public QMainWindow {
 
 protected:
     /**
-     * @brief mouseMoveEvent - updates the canvas coordinates whenever
+     * @brief mouseMoveEvent - Updates the canvas coordinates whenever
      * the mouse has moved while hovering over the canvas.
-     * @param event - mouse movement.
+     * @param event - Mouse movement.
      */
     void mouseMoveEvent(QMouseEvent *event);
 
     /**
-     * @brief mousePressEvent - draws on the canvas at the given coordinates
+     * @brief mousePressEvent - Draws on the canvas at the given coordinates
      * if the mouse is pressed while on the canvas.
-     * @param event - mouse clicks.
+     * @param event - Mouse clicks.
      */
     void mousePressEvent(QMouseEvent *event);
 
     /**
-     * @brief mouseReleaseEvent - triggers version history update
+     * @brief mouseReleaseEvent - Triggers version history update
      * when the mouse is released.
-     * @param event - mouse released.
+     * @param event - Mouse released.
      */
     void mouseReleaseEvent(QMouseEvent *event);
 
 public:
     /**
-     * @brief MainWindow - creates a new main window, inheriting
+     * @brief MainWindow - Creates a new main window, inheriting
      * from QWidget.
-     * @param model - the Model class this works off of.
-     * @param parent - the parent QWidget.
+     * @param model - The Model class this works off of.
+     * @param parent - The parent QWidget.
      */
     MainWindow(Model* model, QWidget *parent = nullptr);
 
     /**
-     * @brief destructor for the MainWindow class.
+     * @brief ~MainWindow - Destructor for the MainWindow class.
      */
     ~MainWindow();
 
-
 signals:
     /**
-     * @brief colorDeleted - signals when a color has been deleted from
+     * @brief colorDeleted - Signals when a color has been deleted from
      * the color palette UI.
-     * @param colorIndex - the index, from the ButtonGroup, of the color that
+     * @param colorIndex - The index, from the ButtonGroup, of the color that
      * has been deleted.
      */
     void colorDeleted(int colorIndex);
 
     /**
-     * @brief saveNewVersion - signals to save the sprite passed in
+     * @brief saveNewVersion - Signals to save the sprite passed in
      * as a new version.
-     * @param current - a pointer for the most up-to-date
+     * @param current - A pointer for the most up-to-date
      * version of the sprite.
      */
     void saveNewVersion(Sprite *current);
@@ -92,26 +90,25 @@ signals:
 
 public slots:
     /**
-     * @brief addNewColorButton - adds a new button to the color palette.
-     * @param color - the color to add, as a QColor.
+     * @brief addNewColorButton - Adds a new button to the color palette.
+     * @param color - The color to add, as a QColor.
      */
-
     void addNewColorButton(QColor color, int id);
 
     /**
-     * @brief selectedColor - handles selection of a color button.
-     * @param button - the selected button
+     * @brief selectedColor - Handles selection of a color button.
+     * @param button - The selected button
      */
     void selectedColor(QAbstractButton *button);
 
     /**
-     * @brief removeColorButton - handles removal of a color button.
+     * @brief removeColorButton - Handles removal of a color button.
      */
     void removeColorButton();
 
     /**
-     * @brief drawSpriteFrame - draws a frame of a Sprite on the canvas.
-     * @param frame - the specific frame to draw.
+     * @brief drawSpriteFrame - Draws a frame of a Sprite on the canvas.
+     * @param frame - The specific frame to draw.
      */
     void drawSpriteFrame(int frame);
 
@@ -121,68 +118,69 @@ public slots:
      */
     void drawAnimationFrame(int frame);
 
-    /**
-     * @brief updateSprite - draws, on the camnvas in the view,
-     *  a sprite update from the model
-     */
+     /**
+      * @brief updateSprite - Draws, on the camnvas in the view,
+     *  a sprite update from the model.
+      */
     void updateSprite();
 
     /**
-     * @brief clearColorPalette - clears all buttons from the color palette.
+     * @brief clearColorPalette - Clears all buttons from the color palette.
      */
     void clearColorPalette();
 
     /**
-     * @brief resizeButtonPressed - updates the sprite to visually reflect the
+     * @brief resizeButtonPressed - Updates the sprite to visually reflect the
      * resize.
      */
     void resizeButtonPressed();
 
     /**
-     * @brief revertSprite - reverts sprite to a different version from
+     * @brief revertSprite - Reverts sprite to a different version from
      * its version history.
+     * @param currentSprite - The reference to the sprite being altered.
      */
     void revertSprite(const Sprite& currentSprite);
 
     /**
-     * @brief toggleToolButtons - toggles the tool button
+     * @brief toggleToolButtons - Toggles the tool button.
      */
     void toggleToolButtons();
 
     /**
-     * @brief updateFPS - updates the FPS from the slider.
-     * @param fps - the new FPS
+     * @brief updateFPS - Updates the FPS from the slider.
+     * @param fps - The new FPS
      */
     void updateFPS(int newFps);
 
     /**
-     * @brief goToNextFrame - switches current frame to the next one
+     * @brief goToNextFrame - Switches current frame to the next one
      */
     void goToNextFrame();
 
     /**
-     * @brief goToPrevFrame - switches current frame to the previous one
+     * @brief goToPrevFrame - Switches current frame to the previous one
      */
     void goToPrevFrame();
 
     /**
-     * @brief goToFrameIndex
-     * @param index
+     * @brief goToFrameIndex - Sets the canvas to the frame index specified.
+     * @param index - The frame index to go to.
      */
     void goToFrameIndex(int index);
 
     /**
-     * @brief deleteCurrentFrame - removes the current frame
+     * @brief deleteCurrentFrame - Removes the current frame.
      */
     void deleteCurrentFrame();
 
     /**
-     * @brief addPrevFrame - adds frame before current frame
+     * @brief addPrevFrame - Adds frame before current frame.
      */
     void addPrevFrame();
 
     /**
-     * @brief addNextFrame - adds frame after current frame
+     * @brief addNextFrame - Adds frame after current frame.
      */
     void addNextFrame();
 
@@ -194,12 +192,12 @@ public slots:
 
 private slots:
     /**
-     * @brief selectVersion - updates the index of the version combo box.
+     * @brief selectVersion - Updates the index of the version combo box.
      */
     void selectVersion(int index);
 
     /**
-     * @brief updateVersionComboBox - updates the contents of the version combo box
+     * @brief updateVersionComboBox - Updates the contents of the version combo box
      * to reflect version history.
      */
     void updateVersionComboBox();
@@ -211,40 +209,110 @@ private slots:
 
 private:
     //Instance Variables: Pointers
-    QButtonGroup *colorPaletteButtonGroup;
+    /**
+     * @brief ui - Stores visual elements.
+     */
     Ui::MainWindow *ui;
+
+    /**
+     * @brief colorPaletteButtonGroup - Stores ButtonGroup data for the ColorPalette.
+     */
+    QButtonGroup *colorPaletteButtonGroup;
+
+    /**
+     * @brief colorPalette - Stores ColorPalette data.
+     */
     ColorPalette *colorPalette;
+
+    /**
+     * @brief sprite - Stores Sprite data.
+     */
     Sprite *sprite;
+
+    /**
+     * @brief fileManager - Stores FileManager data.
+     */
     FileManager *fileManager;
+
+    /**
+     * @brief model - Stores Model data.
+     */
     Model *model;
+
+    /**
+     * @brief tool - Stores Tool data.
+     */
     Tool *tool;
+
+    /**
+     * @brief image - Stores the image to draw on the Canvas.
+     */
     QImage image;
+
+    /**
+     * @brief animationImage - the image on which to draw the animation preview. 
+     */
     QImage animationImage;;
+    
+    /**
+     * @brief graphic - the scene for graphics. 
+     */
     QGraphicsScene *graphic;
+
+    /**
+     * @brief currentColorButton - The color button selected from the ColorPalette.
+     */
     QAbstractButton *currentColorButton;
+
+    /**
+     * @brief fpsValidator -
+     */
     QIntValidator* fpsValidator;
+    
+    /**
+     * @brief animationTimer - a timer to trigger frame drawing based on fps.
+     */
     QTimer* animationTimer;
 
     // Canvas Positions
+    /**
+     * @brief canvasX - The pixel coords relative to the Canvas.
+     */
     int canvasX;
+
+    /**
+     * @brief canvasY - The pixel coords relative to the Canvas.
+     */
     int canvasY;
+
+    /**
+     * @brief newPosition - Checks to see if the pixel to draw to is already drawn on by this
+     * current tool usage.
+     */
     bool newPosition;
 
     // Animation Vars
+    /**
+     * @brief fps - The frames per second the animation preview will display at.
+     */
     int fps;
+    
+    /**
+     * @brief fps - The frames the animation preview is currently displaying.
+     */
     int animationFrame;
 
     /**
      * @brief isInCanvas - Boolean statement to declare whether or not an x-y position
      *  is within the bounds of the canvas.
-     * @param x - the x position to check.
-     * @param y - the y position to check.
+     * @param x - The canvas x position to check.
+     * @param y - The canvas y position to check.
      * @return True if the mouse is inside of the canvas widget.
      */
     bool isInCanvas(int x, int y);
 
     /**
-     * @brief updateUndoRedoButtons - handles enabling and disabling of the undo and redo buttons.
+     * @brief updateUndoRedoButtons - Handles enabling and disabling of the undo and redo buttons.
      */
     void updateUndoRedoButtons();
 

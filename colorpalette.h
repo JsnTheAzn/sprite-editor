@@ -11,7 +11,14 @@ class ColorPalette : public QObject {
     friend class Model;
 
 private:
+    /**
+     * @brief colors - The vector that associates every stored color with a given ID.
+     */
     QMap<int, QColor> colors;
+
+    /**
+     * @brief nextID - The ID of the next added Color.
+     */
     int nextID;
 
 signals:
@@ -27,24 +34,40 @@ public slots:
     void removeColor(int id);
 
 public:
+    /**
+     * @brief ColorPalette - Default constructor for the QObject class.
+     * @param parent
+     */
     ColorPalette(QObject *parent = nullptr);
 
+    /**
+     * @brief queryColor - Opens a ColorDialog to let the user select a color, then sets the
+     * currentColor to the selected color.
+     */
     void queryColor();
 
+    /**
+     * @brief addColor - Appends a color into the palette.
+     * @param newColor - The QColor to add to the palette vector.
+     */
     void addColor(const QColor& newColor);
 
     /**
-     * @brief savePalette - Saves the Color Palette
+     * @brief savePalette - Saves the ColorPalette from a file.
      */
     void savePalette();
 
     /**
-     * @brief loadPalette - Loads a Color Palette
+     * @brief loadPalette - Loads a ColorPalette from a file.
      */
     void loadPalette();
 
+    /**
+     * @brief getColor - Returns the color at a specified index.
+     * @param index - The ID of the color to check.
+     * @return The QColor at the given index.
+     */
     QColor& getColor(int index);
-
 };
 
 #endif // COLORPALETTE_H

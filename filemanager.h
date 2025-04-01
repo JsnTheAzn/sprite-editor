@@ -15,8 +15,8 @@ public:
     FileManager(QObject *parent = nullptr);
 
     /**
-     * @brief setSprite
-     * @param sprite
+     * @brief setSprite - Sets the given sprite pointer to the stored file.
+     * @param sprite - The pointer of the Sprite to alter.
      */
     void setSprite(Sprite *sprite);
 

@@ -22,9 +22,9 @@ private:
     vector<int*> frames;
 
     /**
-     * @brief currFrame - Index of the current selected frame to draw upon.
+     * @brief currentFrame - Index of the current selected frame to draw upon.
      */
-    int currFrame;
+    int currentFrame;
 
     /**
      * @brief resizeCropping - Helper method to transform the image upon canvas size change.
