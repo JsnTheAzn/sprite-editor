@@ -604,7 +604,7 @@ background-image: url(:/background/transparency-background.png);</string>
       <string notr="true">border: 1px solid black</string>
      </property>
      <property name="text">
-      <string>animation</string>
+      <string/>
      </property>
     </widget>
     <widget class="QCheckBox" name="trueToSizeCheckbox">
@@ -949,7 +949,7 @@ QPushButton:hover  {
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>23</height>
+     <height>32</height>
     </rect>
    </property>
   </widget>

@@ -320,6 +320,7 @@ void MainWindow::updateUndoRedoButtons() {
 void MainWindow::updateVersionComboBox() {
     // Block signals to prevent triggering versionSelected.
     ui->versionHistoryComboBox->blockSignals(true);
+    drawAnimationFrame(animationFrame);
 
     //store the string name of the tool used...
     QString currentToolString;
