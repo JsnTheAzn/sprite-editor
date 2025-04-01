@@ -397,9 +397,9 @@ void MainWindow::toggleToolButtons() {
 // ANIMATION
 void MainWindow::drawAnimationFrame() {
     qDebug() << "CONSTANTLY DRAW A FRAME. CURRENTLY RUNNING AT " << fps << "fps";
-    drawAnimationFrame((animationFrame++) % sprite->getNumberOfFrames());
+    drawAnimationFrame((animationFrame + 1) % sprite->getNumberOfFrames());
 
-    qDebug() << "DRAWING FRAME " << animationFrame << " with fps " << fps;
+    qDebug() << "DRAWING FRAME " << animationFrame << " with fps " << fps << " when frame total is " << sprite->getNumberOfFrames();
 
 }
 
