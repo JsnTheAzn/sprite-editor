@@ -113,7 +113,10 @@ MainWindow::MainWindow(Model* model, QWidget *parent)
             this, &MainWindow::addPrevFrame);
     connect(ui->addNextFrameButton, &QPushButton::clicked,
             this, &MainWindow::addNextFrame);
-    connect(animationTimer, &QTimer::timeout, this, QOverload<>::of(&MainWindow::drawAnimationFrame));
+    connect(ui->frameSelectorCombobox, &QComboBox::currentIndexChanged,
+            this, &MainWindow::goToFrameIndex);
+    connect(animationTimer, &QTimer::timeout, 
+            this, QOverload<>::of(&MainWindow::drawAnimationFrame));
 
     // model to model:
     connect(fileManager, &FileManager::loadCanvas,
@@ -441,30 +444,39 @@ void MainWindow::updateFPS(int newFps) {
 }
 
 void MainWindow::goToNextFrame() {
-    qDebug() << "this is nextframe";
     int nextFrameIndex = sprite->getFrame() + 1;
 
     // Ensure there is a next frame before continuing.
     if(nextFrameIndex < sprite->getNumberOfFrames()) {
         sprite->setCurrentFrame(nextFrameIndex);
         drawSpriteFrame(sprite->getFrame());
+        ui->frameSelectorCombobox->setCurrentIndex(sprite->getFrame());
     }
+    qDebug() << "index: " << sprite->getFrame();
 }
 
 void MainWindow::goToPrevFrame() {
-    qDebug() << "this is goToPrevFrame";
     int prevFrameIndex = sprite->getFrame() - 1;
 
     // Ensure there is a previous frame before continuing.
     if (prevFrameIndex >= 0) {
         sprite->setCurrentFrame(prevFrameIndex);
         drawSpriteFrame(sprite->getFrame());
+        ui->frameSelectorCombobox->setCurrentIndex(sprite->getFrame());
     }
+    qDebug() << "index: " << sprite->getFrame();
+}
+
+void MainWindow::goToFrameIndex(int index) {
+    sprite->setCurrentFrame(index);
+    drawSpriteFrame(sprite->getFrame());
+    ui->frameSelectorCombobox->setCurrentIndex(sprite->getFrame());
 }
 
 void MainWindow::deleteCurrentFrame() {
     qDebug() << "this is removeCurrentFrame";
     //if currentFrame is 0, then there is no more other frames
+    ui->frameSelectorCombobox->removeItem(sprite->getFrame());
     sprite->deleteCurrentFrame();
 }
 
@@ -472,10 +484,17 @@ void MainWindow::addPrevFrame() {
     qDebug() << "this is addPrevFrame";
     int currentFrameIndex = sprite->getFrame();
     sprite->insertFrame(currentFrameIndex);
+    ui->frameSelectorCombobox->insertItem(currentFrameIndex,
+                                          "Frame " + QString::number(currentFrameIndex + 1));
+    ui->frameSelectorCombobox->setItemText(currentFrameIndex + 1,
+                                           "Frame " + QString::number(currentFrameIndex + 2));
 }
 
 void MainWindow::addNextFrame() {
     qDebug() << "this is addNextFrame";
     int currentFrameIndex = sprite->getFrame() + 1;
     sprite->insertFrame(currentFrameIndex);
+    ui->frameSelectorCombobox->insertItem(currentFrameIndex,
+                                "Frame " + QString::number(currentFrameIndex + 1));
 }
+

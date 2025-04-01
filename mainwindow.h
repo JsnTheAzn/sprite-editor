@@ -156,6 +156,12 @@ public slots:
     void goToPrevFrame();
 
     /**
+     * @brief goToFrameIndex
+     * @param index
+     */
+    void goToFrameIndex(int index);
+
+    /**
      * @brief deleteCurrentFrame - removes the current frame
      */
     void deleteCurrentFrame();
