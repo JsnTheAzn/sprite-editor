@@ -1,3 +1,10 @@
+/**
+ * @brief sprite - The sprite class deals with frames and maintaining them.
+ * @version 3/31/2025
+ * @authors Evan Tucker, Max Donaldson, Ariadne Petroulakis, Jason Khong, Ian Weller
+ * * checked by Ariadne Petroulakis
+ */
+
 #ifndef SPRITE_H
 #define SPRITE_H
 

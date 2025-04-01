@@ -1,3 +1,9 @@
+/**
+ * @version 3/31/2025
+ * @authors Evan Tucker, Max Donaldson, Ariadne Petroulakis, Jason Khong, Ian Weller
+ * * checked by Ariadne Petroulakis
+ */
+
 #include "sprite.h"
 
 Sprite::Sprite(QObject* parent) :

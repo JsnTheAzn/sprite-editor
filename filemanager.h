@@ -1,3 +1,11 @@
+/**
+ * @brief filemanager - The FileManager class. This handles the saving and
+ * loading of the application.
+ * @version 3/31/2025
+ * @authors Evan Tucker, Max Donaldson, Ariadne Petroulakis, Jason Khong, Ian Weller
+ * * checked by Evan Tucker
+ */
+
 #ifndef FILEMANAGER_H
 #define FILEMANAGER_H
 

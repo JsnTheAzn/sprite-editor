@@ -1,3 +1,11 @@
+/**
+ * @brief versionhistory - The version history class deals with the version history,
+ * such as the redo and undo functions.
+ * @version 3/31/2025
+ * @authors Evan Tucker, Max Donaldson, Ariadne Petroulakis, Jason Khong, Ian Weller
+ * * checked by Evan Tucker
+ */
+
 #ifndef VERSIONHISTORY_H
 #define VERSIONHISTORY_H
 

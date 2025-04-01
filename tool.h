@@ -1,3 +1,11 @@
+/**
+ * @brief tool - The tool class deals with the model of the tools, such as the
+ * paint bucket
+ * @version 3/31/2025
+ * @authors Evan Tucker, Max Donaldson, Ariadne Petroulakis, Jason Khong, Ian Weller
+ * * checked by Evan Tucker
+ */
+
 #ifndef TOOL_H
 #define TOOL_H
 

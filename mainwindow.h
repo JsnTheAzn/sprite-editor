@@ -1,3 +1,10 @@
+/**
+ * @brief mainwindow - This is the Mainwindow class. This class aids out with the view.
+ * @version 3/31/2025
+ * @authors Evan Tucker, Max Donaldson, Ariadne Petroulakis, Jason Khong, Ian Weller
+ * * checked by Ian Weller
+ */
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
